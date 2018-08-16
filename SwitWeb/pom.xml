@@ -1,0 +1,224 @@
+<project 
+	xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>es.swit</groupId>
+  <artifactId>SwitWeb</artifactId>
+  <version>0.7.0</version>
+  <packaging>war</packaging>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <swit-commons.version>1.0.0</swit-commons.version>
+    <org.springframework.version>5.0.4.RELEASE</org.springframework.version>
+    <javax.servlet.version>1.2</javax.servlet.version>
+    <log4j.version>2.11.0</log4j.version>
+    <slf4j.version>1.7.25</slf4j.version>
+    <commons-fileupload.version>1.3.3</commons-fileupload.version>
+    <commons-io.version>2.6</commons-io.version>
+    <javax.servlet-api.version>4.0.0</javax.servlet-api.version>
+    <fasterxml.jackson.version>2.9.5</fasterxml.jackson.version>
+    <webjars-locator.version>0.34</webjars-locator.version>
+    <bootstrap.version>3.3.7-1</bootstrap.version>
+    <!-- <bootstrap.version>4.1.2</bootstrap.version> -->
+    <bootstrap-tour.version>0.12.0</bootstrap-tour.version>
+  </properties>
+
+  <dependencies>
+  
+  		<dependency>
+			<groupId>es.swit</groupId>
+			<artifactId>swit-commons</artifactId>
+			<version>${swit-commons.version}</version>
+		</dependency>
+  
+		<!-- spring-context which provides core functionality -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework.version}</version>
+			<!-- <exclusions>
+		        Exclude Commons Logging in favor of SLF4j
+		        <exclusion>
+		            <groupId>commons-logging</groupId>
+		            <artifactId>commons-logging</artifactId>
+		        </exclusion>
+		    </exclusions> -->
+		</dependency>
+		
+		<!-- The spring-aop module provides an AOP Alliance-compliant aspect-oriented 
+		programming implementation allowing you to define -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		
+		<!-- The spring-webmvc module (also known as the Web-Servlet module) contains 
+		Spring’s model-view-controller (MVC) and REST Web Services implementation 
+		for web applications -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		
+		<!-- The spring-web module provides basic web-oriented integration features 
+		such as multipart file upload functionality and the initialization of the 
+		IoC container using Servlet listeners and a web-oriented application context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>${javax.servlet.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>${javax.servlet-api.version}</version>
+		    <scope>provided</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+		<!-- <dependency>
+		    <groupId>log4j</groupId>
+		    <artifactId>log4j</artifactId>
+		    <version>1.2.17</version>
+		</dependency> -->
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>${log4j.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-api</artifactId>
+		    <version>${log4j.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-web -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-web</artifactId>
+		    <version>${log4j.version}</version>
+		</dependency>
+
+		
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>${commons-fileupload.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>${fasterxml.jackson.version}</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>${fasterxml.jackson.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>webjars-locator</artifactId>
+		    <version>${webjars-locator.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/jquery -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>jquery</artifactId>
+		    <version>3.3.1-1</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>bootstrap</artifactId>
+		    <version>${bootstrap.version}</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/font-awesome -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>font-awesome</artifactId>
+		    <version>5.2.0</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap-tour -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>bootstrap-tour</artifactId>
+		    <version>${bootstrap-tour.version}</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars.bower/popper.js -->
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>popper.js</artifactId>
+		    <version>1.14.1</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator-core -->
+		<!-- <dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>webjars-locator-core</artifactId>
+		    <version>0.35</version>
+		</dependency> -->
+		
+		
+  </dependencies>
+  
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <warSourceDirectory>WebContent</warSourceDirectory>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

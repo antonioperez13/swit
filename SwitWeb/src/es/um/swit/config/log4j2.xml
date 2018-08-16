@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error">
+	<Properties>
+		<Property name="log-path">${catalina.base}/logs/</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="Console-Appender" target="SYSTEM_OUT">
+			<PatternLayout>
+				<pattern>
+					[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+			</PatternLayout>
+		</Console>
+		<File name="debug-log" fileName="debug.log" append="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %class{36}:%L %M - %msg%xEx%n"/>
+        </File>
+        <File name="trace-log" fileName="trace.log" append="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %class{36}:%L %M - %msg%xEx%n"/>
+        </File>
+        <File name="error-log" fileName="error.log" append="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd 'at' HH:mm:ss.SSS z} %-5level %class{36}:%L %M - %msg%xEx%n"/>
+        </File>
+	</Appenders>
+
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="Console-Appender" />
+		</Root>
+		<Logger name="es.um.swit" level="debug">
+            <appender-ref ref="debug-log" level="debug"/>
+            <appender-ref ref="trace-log" level="info"/>
+            <appender-ref ref="error-log" level="error"/>
+        </Logger>
+	</Loggers>
+</Configuration>
