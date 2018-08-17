@@ -2,6 +2,9 @@ package commons.reglas;
 
 public class Regla {
 	
+	/** Variable usada para asignar el identificador a una nueva regla */
+	private static int nextId = 1;
+	
 	private static final String DOMAIN_NODE_SOURCE = "Domain node (Source):\t\t";
 	private static final String DOMAIN_CLASS_TARGET = "Domain class (Target):\t\t";
 	
@@ -11,9 +14,10 @@ public class Regla {
 	private static final String PROPERTY_VALUE_SOURCE = "Property value (Source):\t";
 	private static final String PROPERTY_TARGET = "Property (Target):\t\t";
 	
-	// TODO Añadir Node de cada elemento. 
-	// El <Elemento>Id vendrá informado de la vista, será necesario recuperar el nodo usándolo
+	private Integer id;
+
 	private TipoRegla tipo;
+	
 	
 	private Elemento domainNodeSource;
 	
@@ -33,6 +37,26 @@ public class Regla {
 	 * Todos los atributos quedan vacíos.
 	 */
 	public Regla() {}
+	
+	/**
+	 * @return the id
+	 */
+	public Integer getId() {
+		return id;
+	}
+
+	/**
+	 * Asigna un identificador a la regla si no lo tiene
+	 * @return El identificador de la regla
+	 */
+	public Integer setId() {
+		if(this.id == null) {
+			this.id = Regla.nextId;
+			Regla.nextId++;
+		}
+		
+		return this.id;
+	}
 	
 	/**
 	 * @return the tipo
@@ -216,6 +240,8 @@ public class Regla {
 	public String toString() {
 		StringBuilder regla = new StringBuilder();
 		
+		regla.append("Id = " + this.id + "\n");
+		
 		switch(this.tipo) {
 		case CLASE:
 			regla.append(reglaClaseToString());
@@ -232,7 +258,7 @@ public class Regla {
 		
 		return regla.toString();
 	}
-	
+
 	private String reglaClaseToString() {
 		StringBuilder regla = new StringBuilder();
 		
@@ -310,6 +336,51 @@ public class Regla {
 		}
 		return "Regla incorrecta";
 	}
-
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Regla other = (Regla) obj;
+		if (domainClassTarget == null) {
+			if (other.domainClassTarget != null)
+				return false;
+		} else if (!domainClassTarget.equals(other.domainClassTarget))
+			return false;
+		if (domainNodeSource == null) {
+			if (other.domainNodeSource != null)
+				return false;
+		} else if (!domainNodeSource.equals(other.domainNodeSource))
+			return false;
+		if (propertyTarget == null) {
+			if (other.propertyTarget != null)
+				return false;
+		} else if (!propertyTarget.equals(other.propertyTarget))
+			return false;
+		if (propertyValueSource == null) {
+			if (other.propertyValueSource != null)
+				return false;
+		} else if (!propertyValueSource.equals(other.propertyValueSource))
+			return false;
+		if (rangeClassTarget == null) {
+			if (other.rangeClassTarget != null)
+				return false;
+		} else if (!rangeClassTarget.equals(other.rangeClassTarget))
+			return false;
+		if (rangeNodeSource == null) {
+			if (other.rangeNodeSource != null)
+				return false;
+		} else if (!rangeNodeSource.equals(other.rangeNodeSource))
+			return false;
+		if (tipo != other.tipo)
+			return false;
+		return true;
+	}
 }

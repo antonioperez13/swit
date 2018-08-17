@@ -399,9 +399,29 @@
 			</div>
 		</div> <%-- /row --%>
 		
-	<%-- ------------------------- FIN GRID ------------------------- --%>
+		<%-- ------------------------- REGLAS CREADAS ------------------------- --%>
+		<div class="row">
+			<div class="col-lg-12">
+				<h3>Mapeos creados</h3>
+				<hr>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2">
+				<div class="btn-group-vertical">
+				  <button type="button" class="btn btn-primary" onclick="contraerTodasReglas()">Contraer todas</button>
+				  <button type="button" class="btn btn-primary" onclick="expandirTodasReglas()">Expandir todas</button>
+				  <hr>
+				  <button type="button" class="btn btn-danger" onclick="eliminarTodasReglas()">Borrar todas las reglas</button>
+				</div>
+			</div>
+			
+			<div class="col-lg-10">
+				<%@include file="representacionMapeos.jsp" %>
+			</div>
+		</div>
 	</div>
-
+	<%-- ------------------------- FIN GRID ------------------------- --%>
 
 </div>
 

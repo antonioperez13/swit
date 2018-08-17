@@ -6,7 +6,10 @@
 <title><spring:message code="informacion.titulo.pagina"/></title>
 
 <!-- CSS -->
-<link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" > 
+<link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" >
+
+<!-- JQuery, Bootstrap -->
+<%@include file="commons/imports.jsp" %> 
 
 </head>
 <body>
@@ -20,5 +23,7 @@
 		<form:form method="get" action="schemaUploadStart.html">
             <input type="submit" value="<spring:message code="comunes.boton.ir.carga.ficheros"/>" />
         </form:form>
+        
+   
 </body>
 </html>

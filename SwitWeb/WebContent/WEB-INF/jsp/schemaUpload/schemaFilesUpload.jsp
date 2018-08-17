@@ -339,7 +339,7 @@
 		</form:form>
 		<%-- FIN - Zona Ir a mapeo --%>
 		
-	</div>
+	</div> <%-- container --%>
 </div>
 
 </body>

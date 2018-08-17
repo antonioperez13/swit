@@ -23,6 +23,16 @@ body {
 	font-size: medium;
 }
 
+.marco-representacion-reglas {
+	overflow-y: auto;
+	max-height: 80vh;
+	line-height: 25px;
+	padding: 5px 10px;
+	border-radius: 10px;
+	border: 2px groove #e0e0e04a;
+	background-color: ghostwhite;
+}
+
 .boton-central {
 	padding: 0;
     margin-bottom: 5px;
@@ -127,6 +137,26 @@ body {
 .dd-20 {
 	min-height: 20px;
 	text-align: right;
+}
+
+.list-group-button-title {
+	width:95%;
+	text-align: left !important;
+}
+
+.list-group-button-delete {
+	min-width: 50px;
+	width:5%;
+}
+
+.list-group-button-delete-icon {
+	font-size: 20px !important;
+}
+
+.transicion {
+	overflow: hidden;
+	transition: height 0.5s;
+	transition-timing-function: ease-in-out;
 }
 
 /* .tour-backdrop {

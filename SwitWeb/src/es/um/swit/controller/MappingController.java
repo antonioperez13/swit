@@ -107,21 +107,31 @@ public class MappingController {
     public ResponseEntity<AjaxResponseBody> mappingRule(@RequestBody Regla regla, HttpServletRequest request, 
     		@ModelAttribute("CatalogoReglas") CatalogoReglas reglas) {
 		logger.debug("mappingRule" + ConstantesTexto.START);
+		
 		// TODO Quitar tras las pruebas
 		FicherosEsquemasBean feb = (FicherosEsquemasBean) request.getSession().getAttribute(ConstantesCadenas.FICHEROS_ESQUEMAS_BEAN_SESION);
 		List<NodeOwl> nodeOwl = ((NodeOwl) feb.getTargetTree()).getChildren();
 		feb.getTargetTree().getNodeFromRoute("Root/Modifier/ChemicalProperties/Chirality/chirality/");
 		Node nodo =  feb.getTargetTree().getNodeById(100);
 		// ////////////////////////////
+		
 		AjaxResponseBody result = new AjaxResponseBody();
 		
-		result.setCode("200");
-		result.setMsg("OK");
-		result.setResult(regla.toHtmlString());
-		
-		// Añadimos la nueva regla
-		//reglas.addReglaClase(regla.getDomainNodeSourceId(), regla.getDomainClassTargetId());
-		reglas.addRegla(regla);
+		// Comprobar si la regla ya existía
+		Regla reglaRecuperada = reglas.recuperarRegla(regla);
+		if(reglaRecuperada == null) {
+			// Añadimos la nueva regla
+			regla.setId();
+			reglas.addRegla(regla);
+			
+			result.setCode("201");
+			result.setMsg(regla.getId().toString());
+			result.setResult(regla.toHtmlString());
+		} else { // Si ya existe la regla no se añade
+			result.setCode("202");
+			result.setMsg("Already exists");
+			result.setResult(reglaRecuperada.toHtmlString());
+		}
 		
 		
 		/* INI -DEBUG */
@@ -149,6 +159,46 @@ public class MappingController {
 	
 	/**
 	 * 
+	 * @param idRegla Identificador de la regla que se quiere eliminar
+	 * @param request
+	 * @param reglas
+	 * @return
+	 */
+	@RequestMapping(value = "/removeRuleById")
+    public ResponseEntity<AjaxResponseBody> removeRuleById(@RequestBody String idRegla, HttpServletRequest request, 
+    		@ModelAttribute("CatalogoReglas") CatalogoReglas reglas) {
+		logger.debug("removeRuleById" + ConstantesTexto.START);
+		
+		AjaxResponseBody result = new AjaxResponseBody();
+		
+		Regla reglaEliminada = reglas.removeReglaPorId(Integer.parseInt(idRegla));
+		
+		if(reglaEliminada != null) {
+			result.setCode("210");
+			result.setMsg("Regla eliminada");
+			result.setResult(reglaEliminada.toHtmlString());
+		} else {
+			result.setCode("410");
+			result.setMsg("Regla no encontrada");
+			result.setResult("No se ha encontrado la regla, no se ha eliminado");
+		}
+		
+		/* INI -DEBUG */
+		logger.debug("removeRuleById - Regla borrada");
+		/* FIN - DEBUG */
+		
+		
+		// Prepara y envía la respuesta
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+	    
+	    logger.debug("removeRuleById" + ConstantesTexto.END);
+	    
+	    return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.OK);
+    }
+	
+	/**
+	 * 
 	 * @param request
 	 * @param reglas
 	 * @return
@@ -163,8 +213,8 @@ public class MappingController {
 		int numReglas = reglas.getAllReglas().size();
 		reglas.removeAllReglas();
 		
-		result.setCode("200");
-		result.setMsg("OK");
+		result.setCode("211");
+		result.setMsg("Reglas eliminadas");
 		result.setResult(numReglas + " reglas eliminadas.");
 		
 		/* INI -DEBUG */

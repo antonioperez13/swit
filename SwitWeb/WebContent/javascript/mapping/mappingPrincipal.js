@@ -4,17 +4,14 @@ var nuevaRegla = new Regla();
 //var data = {}
 //data["domainNodeSource"] = $('#sourceSchema').jstree(true).get_text($('#sourceSchema').jstree(true).get_selected(true)[0]);
 
-function mappingClassRuleTest(){
-	// Se establece el tipo de regla
-	nuevaRegla.tipo = TipoRegla.CLASE;
-    ColeccionReglas.push(nuevaRegla);
-    console.log(comprobarTipoRegla(nuevaRegla));
-            
+function removeRuleById(idRegla){
+	// TODO borrarReglaPorId(ColeccionReglas, id);
+	
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
-		url : "mappingRule.html",
-		data : JSON.stringify(nuevaRegla),
+		url : "removeRuleById.html",
+		data : ""+idRegla,
 		dataType : 'json',
 		timeout : 100000,
 		success : function(data) {
@@ -22,6 +19,12 @@ function mappingClassRuleTest(){
 			//var responseData = JSON.parse(data);
 			$('#mensaje').html(data.result);
 			//nuevaRegla = new Regla();
+			
+			if(data.code == "210"){
+				console.log(data.result);
+			} else if(data.code == "410") {
+				console.log(data.result);
+			}				
 		},
 		error : function(e) {
 			console.log("mappingClassRule - ERROR: ", e);
@@ -40,9 +43,6 @@ function mappingClassRule(){
 		console.log("mappingClassRule - ERROR: Regla de clase incorrecta");
 		$('#mensaje').html("Error: Regla de clase incorrecta");
 	} else {
-		console.log(comprobarTipoRegla(regla));
-		ColeccionReglas.push(regla);
-		
 		$.ajax({
 			type : "POST",
 			contentType : "application/json",
@@ -55,6 +55,13 @@ function mappingClassRule(){
 				//var responseData = JSON.parse(data);
 				$('#mensaje').html(data.result);
 				//nuevaRegla = new Regla();
+				
+				if(data.code == "201"){
+					console.log(comprobarTipoRegla(regla));
+					ColeccionReglas.push(regla);
+				} else if(data.code == "202") {
+					console.log("Regla repetida");
+				}				
 			},
 			error : function(e) {
 				console.log("mappingClassRule - ERROR: ", e);
