@@ -10,7 +10,7 @@ body {
 
 .marco-arbol {
 	overflow-y: auto;
-	height: 50vh;
+	height: 75vh;
 	margin: auto;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -123,6 +123,26 @@ body {
 	word-break: break-all;
 }
 
+.well-green{
+	background-color: rgb(235, 255, 250);
+	border-radius: 0px 10px;
+	border:1px solid #9ed6d3;
+	margin-bottom: 5px;
+	padding: 0px 5px;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
+.well-lavender{
+	background-color: rgb(250, 235, 255);
+	border-radius: 0px 10px;
+	border:1px solid rgb(190, 172, 176);
+	margin-bottom: 5px;
+	padding: 0px 5px;
+	word-wrap: break-word;
+	word-break: break-all;
+}
+
 .btn-violet {
 	color: white;
 	background-color: blueviolet;
@@ -139,18 +159,37 @@ body {
 	text-align: right;
 }
 
+.representacionRegla-titulo {
+	text-decoration: underline;
+	margin-bottom: 5px;
+	/* font-weight: bold; */
+}
+
+.representacionRegla-elem {
+	margin-bottom: 5px;
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+.representacionRegla-dato {
+	margin-bottom: 5px;
+	padding-left: 20px;
+}
+
 .list-group-button-title {
 	width:95%;
 	text-align: left !important;
+	white-space: normal;
 }
 
 .list-group-button-delete {
-	min-width: 50px;
+	min-width: 40px;
 	width:5%;
 }
 
 .list-group-button-delete-icon {
 	font-size: 20px !important;
+	display: block;
 }
 
 .transicion {
@@ -159,9 +198,49 @@ body {
 	transition-timing-function: ease-in-out;
 }
 
+#goCreacionReglasButton {
+	display: block;
+	float: right;
+	background-color: black;
+	padding: 5px;
+	opacity: 0.8;
+	border-radius: 0 8px 8px 0;
+	transition: width;
+	font-size:24px;
+	color:white;
+	cursor: pointer;
+}
+
+#goCreacionReglasButton:hover {
+  background-color: #555;
+}
+
+#goRepresentacionReglasButton {
+	display: block;
+	float: right;
+	background-color: black;
+	padding: 5px;
+	opacity: 0.8;
+	border-radius: 0 8px 8px 0;
+	transition: width;
+	font-size:24px;
+	color:white;
+	cursor: pointer;
+}
+
+#goRepresentacionReglasButton:hover {
+  background-color: #555;
+}
+
 /* .tour-backdrop {
 	background-color: rgba(0, 20, 20, 1);
 } */
+
+
+.vl {
+    border-left: 1px solid #969696;
+    height: 20px;
+}
 
 /** INI - CUSTOM HR */
 

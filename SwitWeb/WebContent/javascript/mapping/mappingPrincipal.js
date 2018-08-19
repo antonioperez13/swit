@@ -5,7 +5,8 @@ var nuevaRegla = new Regla();
 //data["domainNodeSource"] = $('#sourceSchema').jstree(true).get_text($('#sourceSchema').jstree(true).get_selected(true)[0]);
 
 function removeRuleById(idRegla){
-	// TODO borrarReglaPorId(ColeccionReglas, id);
+	// Se elimina la regla de la estructura de datos auxiliar
+	borrarReglaPorId(idRegla);
 	
 	$.ajax({
 		type : "POST",
@@ -57,8 +58,10 @@ function mappingClassRule(){
 				//nuevaRegla = new Regla();
 				
 				if(data.code == "201"){
+					regla.id = data.msg;
 					console.log(comprobarTipoRegla(regla));
 					ColeccionReglas.push(regla);
+					representarRegla(regla);
 				} else if(data.code == "202") {
 					console.log("Regla repetida");
 				}				
@@ -96,6 +99,15 @@ function mappingPropertyRule(){
 				//var responseData = JSON.parse(data);
 				$('#mensaje').html(data.result);
 				//nuevaRegla = new Regla();
+				
+				if(data.code == "201"){
+					regla.id = data.msg;
+					console.log(comprobarTipoRegla(regla));
+					ColeccionReglas.push(regla);
+					representarRegla(regla);
+				} else if(data.code == "202") {
+					console.log("Regla repetida");
+				}
 			},
 			error : function(e) {
 				console.log("mappingPropertyRule - ERROR: ", e);
@@ -130,6 +142,15 @@ function mappingRelationRule(){
 				//var responseData = JSON.parse(data);
 				$('#mensaje').html(data.result);
 				//nuevaRegla = new Regla();
+				
+				if(data.code == "201"){
+					regla.id = data.msg;
+					console.log(comprobarTipoRegla(regla));
+					ColeccionReglas.push(regla);
+					representarRegla(regla);
+				} else if(data.code == "202") {
+					console.log("Regla repetida");
+				}
 			},
 			error : function(e) {
 				console.log("mappingRelationRule - ERROR: ", e);
@@ -143,6 +164,7 @@ function mappingRelationRule(){
 
 
 //	REGLA
+//		id;
 //		tipo;
 //		domainNodeSource;
 //		domainClassTarget;
@@ -305,6 +327,25 @@ function borrarReglasServidor(){
 			console.log("DONE");
 		}
 	});
+}
+
+/**
+ * Elimina la regla que coincida con el id indicado.
+ * @param botonEliminar
+ * @returns La regla eliminada. Devuelve null si no existe la regla.
+ */
+function borrarReglaPorId(reglaId){
+	var numReglasTotal = ColeccionReglas.length;
+	// Recorre la el array de reglas
+	for (var i = 0; i < numReglasTotal; i++) {
+		if(ColeccionReglas[i].id == reglaId) {
+			// Si encuentra la regla la elimina del array
+			var reglaBorrada = ColeccionReglas[i];
+			ColeccionReglas.splice(i, 1);
+			return reglaBorrada;
+		}
+	}
+	return null;
 }
 
 function testTipoOwl(){

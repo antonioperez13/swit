@@ -1,6 +1,6 @@
 <%@include file="../commons/taglibs.jsp" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 	<title><spring:message code="mapeo.titulo.pagina"/></title>
@@ -21,6 +21,9 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.5/themes/default/style.min.css" />
 	<!-- <link rel="stylesheet" href="http://www.orangehilldev.com/jstree-bootstrap-theme/demo/assets/dist/themes/proton/style.css" /> -->
 	<link href="${pageContext.request.contextPath}/javascript/jstree/themes/proton/style.min.css" rel="stylesheet" >
+	
+	<!-- Jquery-template (plantillas html) -->
+	<script language="javascript" src="${pageContext.request.contextPath}/javascript/jquery-template/jquery.loadTemplate.min.js"></script>
 	
 	<!-- Funciones para mapping -->
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Elemento.js"></script>
@@ -176,6 +179,21 @@
 		function comenzarCreacionGuiadaReglaRelacion(){
 			creacionGuiadaReglaRelacion.restart();
 		}
+
+		
+		function scrollGoCreacionReglas() {
+			$('html, body').animate({
+			    scrollTop: $("#adorno1").offset().top
+			}, 700);
+		}
+		
+		function scrollGoRepresentacionReglas() {
+			$('html, body').animate({
+			    scrollTop: $("#representacionReglasContenedor").offset().top
+			}, 700);
+			
+			//window.scroll({top: document.body.scrollHeight, left: 0, behavior: 'smooth' });
+		}
 		
 	</script>
 
@@ -197,7 +215,7 @@
 					<a href="#">Cargar fichero de mapeo</a>
 					<a href="#">Guardar fichero de mapeo</a>
 					<a href="#">Borrar todas las reglas</a>
-					<a href="#">Información</a>
+					<a href="#" onclick="addNuevaReglaCreadaTest();">Añadir regla creada</a>
 				</div>
 			</div>
 			<div class="col-lg-10 dimmer-obscure" onclick="closeNav()"></div>
@@ -205,7 +223,7 @@
 	</div>
 	
 	<!-- Botón menú lateral izquierdo -->
-	<i id="openSidebarButton" onclick="openNav()" class="material-icons navbar-button" style="font-size:24px;color:white">menu</i>
+	<i id="openSidebarButton" onclick="openNav()" class="material-icons navbar-button">menu</i>
 	
 <div id="main" class="wrapper-obscure">
 	<%-- ------------------------- HEADER ------------------------- --%>
@@ -215,13 +233,12 @@
 		</h1>
 	</div>
 	
-	<div id="dummy"></div>
-	
 	<%-- Adorno --%>
 	<div id="adorno1">
 		<hr class="hr-1">
 	</div>
 	
+	<%-- Botones de creación de reglas --%>
 	<div id="botonesCreacionGuiadaReglas" class="row" style="text-align: center; margin-bottom: 10px;">
 		<div class="btn-group" role="group" >
 			<input class="btn no-click" type="button" value="<spring:message code="mapeo.botones.creacionGuiada.titulo"/>"/>
@@ -235,7 +252,14 @@
 				<%-- onclick="mappingRelationRule()"/> --%>
 				onclick="comenzarCreacionGuiadaReglaRelacion()"/>
 		</div>
+		
+		<%-- Ir al bloque de Reglas creadas --%>
+		<i onclick="scrollGoRepresentacionReglas()" id="goRepresentacionReglasButton" 
+			title="<spring:message code="comunes.boton.ir.abajo.title"/>" 
+			class="material-icons">arrow_downward</i>
 	</div>
+	
+	
 		
 	<%-- ------------------------- INI GRID ------------------------- --%>
 	<div class="container-fluid " style="font-size:1.2em;">
@@ -250,13 +274,17 @@
 							<div class="input-group">
 								<%-- Título de la barra --%>	
 								<span class="input-group-btn">
-									<button class="btn btn-info no-click">Búsqueda: </button>
+									<button class="btn btn-info no-click">
+										<spring:message code="mapeo.mensaje.busqueda.titulo"/>
+									</button>
 								</span>
 								<%-- Entrada de texto --%>
 								<input type="text" id="searchSourceSchema" value="" class="form-control width100" style="z-index: 0;">
 								<%-- Botón para limpiar la búsqueda --%>
 								<span class="input-group-btn">
-									<button type="button" id="searchSourceClearButton" value="Limpiar búsqueda" class="btn btn-warning" style="z-index: 0;">Limpiar búsqueda</button>
+									<button type="button" id="searchSourceClearButton" value="Limpiar búsqueda" class="btn btn-warning" style="z-index: 0;">
+										<spring:message code="mapeo.mensaje.busqueda.boton.limpiar"/>
+									</button>
 								</span>
 							</div>
 						</form>
@@ -354,13 +382,17 @@
 							<div class="input-group">
 								<%-- Título de la barra --%>	
 								<span class="input-group-btn">
-									<button class="btn btn-info no-click">Búsqueda: </button>
+									<button class="btn btn-info no-click">
+										<spring:message code="mapeo.mensaje.busqueda.titulo"/>
+									</button>
 								</span>
 								<%-- Entrada de texto --%>
 								<input type="text" id="searchTargetSchema" value="" class="form-control width100" style="z-index: 0;">
 								<%-- Botón para limpiar la búsqueda --%>
 								<span class="input-group-btn">
-									<button type="button" id="searchTargetClearButton" value="Limpiar búsqueda" class="btn btn-warning" style="z-index: 0;">Limpiar búsqueda</button>
+									<button type="button" id="searchTargetClearButton" value="Limpiar búsqueda" class="btn btn-warning" style="z-index: 0;">
+										<spring:message code="mapeo.mensaje.busqueda.boton.limpiar"/>
+									</button>
 								</span>
 							</div>
 						</form>
@@ -400,19 +432,28 @@
 		</div> <%-- /row --%>
 		
 		<%-- ------------------------- REGLAS CREADAS ------------------------- --%>
-		<div class="row">
+		<div class="row" style="margin-top: 20px;">
 			<div class="col-lg-12">
-				<h3>Mapeos creados</h3>
-				<hr>
+				<h3 style="float: left; margin-top: 5px;"><spring:message code="mapeo.representacionRegla.titulo.bloque"/></h3>
+				<i onclick="scrollGoCreacionReglas()" id="goCreacionReglasButton" 
+					title="<spring:message code="comunes.boton.ir.arriba.title"/>"
+					class="material-icons">arrow_upward</i>
+				<hr class="width100">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2">
 				<div class="btn-group-vertical">
-				  <button type="button" class="btn btn-primary" onclick="contraerTodasReglas()">Contraer todas</button>
-				  <button type="button" class="btn btn-primary" onclick="expandirTodasReglas()">Expandir todas</button>
+				  <button type="button" class="btn btn-primary" onclick="contraerTodasReglas()">
+				  	<spring:message code="comunes.boton.contraer.todas"/>
+				  </button>
+				  <button type="button" class="btn btn-primary" onclick="expandirTodasReglas()">
+				  	<spring:message code="comunes.boton.expandir.todas"/>
+				  </button>
 				  <hr>
-				  <button type="button" class="btn btn-danger" onclick="eliminarTodasReglas()">Borrar todas las reglas</button>
+				  <button type="button" class="btn btn-danger" onclick="eliminarTodasReglas()">
+				  	<spring:message code="comunes.boton.borrar.regla.todas"/>
+				  </button>
 				</div>
 			</div>
 			
@@ -422,7 +463,7 @@
 		</div>
 	</div>
 	<%-- ------------------------- FIN GRID ------------------------- --%>
-
+	
 </div>
 
 </body>

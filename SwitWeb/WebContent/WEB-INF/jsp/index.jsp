@@ -1,6 +1,6 @@
 <%@include file="commons/taglibs.jsp" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title><spring:message code="inicio.titulo.pagina"/></title>

@@ -176,7 +176,7 @@ public class MappingController {
 		if(reglaEliminada != null) {
 			result.setCode("210");
 			result.setMsg("Regla eliminada");
-			result.setResult(reglaEliminada.toHtmlString());
+			result.setResult("Eliminada: <br>" + reglaEliminada.toHtmlString());
 		} else {
 			result.setCode("410");
 			result.setMsg("Regla no encontrada");
@@ -184,7 +184,7 @@ public class MappingController {
 		}
 		
 		/* INI -DEBUG */
-		logger.debug("removeRuleById - Regla borrada");
+		logger.debug("removeRuleById - Regla borrada - \n{}", reglaEliminada.toString());
 		/* FIN - DEBUG */
 		
 		
@@ -215,7 +215,7 @@ public class MappingController {
 		
 		result.setCode("211");
 		result.setMsg("Reglas eliminadas");
-		result.setResult(numReglas + " reglas eliminadas.");
+		result.setResult("Reglas eliminadas: " + numReglas);
 		
 		/* INI -DEBUG */
 		logger.debug("removeAllRules - Reglas borradas");
