@@ -1,6 +1,14 @@
 var ColeccionReglas = [];
 var nuevaRegla = new Regla();
 
+/**
+ * Inicia la ayuda interactiva
+ * @returns
+ */
+function iniciarAyuda(){
+	ayudaInteractiva.restart();
+}
+
 //var data = {}
 //data["domainNodeSource"] = $('#sourceSchema').jstree(true).get_text($('#sourceSchema').jstree(true).get_selected(true)[0]);
 

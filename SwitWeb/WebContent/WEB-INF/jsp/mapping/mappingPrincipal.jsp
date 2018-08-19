@@ -191,10 +191,75 @@
 			$('html, body').animate({
 			    scrollTop: $("#representacionReglasContenedor").offset().top
 			}, 700);
-			
-			//window.scroll({top: document.body.scrollHeight, left: 0, behavior: 'smooth' });
 		}
 		
+		function scrollToTop() {
+			window.scroll({top: 0, left: 0, behavior: 'smooth' });
+		}
+		
+		// Instancia de la ayuda interactiva
+		var ayudaInteractiva = new Tour({
+			smartPlacement: true,
+			backdrop: true,
+			backdropContainer: 'body',
+			backdropPadding: 10,
+			template: "<div class='popover tour' style='min-width:20%'>\
+			    <div class='arrow'></div>\
+			    <h3 class='popover-title'></h3>\
+			    <div class='popover-content'></div>\
+			    <div class='popover-navigation'>\
+			    	<div class='btn-group'>\
+			        	<button class='btn btn-default' data-role='prev'><spring:message code='comunes.boton.anterior' /></button>\
+			        	<button class='btn btn-default' data-role='next'><spring:message code='comunes.boton.siguiente' /></button>\
+			        </div>\
+			        <button class='btn btn-default' data-role='end'><spring:message code='comunes.boton.finalizar' /></button>\
+			    </div>\
+			  </div>",
+			steps: [
+			{
+			  backdrop: false,
+			  placement: "bottom",
+			  element: "#titulo",
+			  title: '<spring:message code="mapeo.texto.ayuda.titulo1" />',
+			  content: '<spring:message code="mapeo.texto.ayuda.desc1" />'
+			},
+			{
+			  placement: "bottom",
+			  element: "#botonesCreacionGuiadaReglas",
+			  title: '<spring:message code="mapeo.texto.ayuda.titulo2" />',
+			  content: '<spring:message code="mapeo.texto.ayuda.desc2" />'
+			},
+			{
+			  placement: "top",
+			  element: "#esquemasDatosDiv",
+			  title: '<spring:message code="mapeo.texto.ayuda.titulo3" />',
+			  content: '<spring:message code="mapeo.texto.ayuda.desc3" />'
+			},
+			{
+			  element: "#searchSourceSchemaDiv",
+			  title: '<spring:message code="mapeo.texto.ayuda.titulo4" />',
+			  content: '<spring:message code="mapeo.texto.ayuda.desc4" />'
+			},
+			{
+			  element: "#reglasCreadasDiv",
+			  title: '<spring:message code="mapeo.texto.ayuda.titulo5" />',
+			  content: '<spring:message code="mapeo.texto.ayuda.desc5" />'
+			},
+			{
+			  placement: "left",
+			  element: "#representacionReglasDiv",
+			  title: '<spring:message code="mapeo.texto.ayuda.titulo6" />',
+			  content: '<spring:message code="mapeo.texto.ayuda.desc6" />'
+			},
+			{
+			  orphan: true,
+			  onShow: function (ayudaInteractiva) {scrollToTop(); openNav();},
+			  onHidden: function (ayudaInteractiva) {closeNav();},
+			  backdrop: false,
+			  title: '<spring:message code="mapeo.texto.ayuda.titulo7" />',
+			  content: '<spring:message code="mapeo.texto.ayuda.desc7" />'
+			},
+		]});
 	</script>
 
 </head>
@@ -205,17 +270,22 @@
 	<!-- FIN - Mensajes de error -->
 	
 	<!-- Menú lateral izquierdo -->
-	<div class=" container">
+	<div id="menuLateral" class=" container">
 		<div id="mySidenav" class="row sidenav">
-			<div class="col-lg-2 navbar-menu">
+			<div id="menuLateral" class="col-lg-2 navbar-menu">
 				<div id="sidebarMenu" class="sidebar-menu">
 					<br>
 					<br>				  
-					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-					<a href="#">Cargar fichero de mapeo</a>
-					<a href="#">Guardar fichero de mapeo</a>
-					<a href="#">Borrar todas las reglas</a>
-					<a href="#" onclick="addNuevaReglaCreadaTest();">Añadir regla creada</a>
+					<a href="javascript:void(0)" id="botonCerrarMenuLateral" class="closebtn" onclick="closeNav()">&times;</a>
+					<a class="a-button">Cargar fichero de mapeo local</a>
+					<a class="a-button">Guardar fichero de mapeo local</a>
+					<a class="a-button">Guardar reglas en la nube</a>
+					<a class="a-button">Cargar reglas desde la nube</a>
+					<hr>
+					<a class="a-button" onclick="eliminarTodasReglas()">Borrar todas las reglas</a>
+					<hr>
+					<hr>
+					<a class="a-button" onclick="addNuevaReglaCreadaTest();">Añadir regla creada</a>
 				</div>
 			</div>
 			<div class="col-lg-10 dimmer-obscure" onclick="closeNav()"></div>
@@ -223,11 +293,14 @@
 	</div>
 	
 	<!-- Botón menú lateral izquierdo -->
-	<i id="openSidebarButton" onclick="openNav()" class="material-icons navbar-button">menu</i>
+	<div class="botones-laterales">
+		<i id="openSidebarButton" onclick="openNav()" class="material-icons navbar-button">menu</i>
+		<i id="botonIniciarAyuda" title="Muestra la ayuda interactiva" onclick="iniciarAyuda();" class="material-icons boton-ayuda">help</i>
+	</div>
 	
 <div id="main" class="wrapper-obscure">
 	<%-- ------------------------- HEADER ------------------------- --%>
-	<div class="item-header" style="margin:auto;text-align:center;">
+	<div id="titulo" class="item-header" style="margin:auto;text-align:center;">
 		<h1>
 			<spring:message code="mapeo.mensaje.subtitulo"/>
 		</h1>
@@ -263,7 +336,7 @@
 		
 	<%-- ------------------------- INI GRID ------------------------- --%>
 	<div class="container-fluid " style="font-size:1.2em;">
-		<div class="row">
+		<div id="esquemasDatosDiv" class="row">
 			<%-- ------------------------- ITEM LEFT ------------------------- --%>
 			<div id="sourceSchemaDiv" class="col-lg-6 ">
 				
@@ -432,33 +505,31 @@
 		</div> <%-- /row --%>
 		
 		<%-- ------------------------- REGLAS CREADAS ------------------------- --%>
-		<div class="row" style="margin-top: 20px;">
-			<div class="col-lg-12">
-				<h3 style="float: left; margin-top: 5px;"><spring:message code="mapeo.representacionRegla.titulo.bloque"/></h3>
-				<i onclick="scrollGoCreacionReglas()" id="goCreacionReglasButton" 
-					title="<spring:message code="comunes.boton.ir.arriba.title"/>"
-					class="material-icons">arrow_upward</i>
-				<hr class="width100">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-2">
-				<div class="btn-group-vertical">
-				  <button type="button" class="btn btn-primary" onclick="contraerTodasReglas()">
-				  	<spring:message code="comunes.boton.contraer.todas"/>
-				  </button>
-				  <button type="button" class="btn btn-primary" onclick="expandirTodasReglas()">
-				  	<spring:message code="comunes.boton.expandir.todas"/>
-				  </button>
-				  <hr>
-				  <button type="button" class="btn btn-danger" onclick="eliminarTodasReglas()">
-				  	<spring:message code="comunes.boton.borrar.regla.todas"/>
-				  </button>
+		<div id="reglasCreadasDiv">
+			<div class="row" style="margin-top: 20px;">
+				<div class="col-lg-12">
+					<h3 style="float: left; margin-top: 5px;"><spring:message code="mapeo.representacionRegla.titulo.bloque"/></h3>
+					<i onclick="scrollGoCreacionReglas()" id="goCreacionReglasButton" 
+						title="<spring:message code="comunes.boton.ir.arriba.title"/>"
+						class="material-icons">arrow_upward</i>
+					<hr class="width100">
 				</div>
 			</div>
-			
-			<div class="col-lg-10">
-				<%@include file="representacionMapeos.jsp" %>
+			<div class="row">
+				<div class="col-lg-2" style="text-align: center;">
+					<div class="btn-group-vertical">
+					  <button type="button" class="btn btn-primary" onclick="contraerTodasReglas()">
+					  	<spring:message code="comunes.boton.contraer.todas"/>
+					  </button>
+					  <button type="button" class="btn btn-primary" onclick="expandirTodasReglas()">
+					  	<spring:message code="comunes.boton.expandir.todas"/>
+					  </button>
+					</div>
+				</div>
+				
+				<div id="representacionReglasDiv" class="col-lg-10">
+					<%@include file="representacionMapeos.jsp" %>
+				</div>
 			</div>
 		</div>
 	</div>

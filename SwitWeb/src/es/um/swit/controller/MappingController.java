@@ -54,12 +54,10 @@ public class MappingController {
         	request.getSession().setAttribute("sourceTree", feb.getSourceTree().treeToHtmlList(4));
         	request.getSession().setAttribute("targetTree", feb.getTargetTree().treeToHtmlList(4));
         	
-//        	SchemaFilesUploadController.replaceFicherosEsquemasBeanFromSession(request, feb);
         } else {
         	for(String error: errores.getDescError()) {
             	logger.error("- " + error);
             }
-        	// TODO Redirigir a pantalla de carga de ficheros si falla el parseo y mostrar el error
         	model.addAttribute(ConstantesTexto.ERRORS, errores.getDescError());
         	
         	view = SchemaFilesUploadController.schemaFilesUploadView(model);
@@ -129,7 +127,7 @@ public class MappingController {
 			result.setResult(regla.toHtmlString());
 		} else { // Si ya existe la regla no se añade
 			result.setCode("202");
-			result.setMsg("Already exists");
+			result.setMsg("La regla ya existe");
 			result.setResult(reglaRecuperada.toHtmlString());
 		}
 		

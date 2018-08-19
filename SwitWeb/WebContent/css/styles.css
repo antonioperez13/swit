@@ -10,7 +10,7 @@ body {
 
 .marco-arbol {
 	overflow-y: auto;
-	height: 75vh;
+	height: 60vh;
 	margin: auto;
 	margin-top: 5px;
 	margin-bottom: 5px;
@@ -38,7 +38,7 @@ body {
     margin-bottom: 5px;
 }
 
-.boton-ayuda {
+.boton-ayuda-solo {
 	font-size:40px;
 	color:white;
 	background-color: black;
@@ -51,6 +51,24 @@ body {
 	transition: background-color 0.25s;
 }
 
+.boton-ayuda-solo:hover {
+	background-color: DimGray;
+}
+
+.boton-ayuda-solo:active {
+	background-color: Green;
+}
+
+.boton-ayuda {
+	color:white;
+	background-color: black;
+	padding: 5px;
+	border-radius: 0 20px 20px 0;
+	transition: background-color 0.25s;
+	position: fixed;
+	margin-top: 20px;
+}
+
 .boton-ayuda:hover {
 	background-color: DimGray;
 }
@@ -59,11 +77,19 @@ body {
 	background-color: Green;
 }
 
+.botones-laterales {
+	position: fixed;
+	opacity: 0.8;
+	top: 10vh;
+	left: 0;
+}
+
 .well-warning {
 	display: none;
 	background-color: rgb(255, 204, 204);
 	min-height: 20px;
 	padding: 5px 20px;
+	margin: 0px 20px;
 	border-radius: 5px;
 }
 
@@ -157,6 +183,10 @@ body {
 .dd-20 {
 	min-height: 20px;
 	text-align: right;
+}
+
+.a-button {
+	cursor: pointer;
 }
 
 .representacionRegla-titulo {

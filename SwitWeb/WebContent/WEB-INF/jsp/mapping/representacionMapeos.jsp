@@ -27,6 +27,11 @@
 	 * @returns
 	 */
 	function eliminarTodasReglas(){
+		var respuesta = confirm("<spring:message code='mapeo.texto.borrar.todas.reglas.confirmacion'/>");
+	    if (respuesta == false) {
+	        return;
+	    }
+		
 		var ColeccionReglas = [];
 		
 		var divPlegables = $("[id^=plegable-regla-]");

@@ -168,7 +168,7 @@
 </head>
 <body>
 
-<i id="botonIniciarAyuda" title="Muestra la ayuda interactiva" onclick="iniciarAyuda();" class="material-icons boton-ayuda">help</i>
+<i id="botonIniciarAyuda" title="Muestra la ayuda interactiva" onclick="iniciarAyuda();" class="material-icons boton-ayuda-solo">help</i>
 
 <div id="main">
 	<br>
