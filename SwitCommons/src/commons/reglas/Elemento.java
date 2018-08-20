@@ -1,6 +1,14 @@
 package commons.reglas;
 
-public class Elemento {
+import java.io.Serializable;
+
+public class Elemento implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1904228229393710496L;
+	
 	/** Nombre del elemento */
 	private String name;
 	/** Identificador del elemento */

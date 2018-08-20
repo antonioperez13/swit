@@ -278,7 +278,7 @@
 					<br>				  
 					<a href="javascript:void(0)" id="botonCerrarMenuLateral" class="closebtn" onclick="closeNav()">&times;</a>
 					<a class="a-button">Cargar fichero de mapeo local</a>
-					<a class="a-button">Guardar fichero de mapeo local</a>
+					<a href="downloadMappingsFile.html" class="a-button">Guardar fichero de mapeo local</a>
 					<a class="a-button">Guardar reglas en la nube</a>
 					<a class="a-button">Cargar reglas desde la nube</a>
 					<hr>

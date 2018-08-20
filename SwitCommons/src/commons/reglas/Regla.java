@@ -1,7 +1,14 @@
 package commons.reglas;
 
-public class Regla {
+import java.io.Serializable;
+
+public class Regla implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2696413478867240382L;
+
 	/** Variable usada para asignar el identificador a una nueva regla */
 	private static int nextId = 1;
 	

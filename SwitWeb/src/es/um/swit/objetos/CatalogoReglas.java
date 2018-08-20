@@ -1,28 +1,22 @@
 package es.um.swit.objetos;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import commons.reglas.Regla;
 
-public class CatalogoReglas {
+public class CatalogoReglas implements Serializable{
 	
-//	private static CatalogoReglas unicaInstancia = null;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8186230406314824055L;
 	
 	/** Lista de reglas */
 	private List<Regla> reglas;
 	
-	/**
-	 * Devuelve la instancia del catalogo.
-	 * @return
-	 */
-//	public static CatalogoReglas getInstantcia() {
-//		if(unicaInstancia == null) {
-//			unicaInstancia = new CatalogoReglas();
-//		}
-//		return unicaInstancia;
-//	}
 	
 	/**
 	 * Constructor de la clase.
@@ -32,6 +26,10 @@ public class CatalogoReglas {
 		reglas = new ArrayList<>();
 	}
 	
+	public CatalogoReglas(CatalogoReglas otroCatalogo) {
+		reglas = new ArrayList<>(otroCatalogo.getAllReglas());
+	}
+
 	/**
 	 * Añade una regla.
 	 * @param nueva
@@ -40,44 +38,6 @@ public class CatalogoReglas {
 	public boolean addRegla(Regla nueva) {
 		return reglas.add(nueva);
 	}
-	
-	/**
-	 * Crea y añade una regla de clase.
-	 * @param domainNodeId
-	 * @param domainClassId
-	 * @return
-	 */
-//	public boolean addReglaClase(String domainNodeId, String domainClassId) {
-//		return addRegla(new Regla(domainNodeId, domainClassId));
-//	}
-	
-	/**
-	 * Crea y añade una regla de propiedad.
-	 * @param domainNodeId
-	 * @param domainClassId
-	 * @param propertyValueSourceId
-	 * @param propertyTargetId
-	 * @return
-	 */
-//	public boolean addReglaPropiedad(String domainNodeId, String domainClassId,
-//			String propertyValueSourceId, String propertyTargetId) {
-//		return addRegla(new Regla(domainNodeId, domainClassId, propertyValueSourceId, propertyTargetId));
-//	}
-	
-	/**
-	 * Crea y añade una regla de relación.
-	 * @param domainNodeId
-	 * @param domainClassId
-	 * @param rangeNodeId
-	 * @param rangeClassId
-	 * @param property
-	 * @return
-	 */
-//	public boolean addReglaRelacion(String domainNodeId, String domainClassId,
-//			String rangeNodeId, String rangeClassId,
-//			String property) {
-//		return addRegla(new Regla(domainNodeId, domainClassId, rangeNodeId, rangeClassId, property));
-//	}
 	
 	/**
 	 * Recupera una lista con todas las reglas.

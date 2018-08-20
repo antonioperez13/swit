@@ -12,6 +12,32 @@ function iniciarAyuda(){
 //var data = {}
 //data["domainNodeSource"] = $('#sourceSchema').jstree(true).get_text($('#sourceSchema').jstree(true).get_selected(true)[0]);
 
+function saveMappingsToFile(idRegla){
+	// Se elimina la regla de la estructura de datos auxiliar
+	borrarReglaPorId(idRegla);
+	
+	$.ajax({
+		type : "POST",
+		contentType : "application/json",
+		url : "saveMappingsToFile.html",
+		data : "",
+		dataType : 'json',
+		timeout : 100000,
+		success : function(data) {
+			console.log("saveMappingsToFile - SUCCESS");
+			//var responseData = JSON.parse(data);
+			$('#mensaje').html(data.result);
+			//nuevaRegla = new Regla();			
+		},
+		error : function(e) {
+			console.log("saveMappingsToFile - ERROR: ", e);
+		},
+		done : function(e) {
+			console.log("saveMappingsToFile - DONE");
+		}
+	});
+}
+
 function removeRuleById(idRegla){
 	// Se elimina la regla de la estructura de datos auxiliar
 	borrarReglaPorId(idRegla);
@@ -24,7 +50,7 @@ function removeRuleById(idRegla){
 		dataType : 'json',
 		timeout : 100000,
 		success : function(data) {
-			console.log("mappingClassRule - SUCCESS");
+			console.log("removeRuleById - SUCCESS");
 			//var responseData = JSON.parse(data);
 			$('#mensaje').html(data.result);
 			//nuevaRegla = new Regla();
@@ -36,10 +62,10 @@ function removeRuleById(idRegla){
 			}				
 		},
 		error : function(e) {
-			console.log("mappingClassRule - ERROR: ", e);
+			console.log("removeRuleById - ERROR: ", e);
 		},
 		done : function(e) {
-			console.log("mappingClassRule - DONE");
+			console.log("removeRuleById - DONE");
 		}
 	});
 }

@@ -1,8 +1,19 @@
 package es.um.swit.controller;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -229,4 +240,194 @@ public class MappingController {
 	    return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.OK);
     }
 	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/saveMappingsToFile")
+    public ResponseEntity<AjaxResponseBody> saveMappingsToFile(HttpServletRequest request, 
+    		@ModelAttribute("CatalogoReglas") CatalogoReglas reglas) {
+		logger.debug("saveMappingsToFile" + ConstantesTexto.START);
+		
+		AjaxResponseBody result = new AjaxResponseBody();
+		
+		try {
+			FileOutputStream f = new FileOutputStream(new File("E:\\Antonio\\Escritorio\\myObjects.txt"));
+			ObjectOutputStream o = new ObjectOutputStream(f);
+	
+			// Write objects to file
+		
+			o.writeObject(reglas);
+			
+			o.close();
+			f.close();
+			
+			
+			FileInputStream fi = new FileInputStream(new File("E:\\Antonio\\Escritorio\\myObjects.txt"));
+			ObjectInputStream oi = new ObjectInputStream(fi);
+
+			// Read objects
+			CatalogoReglas pr1 = (CatalogoReglas) oi.readObject();
+			
+			
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		result.setCode("200");
+		result.setMsg("Fichero guardado");
+		result.setResult("Fichero guardado");
+
+		
+		/* INI -DEBUG */
+		logger.debug("saveMappingsToFile - Regla borrada - \n{}");
+		/* FIN - DEBUG */
+		
+		
+		// Prepara y envía la respuesta
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+	    
+	    logger.debug("saveMappingsToFile" + ConstantesTexto.END);
+	    
+	    return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.OK);
+    }
+	
+	
+	@RequestMapping(value = "/downloadMappingsFile")
+    public void downloadMappingsFile(HttpServletRequest request, HttpServletResponse response,
+    		@ModelAttribute("CatalogoReglas") CatalogoReglas reglas) {
+		logger.debug("downloadMappingsFile" + ConstantesTexto.START);
+		
+		
+		response.setContentType("application/zip");
+	 	response.setHeader("Content-Disposition", "attachment;filename=" + "mappings.zip");
+		
+		try {
+			ObjectOutputStream o = new ObjectOutputStream(response.getOutputStream());
+			
+			// Write objects to file
+			o.writeObject(reglas);
+			
+			o.close();
+			
+			FileInputStream fi = new FileInputStream(new File("E:\\mappings.zip"));
+			ObjectInputStream oi = new ObjectInputStream(fi);
+
+			// Read objects
+			CatalogoReglas pr1 = (CatalogoReglas) oi.readObject();
+			
+			
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		AjaxResponseBody result = new AjaxResponseBody();
+		
+		result.setCode("200");
+		result.setMsg("Regla eliminada");
+		result.setResult("Eliminada: <br>");
+		
+		
+		// Prepara y envía la respuesta
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+	    
+	    logger.debug("downloadMappingsFile" + ConstantesTexto.END);
+	    
+	    //return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.OK);
+    }
+	
+	@RequestMapping(value = "/loadMappingsFile")
+    public void loadMappingsFile(HttpServletRequest request,
+    		@ModelAttribute("CatalogoReglas") CatalogoReglas reglas) {
+		logger.debug("loadMappingsFile" + ConstantesTexto.START);
+		
+		try {
+			FileInputStream fi = new FileInputStream(new File("E:\\mappings.txt"));
+			ObjectInputStream oi = new ObjectInputStream(fi);
+
+			// Read objects
+			CatalogoReglas reglasCargadas = (CatalogoReglas) oi.readObject();
+			
+			// Se comprueban las reglas cargadas desde el fichero subido y se añaden
+			cargarReglasFichero(reglas, reglasCargadas, request);
+			
+		} catch (IOException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		AjaxResponseBody result = new AjaxResponseBody();
+		
+		result.setCode("200");
+		result.setMsg("Regla eliminada");
+		result.setResult("Eliminada: <br>");
+		
+		
+		// Prepara y envía la respuesta
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+	    
+	    logger.debug("loadMappingsFile" + ConstantesTexto.END);
+	    
+	    //return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.OK);
+    }
+	
+	/**
+	 * Dado un catalogo de reglas cargadas se comprueban si hay duplicadas con las existentes y
+	 * si hay reglas que no sean posibles según los esquemas de datos que se estén usando.
+	 * @param reglasExistentes
+	 * @param reglasFichero
+	 * @param request 
+	 */
+	private void cargarReglasFichero(CatalogoReglas reglasExistentes, CatalogoReglas reglasFichero, HttpServletRequest request) {
+		// Este catálogo será el modificado, eliminando aquellas reglas duplicadas o inválidas
+		CatalogoReglas reglasCargadas = new CatalogoReglas(reglasFichero);
+		
+		// Se eliminan las reglas duplicadas
+		comprobarReglasDuplicadas(reglasExistentes, reglasCargadas);
+		
+		// Se eliminan las reglas que no puedan existir por los esquemas de datos usados
+		comprobarElementosReglas(reglasCargadas, request);
+	}
+
+	/**
+	 * Comprueba que los elementos de las reglas del catálogo existan en los esquemas de datos usados para el mapeo.
+	 * Aquellas reglas con elementos que no existan en los esquemas se eliminarán.
+	 * @param reglasCargadas
+	 * @param request
+	 */
+	private void comprobarElementosReglas(CatalogoReglas reglasCargadas, HttpServletRequest request) {
+		FicherosEsquemasBean feb = (FicherosEsquemasBean) request.getSession().getAttribute(ConstantesCadenas.FICHEROS_ESQUEMAS_BEAN_SESION);
+		
+		// TODO Implementar comprobarElementosReglas()
+	}
+
+	/**
+	 * Recorre las reglas de los dos catálogos y elimina del catálogo de reglas cargadas aquellas que ya 
+	 * existan en el otro catálogo.
+	 * @param reglasExistentes
+	 * @param reglasCargadas
+	 */
+	private void comprobarReglasDuplicadas(CatalogoReglas reglasExistentes, CatalogoReglas reglasCargadas) {
+		for(Regla reglaExistente : reglasExistentes.getAllReglas()) {
+			Iterator<Regla> reglasIterator = reglasCargadas.getAllReglas().iterator();
+			while (reglasIterator.hasNext()) {
+				// Si la regla cargada es igual a una regla existente se borra la cargada del catálogo
+				if(reglasIterator.next().equals(reglaExistente)) {
+					reglasIterator.remove();
+				}
+			}
+		}
+		
+	}
 }
