@@ -12,9 +12,42 @@ function iniciarAyuda(){
 //var data = {}
 //data["domainNodeSource"] = $('#sourceSchema').jstree(true).get_text($('#sourceSchema').jstree(true).get_selected(true)[0]);
 
+
+function loadMappingsFile() {
+    var formData = new FormData();
+    formData.append('multipartFile', $('#mappingsFileInput')[0].files[0]);
+    console.log("form data " + formData);
+    $.ajax({
+        url : 'loadMappingsFile.html',
+        data : formData,
+        processData : false,
+        contentType : false,
+        type : 'POST',
+        success : function(data) {
+            cargaFicherosMappings.goTo(1);
+            var listaReglas = JSON.parse(data.msg);
+            listaReglas;
+        },
+        error : function(err) {
+            cargaFicherosMappings.goTo(2);
+        }
+    });
+}
+
+function loadMappingsFileSuccess(){
+	$("#mappingsFileForm").hide();
+	$("#cargaFicherosMappings-botonAceptar").prop('disabled', false);
+	$("#cargaFicherosMappings-botonCancelar").hide;
+}
+
+function loadMappingsFileError(){
+	$("#mappingsFileForm").hide();
+	$("#cargaFicherosMappings-botonAceptar").prop('disabled', false);
+	$("#cargaFicherosMappings-botonCancelar").hide;
+}
+
 function saveMappingsToFile(idRegla){
 	// Se elimina la regla de la estructura de datos auxiliar
-	borrarReglaPorId(idRegla);
 	
 	$.ajax({
 		type : "POST",

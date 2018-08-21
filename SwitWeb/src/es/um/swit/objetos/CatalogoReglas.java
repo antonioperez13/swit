@@ -36,7 +36,7 @@ public class CatalogoReglas implements Serializable{
 	 * @return
 	 */
 	public boolean addRegla(Regla nueva) {
-		return reglas.add(nueva);
+		return this.reglas.add(nueva);
 	}
 	
 	/**
@@ -44,7 +44,23 @@ public class CatalogoReglas implements Serializable{
 	 * @return
 	 */
 	public List<Regla> getAllReglas(){
-		return new ArrayList<>(reglas);
+		return new ArrayList<>(this.reglas);
+	}
+	
+	/**
+	 * Añade al catalogo todas las reglas del catalogo indicado.
+	 * @param otroCatalogo
+	 */
+	public void addAllReglas(CatalogoReglas otroCatalogo) {
+		this.reglas.addAll(otroCatalogo.getAllReglas());
+	}
+	
+	/**
+	 * Añade al catalogo todas las reglas de la lista de reglas.
+	 * @param reglas
+	 */
+	public void addAllReglas(List<Regla> reglas) {
+		this.reglas.addAll(reglas);
 	}
 	
 	/**
@@ -89,4 +105,5 @@ public class CatalogoReglas implements Serializable{
 	public void removeAllReglas() {
 		reglas.clear();
 	}
+
 }

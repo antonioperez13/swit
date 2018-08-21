@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,13 +28,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import commons.reglas.Regla;
 import commons.tree.Node;
 import commons.tree.NodeOwl;
 import es.um.swit.beans.FicherosEsquemasBean;
+import es.um.swit.beans.UploadedFile;
 import es.um.swit.constantes.ConstantesCadenas;
 import es.um.swit.constantes.ConstantesTexto;
 import es.um.swit.objetos.CatalogoReglas;
@@ -345,41 +351,85 @@ public class MappingController {
 	    //return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.OK);
     }
 	
+	/**
+	 * Guarda el fichero en una ruta temporal.
+	 * @param request
+	 * @param uploadedFile
+	 * @return
+	 */
+	private File saveUploadedFile(HttpServletRequest request, UploadedFile uploadedFile) {
+		MultipartFile multipartFile = uploadedFile.getMultipartFile();
+        String fileName = multipartFile.getOriginalFilename();
+        
+        // Crea la carpeta de subidas en el servidor
+        String uploadsDir = "/uploads/";
+        String realPathtoUploads =  request.getServletContext().getRealPath(uploadsDir);
+        if(! new File(realPathtoUploads).exists()){
+            new File(realPathtoUploads).mkdir();
+        }
+        
+        // Guarda el fichero subido en la carpeta
+        File file = null;
+        try {
+            file = new File(realPathtoUploads, fileName);
+            multipartFile.transferTo(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		return file;
+	}
+	
 	@RequestMapping(value = "/loadMappingsFile")
-    public void loadMappingsFile(HttpServletRequest request,
+    public ResponseEntity<AjaxResponseBody> loadMappingsFile(HttpServletRequest request, @ModelAttribute UploadedFile uploadedFile,
     		@ModelAttribute("CatalogoReglas") CatalogoReglas reglas) {
 		logger.debug("loadMappingsFile" + ConstantesTexto.START);
 		
-		try {
-			FileInputStream fi = new FileInputStream(new File("E:\\mappings.txt"));
-			ObjectInputStream oi = new ObjectInputStream(fi);
-
-			// Read objects
-			CatalogoReglas reglasCargadas = (CatalogoReglas) oi.readObject();
+		File mappingsFile = saveUploadedFile(request, uploadedFile);
+		
+		// Prepara la respuesta
+		final HttpHeaders httpHeaders= new HttpHeaders();
+	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+		AjaxResponseBody result = new AjaxResponseBody();
+		
+		
+		if(mappingsFile != null) {
+			try {
+				FileInputStream fi = new FileInputStream(mappingsFile);
+				ObjectInputStream oi = new ObjectInputStream(fi);
+	
+				// Read objects
+				CatalogoReglas reglasCargadas = (CatalogoReglas) oi.readObject();
+				
+				// Se comprueban las reglas cargadas desde el fichero subido y se añaden
+				cargarReglasFichero(reglas, reglasCargadas, request);
+				
+				ObjectMapper mapper = new ObjectMapper();
+				String reglasJson = mapper.writeValueAsString(reglas.getAllReglas());
+				
+				result.setMsg(reglasJson);
+			} catch (IOException | ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			// Se comprueban las reglas cargadas desde el fichero subido y se añaden
-			cargarReglasFichero(reglas, reglasCargadas, request);
+			// Se elimina el fichero temporal
+			mappingsFile.delete();
 			
-		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			result.setCode("200");
+//			result.setMsg("Fichero de reglas cargado correctaemnte");
+			result.setResult("Fichero de reglas cargado correctaemnte");
+		} else {
+			result.setCode("400");
+			result.setMsg("Error en la carga del fichero");
+			result.setResult("Error en la carga del fichero");
+			return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		
-		AjaxResponseBody result = new AjaxResponseBody();
-		
-		result.setCode("200");
-		result.setMsg("Regla eliminada");
-		result.setResult("Eliminada: <br>");
-		
-		
-		// Prepara y envía la respuesta
-		final HttpHeaders httpHeaders= new HttpHeaders();
-	    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 	    
 	    logger.debug("loadMappingsFile" + ConstantesTexto.END);
 	    
-	    //return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.OK);
+	    return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.OK);
     }
 	
 	/**
@@ -391,36 +441,39 @@ public class MappingController {
 	 */
 	private void cargarReglasFichero(CatalogoReglas reglasExistentes, CatalogoReglas reglasFichero, HttpServletRequest request) {
 		// Este catálogo será el modificado, eliminando aquellas reglas duplicadas o inválidas
-		CatalogoReglas reglasCargadas = new CatalogoReglas(reglasFichero);
+		List<Regla> reglasCargadas = new ArrayList<>(reglasFichero.getAllReglas());
 		
 		// Se eliminan las reglas duplicadas
 		comprobarReglasDuplicadas(reglasExistentes, reglasCargadas);
 		
 		// Se eliminan las reglas que no puedan existir por los esquemas de datos usados
 		comprobarElementosReglas(reglasCargadas, request);
+		
+		// Se añaden todas las reglas válidas
+		reglasExistentes.addAllReglas(reglasCargadas);
 	}
 
 	/**
-	 * Comprueba que los elementos de las reglas del catálogo existan en los esquemas de datos usados para el mapeo.
+	 * Comprueba que los elementos de las reglas de la lista existan en los esquemas de datos usados para el mapeo.
 	 * Aquellas reglas con elementos que no existan en los esquemas se eliminarán.
 	 * @param reglasCargadas
 	 * @param request
 	 */
-	private void comprobarElementosReglas(CatalogoReglas reglasCargadas, HttpServletRequest request) {
+	private void comprobarElementosReglas(List<Regla> reglasCargadas, HttpServletRequest request) {
 		FicherosEsquemasBean feb = (FicherosEsquemasBean) request.getSession().getAttribute(ConstantesCadenas.FICHEROS_ESQUEMAS_BEAN_SESION);
 		
 		// TODO Implementar comprobarElementosReglas()
 	}
 
 	/**
-	 * Recorre las reglas de los dos catálogos y elimina del catálogo de reglas cargadas aquellas que ya 
+	 * Recorre las reglas de las dos colecciones y elimina de la lista de reglas cargadas aquellas que ya 
 	 * existan en el otro catálogo.
 	 * @param reglasExistentes
 	 * @param reglasCargadas
 	 */
-	private void comprobarReglasDuplicadas(CatalogoReglas reglasExistentes, CatalogoReglas reglasCargadas) {
+	private void comprobarReglasDuplicadas(CatalogoReglas reglasExistentes, List<Regla> reglasCargadas) {
 		for(Regla reglaExistente : reglasExistentes.getAllReglas()) {
-			Iterator<Regla> reglasIterator = reglasCargadas.getAllReglas().iterator();
+			Iterator<Regla> reglasIterator = reglasCargadas.iterator();
 			while (reglasIterator.hasNext()) {
 				// Si la regla cargada es igual a una regla existente se borra la cargada del catálogo
 				if(reglasIterator.next().equals(reglaExistente)) {

@@ -260,8 +260,53 @@
 			  content: '<spring:message code="mapeo.texto.ayuda.desc7" />'
 			},
 		]});
+		
+		
+		var cargaFicherosMappings = new Tour({
+			smartPlacement: true,
+			backdrop: true,
+			backdropContainer: 'body',
+			backdropPadding: 10,
+			template: "<div class='popover tour' style='min-width:20%'>\
+			    <div class='arrow'></div>\
+			    <h3 class='popover-title'></h3>\
+			    <div class='popover-content'></div>\
+			    <form id='mappingsFileForm' style='margin-bottom: 1px' onsubmit='event.preventDefault();'>\
+			        <input type='file' id='mappingsFileInput' class='filestyle' data-btnClass='btn-info'\
+			        		data-text='<spring:message code='cargar.ficheros.boton.seleccionar.archivo'/>'\
+			        		style='margin-bottom: 5px'/>\
+			        <br/>\
+			        <input id='mappingsFileUploadButton' type='button' class='btn btn-success' value='<spring:message code='comunes.boton.cargar'/>'\
+			        		onclick='loadMappingsFile()'/>\
+			    </form>\
+			    <div class='popover-navigation'>\
+			    	<button id='cargaFicherosMappings-botonAceptar' disabled=true class='btn btn-success' data-role='end'><spring:message code='comunes.boton.aceptar' /></button>\
+			        <button id='cargaFicherosMappings-botonCancelar' class='btn btn-danger' data-role='end'><spring:message code='comunes.boton.cancelar' /></button>\
+			    </div>\
+			  </div>",
+			steps: [
+			{
+			  orphan: true,
+			  backdrop: false,
+			  title: '<spring:message code="mapeo.cargar.fichero.local.titulo" />',
+			  content: '<spring:message code="mapeo.cargar.fichero.local.desc" />'
+			},
+			{
+			  orphan: true,
+			  backdrop: false,
+			  onShown: function (cargaFicherosMappings) {loadMappingsFileSuccess();},
+			  title: '<spring:message code="mapeo.cargar.fichero.local.titulo" />',
+			  content: '<spring:message code="mapeo.cargar.fichero.local.carga.correcta" />'
+			},
+			{
+			  orphan: true,
+			  backdrop: false,
+			  onShown: function (cargaFicherosMappings) {loadMappingsFileError();},
+			  title: '<spring:message code="mapeo.cargar.fichero.local.titulo" />',
+			  content: '<spring:message code="mapeo.cargar.fichero.local.carga.incorrecta" />'
+			},
+		]});
 	</script>
-
 </head>
 <body>
 
@@ -277,7 +322,7 @@
 					<br>
 					<br>				  
 					<a href="javascript:void(0)" id="botonCerrarMenuLateral" class="closebtn" onclick="closeNav()">&times;</a>
-					<a class="a-button">Cargar fichero de mapeo local</a>
+					<a class="a-button" onclick="cargaFicherosMappings.restart();">Cargar fichero de mapeo local</a>
 					<a href="downloadMappingsFile.html" class="a-button">Guardar fichero de mapeo local</a>
 					<a class="a-button">Guardar reglas en la nube</a>
 					<a class="a-button">Cargar reglas desde la nube</a>
