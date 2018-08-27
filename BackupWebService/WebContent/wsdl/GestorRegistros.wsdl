@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="GestorRegistros" targetNamespace="http://service.backup.swit.um.es/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://service.backup.swit.um.es/">
+  <wsdl:types>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://service.backup.swit.um.es/" schemaLocation="GestorRegistros_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="recuperarMappings">
+    <wsdl:part name="parameters" element="ns1:recuperarMappings">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="borrarTodosRegistrosResponse">
+    <wsdl:part name="parameters" element="ns1:borrarTodosRegistrosResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperarTodosRegistros">
+    <wsdl:part name="parameters" element="ns1:recuperarTodosRegistros">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reemplazarMappingsResponse">
+    <wsdl:part name="parameters" element="ns1:reemplazarMappingsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperarTodosRegistrosResponse">
+    <wsdl:part name="parameters" element="ns1:recuperarTodosRegistrosResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registrarMappings">
+    <wsdl:part name="parameters" element="ns1:registrarMappings">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registrarMappingsResponse">
+    <wsdl:part name="parameters" element="ns1:registrarMappingsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="recuperarMappingsResponse">
+    <wsdl:part name="parameters" element="ns1:recuperarMappingsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reemplazarMappings">
+    <wsdl:part name="parameters" element="ns1:reemplazarMappings">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="borrarTodosRegistros">
+    <wsdl:part name="parameters" element="ns1:borrarTodosRegistros">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="GestorRegistros">
+    <wsdl:operation name="recuperarMappings">
+      <wsdl:input name="recuperarMappings" message="ns1:recuperarMappings">
+    </wsdl:input>
+      <wsdl:output name="recuperarMappingsResponse" message="ns1:recuperarMappingsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="recuperarTodosRegistros">
+      <wsdl:input name="recuperarTodosRegistros" message="ns1:recuperarTodosRegistros">
+    </wsdl:input>
+      <wsdl:output name="recuperarTodosRegistrosResponse" message="ns1:recuperarTodosRegistrosResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reemplazarMappings">
+      <wsdl:input name="reemplazarMappings" message="ns1:reemplazarMappings">
+    </wsdl:input>
+      <wsdl:output name="reemplazarMappingsResponse" message="ns1:reemplazarMappingsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="borrarTodosRegistros">
+      <wsdl:input name="borrarTodosRegistros" message="ns1:borrarTodosRegistros">
+    </wsdl:input>
+      <wsdl:output name="borrarTodosRegistrosResponse" message="ns1:borrarTodosRegistrosResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="registrarMappings">
+      <wsdl:input name="registrarMappings" message="ns1:registrarMappings">
+    </wsdl:input>
+      <wsdl:output name="registrarMappingsResponse" message="ns1:registrarMappingsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

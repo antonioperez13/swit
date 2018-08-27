@@ -1,0 +1,105 @@
+<xs:schema xmlns:tns="http://service.backup.swit.um.es/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://service.backup.swit.um.es/" version="1.0">
+
+  <xs:element name="borrarTodosRegistros" type="tns:borrarTodosRegistros"/>
+
+  <xs:element name="borrarTodosRegistrosResponse" type="tns:borrarTodosRegistrosResponse"/>
+
+  <xs:element name="recuperarMappings" type="tns:recuperarMappings"/>
+
+  <xs:element name="recuperarMappingsResponse" type="tns:recuperarMappingsResponse"/>
+
+  <xs:element name="recuperarTodosRegistros" type="tns:recuperarTodosRegistros"/>
+
+  <xs:element name="recuperarTodosRegistrosResponse" type="tns:recuperarTodosRegistrosResponse"/>
+
+  <xs:element name="reemplazarMappings" type="tns:reemplazarMappings"/>
+
+  <xs:element name="reemplazarMappingsResponse" type="tns:reemplazarMappingsResponse"/>
+
+  <xs:element name="registrarMappings" type="tns:registrarMappings"/>
+
+  <xs:element name="registrarMappingsResponse" type="tns:registrarMappingsResponse"/>
+
+  <xs:complexType name="recuperarMappings">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="idRegistro" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="recuperarMappingsResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="respuestaRecuperarRegistros" type="tns:respuestaRecuperarRegistro"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="respuestaRecuperarRegistro">
+    <xs:complexContent>
+      <xs:extension base="tns:respuestaGestorRegistros">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="mappingsFile" type="xs:base64Binary"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="respuestaGestorRegistros">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="descripcionCodigo" type="xs:string"/>
+      <xs:element name="idCodigo" type="xs:int"/>
+      <xs:element minOccurs="0" name="idRegistro" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="recuperarTodosRegistros">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="recuperarTodosRegistrosResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="listaRegistros" type="tns:registro"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="registro">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element minOccurs="0" name="mappingsFile" type="xs:base64Binary"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="reemplazarMappings">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="mappingsFile" type="xs:base64Binary"/>
+      <xs:element minOccurs="0" name="idRegistro" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="reemplazarMappingsResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="respuestaGestorRegistros" type="tns:respuestaGestorRegistros"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="borrarTodosRegistros">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="borrarTodosRegistrosResponse">
+    <xs:sequence>
+      <xs:element name="todosRegistrosBorrados" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="registrarMappings">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="mappingsFile" type="xs:base64Binary"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="registrarMappingsResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="respuestaGestorRegistros" type="tns:respuestaGestorRegistros"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

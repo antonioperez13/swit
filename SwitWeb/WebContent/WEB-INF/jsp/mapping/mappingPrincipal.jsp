@@ -28,6 +28,7 @@
 	<!-- Funciones para mapping -->
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Elemento.js"></script>
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Regla.js"></script>
+	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/representacionReglaCreada.js"></script>
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/mappingPrincipal.js"></script>
 
 	
@@ -271,7 +272,7 @@
 			    <div class='arrow'></div>\
 			    <h3 class='popover-title'></h3>\
 			    <div class='popover-content'></div>\
-			    <form id='mappingsFileForm' style='margin-bottom: 1px' onsubmit='event.preventDefault();'>\
+			    <form id='mappingsFileForm' style='margin-bottom: 1px; margin-left: 14px;' onsubmit='event.preventDefault();'>\
 			        <input type='file' id='mappingsFileInput' class='filestyle' data-btnClass='btn-info'\
 			        		data-text='<spring:message code='cargar.ficheros.boton.seleccionar.archivo'/>'\
 			        		style='margin-bottom: 5px'/>\
@@ -287,20 +288,17 @@
 			steps: [
 			{
 			  orphan: true,
-			  backdrop: false,
 			  title: '<spring:message code="mapeo.cargar.fichero.local.titulo" />',
 			  content: '<spring:message code="mapeo.cargar.fichero.local.desc" />'
 			},
 			{
 			  orphan: true,
-			  backdrop: false,
 			  onShown: function (cargaFicherosMappings) {loadMappingsFileSuccess();},
 			  title: '<spring:message code="mapeo.cargar.fichero.local.titulo" />',
 			  content: '<spring:message code="mapeo.cargar.fichero.local.carga.correcta" />'
 			},
 			{
 			  orphan: true,
-			  backdrop: false,
 			  onShown: function (cargaFicherosMappings) {loadMappingsFileError();},
 			  title: '<spring:message code="mapeo.cargar.fichero.local.titulo" />',
 			  content: '<spring:message code="mapeo.cargar.fichero.local.carga.incorrecta" />'
@@ -322,15 +320,32 @@
 					<br>
 					<br>				  
 					<a href="javascript:void(0)" id="botonCerrarMenuLateral" class="closebtn" onclick="closeNav()">&times;</a>
-					<a class="a-button" onclick="cargaFicherosMappings.restart();">Cargar fichero de mapeo local</a>
-					<a href="downloadMappingsFile.html" class="a-button">Guardar fichero de mapeo local</a>
-					<a class="a-button">Guardar reglas en la nube</a>
-					<a class="a-button">Cargar reglas desde la nube</a>
+					<!-- Cargar reglas desde equipo -->
+					<a class="a-button" onclick="cargaFicherosMappings.restart();"><spring:message code="mapeo.menuIzq.cargar.fichero.mappings.local.texto"/></a>
+					<!-- Guardar reglas en equipo -->
+					<a onclick="return downloadMappingsFile();" class="a-button"><spring:message code="mapeo.menuIzq.guardar.fichero.mappings.local.texto"/></a>
+					<div style="display: none;" class="alert alert-danger" id="alertSinReglasPorGuardarLocalError">
+					    <spring:message code="mapeo.guardar.fichero.mappings.no.reglas"/>
+					</div>
 					<hr>
-					<a class="a-button" onclick="eliminarTodasReglas()">Borrar todas las reglas</a>
+					<!-- Cargar reglas desde servidor -->
+					<a class="a-button" onclick="retrieveBackupMappingsFile();"><spring:message code="mapeo.menuIzq.cargar.fichero.mappings.backup.texto"/></a>
+					<div style="display: none;" class="alert alert-danger" id="cargarFicheroReglasBackupAlert">
+					    <spring:message code="mapeo.cargar.fichero.mappings.no.idRegistroSesion"/>
+					</div>
+					<!-- Guardar reglas en servidor -->
+					<a class="a-button" onclick="saveBackupMappingsFile();"><spring:message code="mapeo.menuIzq.guardar.fichero.mappings.backup.texto"/></a>
+					<div style="display: none;" class="alert alert-danger" id="alertSinReglasPorGuardarBackupError">
+					    <spring:message code="mapeo.guardar.fichero.mappings.no.reglas"/>
+					</div>
 					<hr>
 					<hr>
-					<a class="a-button" onclick="addNuevaReglaCreadaTest();">Añadir regla creada</a>
+					<!-- Borrar todas las reglas -->
+					<a class="a-button" onclick="eliminarTodasReglas();"><spring:message code="mapeo.menuIzq.borrar.todas.reglas"/></a>
+					<hr>
+					<!-- Identificador de sesión -->
+					<a class="a-button" onclick="copyIdSesionToClipboard();" style="vertical-align: bottom;" title="<spring:message code="mapeo.menuIzq.identificador.sesion.title"/>"><spring:message code="mapeo.menuIzq.identificador.sesion.texto"/></a>
+					<input id="idRegistroBackup" type="text" pattern="[A-Za-z0-9]" placeholder="<spring:message code="mapeo.menuIzq.identificador.sesion.input.placeholder"/>"/>
 				</div>
 			</div>
 			<div class="col-lg-10 dimmer-obscure" onclick="closeNav()"></div>

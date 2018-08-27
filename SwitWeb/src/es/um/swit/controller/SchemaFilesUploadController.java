@@ -26,6 +26,7 @@ import es.um.swit.constantes.FileUploadConstants;
 import es.um.swit.enums.TipoEsquema;
 import es.um.swit.enums.TipoFichero;
 import es.um.swit.utils.ControllerUtils;
+import es.um.swit.utils.FilesUtils;
 
 @Controller
 public class SchemaFilesUploadController {
@@ -95,8 +96,7 @@ public class SchemaFilesUploadController {
         String fileName = multipartFile.getOriginalFilename();
         
         // Crea la carpeta de subidas en el servidor
-        String uploadsDir = "/uploads/";
-        String realPathtoUploads =  request.getServletContext().getRealPath(uploadsDir);
+        String realPathtoUploads =  request.getServletContext().getRealPath(FilesUtils.getTempRoute());
         if(! new File(realPathtoUploads).exists()){
             new File(realPathtoUploads).mkdir();
         }

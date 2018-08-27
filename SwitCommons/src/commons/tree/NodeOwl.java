@@ -396,7 +396,7 @@ public class NodeOwl extends Node{
 	 * @return
 	 */
 	private String getOwlIconName(OwlType type) {
-		String icono = "/swit-web/resources/icons/owlType_";
+		String icono = "/SwitWeb/resources/icons/owlType_";
 		String tipo;
 		if(type.equals(OwlType.CLASS)) {
 			tipo =  "class";

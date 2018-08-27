@@ -1,11 +1,9 @@
-package es.um.swit.objetos;
+package commons.reglas;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import commons.reglas.Regla;
 
 public class CatalogoReglas implements Serializable{
 	
@@ -62,6 +60,25 @@ public class CatalogoReglas implements Serializable{
 	public void addAllReglas(List<Regla> reglas) {
 		this.reglas.addAll(reglas);
 	}
+	
+	/**
+	 * Añade al catalogo todas las reglas de la lista de reglas y 
+	 * reasigna identificadores para cada una desde cero.
+	 * @param reglas
+	 */
+	public void addAllReglasRestartIds(List<Regla> reglas) {
+		this.reglas.addAll(reglas);
+		
+		// Se reinicia el valor de asignación de id de reglas y se les
+		// asigna un nuevo identificador a cada una
+		Regla.reiniciarAsignacionId();
+		for(Regla regla : this.reglas) {
+			regla.setId();
+		}
+	}
+	
+	
+	
 	
 	/**
 	 * Comprueba si una regla ya existe en el catálogo de reglas y la devuelve.

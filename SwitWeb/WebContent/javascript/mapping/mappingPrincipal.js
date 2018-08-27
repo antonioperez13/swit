@@ -9,9 +9,97 @@ function iniciarAyuda(){
 	ayudaInteractiva.restart();
 }
 
+function downloadMappingsFile(){
+	if(ColeccionReglas.length == 0){
+		showErrorById("alertSinReglasPorGuardarLocalError");
+		return false;
+	}
+	
+	window.location.href = "downloadMappingsFile.html";
+	return true;
+}
+
+function showErrorById(idErrorAlert){
+	$("#" + idErrorAlert).fadeTo(2000, 500).slideUp(500, function(){
+		$("#" + idErrorAlert).slideUp(2000);
+	});
+}
+
 //var data = {}
 //data["domainNodeSource"] = $('#sourceSchema').jstree(true).get_text($('#sourceSchema').jstree(true).get_selected(true)[0]);
 
+function saveBackupMappingsFile(){
+	if(!isNullOrVoid($("#idRegistroBackup").val())){
+		$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "saveBackupMappingsFile.html",
+			data : ""+$("#idRegistroBackup").val(),
+			dataType : 'json',
+			timeout : 100000,
+			success : function(data) {
+				console.log("saveBackupMappingsFile - SUCCESS");
+				//var responseData = JSON.parse(data);
+				$('#mensaje').html(data.result);
+				//nuevaRegla = new Regla();
+			},
+			error : function(e) {
+				console.log("saveBackupMappingsFile - ERROR: ", e);
+			},
+			done : function(e) {
+				console.log("saveBackupMappingsFile - DONE");
+			}
+		});
+	} else {
+		showErrorById("alertSinReglasPorGuardarBackupError");
+	}
+}
+
+function retrieveBackupMappingsFile(){
+	if(!isNullOrVoid($("#idRegistroBackup").val())){
+		$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "retrieveBackupMappingsFile.html",
+			data : ""+$("#idRegistroBackup").val(),
+			dataType : 'json',
+			timeout : 100000,
+			success : function(data) {
+				console.log("retrieveBackupMappingsFile - SUCCESS");
+				//var responseData = JSON.parse(data);
+				$('#mensaje').html(data.result);
+				
+				parseFileContentToReglas(data.result);
+			},
+			error : function(e) {
+				console.log("retrieveBackupMappingsFile - ERROR: ", e);
+			},
+			done : function(e) {
+				console.log("retrieveBackupMappingsFile - DONE");
+			}
+		});
+	} else {
+		showErrorById("cargarFicheroReglasBackupAlert");
+	}
+}
+
+function parseFileContentToReglas(fileContent){
+	// Elimina todas las reglas de la página
+	eliminarTodasReglasPagina();
+	
+	var reglas = JSON.parse(fileContent);
+	
+	reglas.forEach(function(regla) {
+		var nuevaRegla = Object.assign({}, regla);
+		
+		// Representa la regla en la página
+		representarRegla(nuevaRegla);
+		
+		// La añade a la colección
+	    ColeccionReglas.push(nuevaRegla);
+	});
+	
+}
 
 function loadMappingsFile() {
     var formData = new FormData();
@@ -24,9 +112,8 @@ function loadMappingsFile() {
         contentType : false,
         type : 'POST',
         success : function(data) {
+        	parseFileContentToReglas(data.result);
             cargaFicherosMappings.goTo(1);
-            var listaReglas = JSON.parse(data.msg);
-            listaReglas;
         },
         error : function(err) {
             cargaFicherosMappings.goTo(2);
@@ -46,9 +133,7 @@ function loadMappingsFileError(){
 	$("#cargaFicherosMappings-botonCancelar").hide;
 }
 
-function saveMappingsToFile(idRegla){
-	// Se elimina la regla de la estructura de datos auxiliar
-	
+function saveMappingsToFile(){
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
@@ -229,6 +314,10 @@ function mappingRelationRule(){
 	}
 }
 
+function copyIdSesionToClipboard(){
+	document.getElementById("idRegistroBackup").select();
+	document.execCommand("copy");
+}
 
 //	REGLA
 //		id;

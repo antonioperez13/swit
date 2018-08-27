@@ -57,10 +57,8 @@ public class Regla implements Serializable{
 	 * @return El identificador de la regla
 	 */
 	public Integer setId() {
-		if(this.id == null) {
-			this.id = Regla.nextId;
-			Regla.nextId++;
-		}
+		this.id = Regla.nextId;
+		Regla.nextId++;
 		
 		return this.id;
 	}
@@ -242,6 +240,13 @@ public class Regla implements Serializable{
 	/************************************************************
 	 *  Utilidades
 	 ************************************************************/
+	
+	/**
+	 * Reinicia el valor que se usa para asignar identificadores a las reglas.
+	 */
+	public static void reiniciarAsignacionId() {
+		Regla.nextId = 1;
+	}
 	
 	@Override
 	public String toString() {

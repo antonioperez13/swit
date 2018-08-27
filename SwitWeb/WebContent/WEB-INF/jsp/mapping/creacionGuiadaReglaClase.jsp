@@ -41,7 +41,7 @@ var creacionGuiadaReglaClase = new Tour({
 	        <button id='botonFinalizarReglaClase' class='btn btn-danger' data-role='end' onclick='borrarRegla();'><spring:message code='comunes.boton.cancelar' /></button>\
 	    </div>\
 	  </div>",
-	backdropPadding: 10,
+	backdropPadding: 4,
 	steps: [
 	{
 	  element: "#sourceSchemaDiv",

@@ -1,8 +1,15 @@
 package es.um.swit.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,9 +19,18 @@ import commons.tree.NodeOwl;
 import commons.tree.NodeXsd;
 import es.um.swit.beans.FicherosEsquemasBean;
 import es.um.swit.constantes.ConstantesErrores;
+import es.um.swit.constantes.FileUploadConstants;
 import es.um.swit.enums.TipoFichero;
 
 public class FilesUtils {
+	
+	/**
+	 * Devuelve la ruta donde se almacenarán los ficheros temporales.
+	 * @return
+	 */
+	public static String getTempRoute() {
+		return File.separator + FileUploadConstants.TEMP_FOLDER_NAME + File.separator;
+	}
 	
 	/**
 	 * Dado un fichero XSD trata de parsearlo a un árbol de nodos para su uso.
@@ -170,5 +186,35 @@ public class FilesUtils {
 		} 
 	    
 	    return convFile;
+	}
+	
+	
+	/**
+	 * Devuelve una cadena que representa el SHA1 del fichero.
+	 * En caso de error al crear el SHA1 devuelve la cadena vacía.
+	 * @param file
+	 * @return
+	 */
+	public static String calcSHA1(File file) {
+		try {
+			
+			MessageDigest sha1 = MessageDigest.getInstance("SHA-1");
+			InputStream input = new FileInputStream(file);
+		
+			byte[] buffer = new byte[8192];
+			int len = input.read(buffer);
+
+			while (len != -1) {
+				sha1.update(buffer, 0, len);
+				len = input.read(buffer);
+			}
+
+			return new HexBinaryAdapter().marshal(sha1.digest());
+		} catch (NoSuchAlgorithmException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return "";
 	}
 }
