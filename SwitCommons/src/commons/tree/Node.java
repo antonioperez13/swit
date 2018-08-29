@@ -52,48 +52,14 @@ public abstract class Node{
 		return id;
 	}
 	
-	/**
-	 * Dada una ruta en forma de lista de strings la seguirá
-	 * hasta el último nodo, que será el que devuelva.
-	 * Si el nodo no exisite devolverá null.
-	 * @param route
-	 * @return
-	 */
-//	private Node getNodeFromRoute(List<String> route) {
-//		Node node = null;
-//		if(route.size() > 0) {
-//			String elem = route.remove(0);
-//			
-//			if(route.size() > 0) {
-//				node = this.getNodeFromRoute(route);
-//			} else if(elem.equals(this.name)) {
-//				node = this;
-//			}
-//		}
-//		
-//		return node;
-//	}
-	
 	public abstract Node getChild(String childName);
 	
-//	private Node getNodeFromRoute(List<String> route) {
-//		Node node = null;
-//		
-//		if(route.size() > 0) {
-//			if(this.getName().equals(route.get(0))) {
-//				route.remove(0);
-//				if(route.size() > 0) {
-//					Node child = this.getChild(route.get(0));
-//					if(child != null) {
-//						node = child.getNodeFromRoute(route);
-//					}
-//				}
-//			}
-//		}
-//		
-//		return node;
-//	}
-	
+	/**
+	 * Dada una ruta del árbol en forma de lista de cadenas busca el nodo que le corresponde.
+	 * En caso de llegar a un punto muerto o que no exista el nodo devuelve null.
+	 * @param routeList
+	 * @return El nodo que corresponde a la ruta o null si no existe.
+	 */
 	private Node getNodeFromRoute(List<String> routeList) {
 		Node node = null;
 		
@@ -121,6 +87,12 @@ public abstract class Node{
 		return node;
 	}
 	
+	/**
+	 * Dada una ruta del árbol busca el nodo que le corresponde.
+	 * En caso de llegar a un punto muerto o que no exista el nodo devuelve null.
+	 * @param route
+	 * @return El nodo que corresponde a la ruta o null si no existe.
+	 */
 	public Node getNodeFromRoute(String route) {
 		// Separamos los elementos de la ruta
 		String[] routeArray = route.split("/");
@@ -141,16 +113,6 @@ public abstract class Node{
 		
 		return node;
 	}
-	
-	/**
-     * Dado el nombre de un nodo devolverá la ruta en forma de string de
-     * la primera rama que vaya desde el nodo que invoca el método hasta
-     * el primer nodo que coincida con el nombre buscado.
-     * La ruta será null en caso de no existir el nodo con dicho nombre.
-     * @param nodeName
-     * @return
-     */
-//	public abstract String getRoute(String nodeName);
 	
 	/**
 	 * Genera la ruta en el árbol desde la raíz hasta el nodo invocador.

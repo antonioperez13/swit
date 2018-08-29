@@ -12,6 +12,7 @@
 	<link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" >
 	<%-- <link href="${pageContext.request.contextPath}/css/nms_font.css" rel="stylesheet" > --%>
 	<link href="${pageContext.request.contextPath}/css/sidebar.css" rel="stylesheet" >
+	<link href="${pageContext.request.contextPath}/css/modal-error.css" rel="stylesheet" >
 	
 	<!-- Bootstrap filestyle (input ficheros) -->
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
@@ -37,14 +38,6 @@
 	<!-- FIN - Pasos creaciones guiadas -->
 
 	<script type="text/javascript">
-	
-		
-		$(function() {
-			$('#jstree').jstree({
-				"plugins" : [ "wholerow" ]
-			});
-		});
-		
 		$(function() {
 			<%-- Mostrar colores distintos para las líneas pares e impares --%>
 			$.jstree.defaults.core.themes.stripes = true;
@@ -139,7 +132,7 @@
 			});
 		});
 		
-		/* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
+		/* Abre el panel lateral izquierdo */
 		function openNav() {
 		    document.getElementById("mySidenav").style.width = "102%";
 		    $("#openSidebarButton").hide(100);
@@ -149,7 +142,7 @@
 		    
 		}
 	
-		/* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+		/* Cierra el panel lateral izquierdo */
 		function closeNav() {
 		    $("#sidebarMenu").hide();
 			document.getElementById("mySidenav").style.width = "0";
@@ -158,17 +151,7 @@
 		    }, 250);
 		}
 		
-		
-		window.onload = function(){
-			// Inicializacion de la creación guiada de una regla de clase
-			creacionGuiadaReglaClase.init();
-			
-			creacionGuiadaReglaPropiedad.init();
-			
-			creacionGuiadaReglaRelacion.init();
-		}
-		
-		
+		// Funciones para las creaciones guiadas de reglas
 		function comenzarCreacionGuiadaReglaClase(){
 			creacionGuiadaReglaClase.restart();
 		}
@@ -180,23 +163,7 @@
 		function comenzarCreacionGuiadaReglaRelacion(){
 			creacionGuiadaReglaRelacion.restart();
 		}
-
 		
-		function scrollGoCreacionReglas() {
-			$('html, body').animate({
-			    scrollTop: $("#adorno1").offset().top
-			}, 700);
-		}
-		
-		function scrollGoRepresentacionReglas() {
-			$('html, body').animate({
-			    scrollTop: $("#representacionReglasContenedor").offset().top
-			}, 700);
-		}
-		
-		function scrollToTop() {
-			window.scroll({top: 0, left: 0, behavior: 'smooth' });
-		}
 		
 		// Instancia de la ayuda interactiva
 		var ayudaInteractiva = new Tour({
@@ -255,14 +222,22 @@
 			{
 			  orphan: true,
 			  onShow: function (ayudaInteractiva) {scrollToTop(); openNav();},
-			  onHidden: function (ayudaInteractiva) {closeNav();},
+			  onResume: function (ayudaInteractiva) {closeNav();},
 			  backdrop: false,
 			  title: '<spring:message code="mapeo.texto.ayuda.titulo7" />',
 			  content: '<spring:message code="mapeo.texto.ayuda.desc7" />'
 			},
+			{
+			  element: "#idRegistroBackup",
+			  onShow: function (ayudaInteractiva) {scrollToTop(); openNav();},
+			  onHidden: function (ayudaInteractiva) {closeNav();},
+			  onResume: function (ayudaInteractiva) {closeNav();},
+			  title: '<spring:message code="mapeo.texto.ayuda.titulo8" />',
+			  content: '<spring:message code="mapeo.texto.ayuda.desc8" />'
+			},
 		]});
 		
-		
+		/* Carga guiada de un fichero de mappings */
 		var cargaFicherosMappings = new Tour({
 			smartPlacement: true,
 			backdrop: true,
@@ -304,6 +279,41 @@
 			  content: '<spring:message code="mapeo.cargar.fichero.local.carga.incorrecta" />'
 			},
 		]});
+		
+		// Utilidades
+		function scrollGoCreacionReglas() {
+			$('html, body').animate({
+			    scrollTop: $("#adorno1").offset().top
+			}, 700);
+		}
+		
+		function scrollGoRepresentacionReglas() {
+			$('html, body').animate({
+			    scrollTop: $("#representacionReglasContenedor").offset().top
+			}, 700);
+		}
+		
+		function scrollToTop() {
+			window.scroll({top: 0, left: 0, behavior: 'smooth' });
+		}
+		
+		
+		window.onload = function(){
+			// Inicializacion de la creación guiada de una regla de clase
+			creacionGuiadaReglaClase.init();
+			
+			creacionGuiadaReglaPropiedad.init();
+			
+			creacionGuiadaReglaRelacion.init();
+			
+			// Contenedor de mensajes de error y advertencia
+		    $('.hover_bkgr_fricc').click(function(){
+		        $('.hover_bkgr_fricc').hide();
+		    });
+		    $('.hover_bkgr_fricc_advert').click(function(){
+		        $('.hover_bkgr_fricc_advert').hide();
+		    });
+		}
 	</script>
 </head>
 <body>
@@ -311,6 +321,24 @@
 	<!-- INI - Mensajes de error -->
 	<jsp:include page="/WEB-INF/jsp/mapping/errorMessages.jsp"/>
 	<!-- FIN - Mensajes de error -->
+	
+	<!-- Modal para mostrar los errores que ocurran -->
+	<div class="hover_bkgr_fricc">
+	    <span class="helper"></span>
+	    <div class="panel panel-danger">
+		    <div class="panel-heading"><spring:message code="comunes.titulo.error"/></div>
+		    <div class="panel-body" id="modalErrorDescripcion"></div>
+	    </div>
+	</div>
+	
+	<!-- Modal para mostrar advertencias -->
+	<div class="hover_bkgr_fricc_advert">
+	    <span class="helper"></span>
+		<div class="panel panel-warning">
+		    <div class="panel-heading"><spring:message code="comunes.titulo.advertencia"/></div>
+		    <div class="panel-body" id="modalAdvertenciaDescripcion"></div>
+	    </div>
+	</div>
 	
 	<!-- Menú lateral izquierdo -->
 	<div id="menuLateral" class=" container">
@@ -354,8 +382,12 @@
 	
 	<!-- Botón menú lateral izquierdo -->
 	<div class="botones-laterales">
-		<i id="openSidebarButton" onclick="openNav()" class="material-icons navbar-button">menu</i>
-		<i id="botonIniciarAyuda" title="Muestra la ayuda interactiva" onclick="iniciarAyuda();" class="material-icons boton-ayuda">help</i>
+		<div>
+			<i id="openSidebarButton" onclick="openNav()" class="material-icons navbar-button">menu</i>
+		</div>
+		<div>
+			<i id="botonIniciarAyuda" title="Muestra la ayuda interactiva" onclick="iniciarAyuda();" class="material-icons boton-ayuda">help</i>
+		</div>
 	</div>
 	
 <div id="main" class="wrapper-obscure">
@@ -430,82 +462,6 @@
 				</div>
 			</div>
 			
-			<%-- ------------------------- ITEM CENTER ------------------------- --%>
-			<!-- <div id="botones_centrales" class="col-lg-2 text-center" style="display: none;">
-				<br>
-				
-				 <ul style="list-style-type: none;">
-					<li>
-						<input class="boton-central btn btn-info centrar-elem" type="button" value="Regla de clase"
-							onclick="mappingClassRule()"/>
-							onclick="comenzarCreacionGuiadaReglaClase()"/>
-					</li>
-					<li>
-						<input class="boton-central btn btn-info centrar-elem" type="button" value="Regla de propiedad"
-							onclick="mappingPropertyRule()"/>
-							onclick="comenzarCreacionGuiadaReglaPropiedad()"/>
-					</li>
-					<li>
-						<input class="boton-central btn btn-info centrar-elem" type="button" value="Regla de relación" 
-							onclick="mappingRelationRule()"/>
-							onclick="comenzarCreacionGuiadaReglaRelacion()"/>
-					</li>
-				</ul>
-				
-				<hr>
-				
-				<ul style="list-style-type: none;">
-					<li>
-						<input class="boton-central btn btn-primary" type="button" value="domainNodeSource"
-							onclick="selectDomainNodeSource()"/>
-					</li>
-					<li>
-						<input class="boton-central btn btn-primary" type="button" value="rangeNodeSource"
-							onclick="selectRangeNodeSource()"/>
-					</li>
-					<li>
-						<input class="boton-central btn btn-primary" type="button" value="propertyValueSource"
-							onclick="selectPropertySource()"/>
-					</li>
-				</ul>
-				
-				<hr>
-				
-				<ul style="list-style-type: none;">	
-					<li>
-						<input class="boton-central btn btn-secondary" type="button" value="domainClassTarget"
-							onclick="selectDomainClassTarget()"/>
-					</li>
-					
-					<li>
-						<input class="boton-central btn btn-secondary" type="button" value="rangeClassTargetId"
-							onclick="selectRangeClassTarget()"/>
-					</li>
-					<li>
-						<input class="boton-central btn btn-secondary" type="button" value="propertyTargetId"
-							onclick="selectPropertyTarget()"/>
-					</li>
-				</ul>
-					
-				
-				<hr>
-				
-				<ul style="list-style-type: none;">
-					<li>
-						<input class="boton-central btn btn-danger" type="button" value="Borrar regla"
-							onclick="borrarRegla()"/>
-					</li>
-					<li>
-						<input class="boton-central btn btn-danger" type="button" value="Borrar reglas servidor"
-							onclick="borrarReglasServidor()"/>
-					</li>
-					<li>
-						<input class="boton-central btn btn-success" type="button" value="Test tipo OWL"
-							onclick="testTipoOwl()"/>
-					</li>
-				</ul>
-			</div> -->
-			
 			<%-- ------------------------- ITEM RIGHT ------------------------- --%>
 			<div id="targetSchemaDiv" class="col-lg-6">
 				<%-- Barra de búsqueda del esquema destino --%>	
@@ -543,26 +499,6 @@
 		<div>
 			<hr class="hr-1">
 		</div>
-		
-		<div class="row">
-			<%-- ------------------------- FOOTER LEFT ------------------------- --%>
-			<div class="col-lg-4 text-center marco-simple">
-				<p>Elementos seleccionados (izq)</p>
-				<pre id="elementos-izq"></pre>
-			</div>
-			
-			<%-- ------------------------- FOOTER ------------------------- --%>
-			<div class="col-lg-4 text-center marco-simple">
-				<p>Respuesta "Prueba JSON"</p>
-				<p id="mensaje"></p>
-			</div>
-			
-			<%-- ------------------------- FOOTER RIGHT ------------------------- --%>
-			<div class="col-lg-4 text-center marco-simple">
-				<p>Elementos seleccionados (der)</p>
-				<pre id="elementos-der"></pre>
-			</div>
-		</div> <%-- /row --%>
 		
 		<%-- ------------------------- REGLAS CREADAS ------------------------- --%>
 		<div id="reglasCreadasDiv">

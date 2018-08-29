@@ -7,6 +7,10 @@ public class ConstantesCadenas {
 	 */
 	public static final String FICHEROS_ESQUEMAS_BEAN_SESION = "ficherosEsquemasBean";
 	
+	public final static String SOURCE_TREE_STRING = "sourceTree";
+	
+	public final static String TARGET_TREE_STRING = "targetTree";
+	
 	
 
 }

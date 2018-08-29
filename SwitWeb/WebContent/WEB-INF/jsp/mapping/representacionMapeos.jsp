@@ -32,7 +32,7 @@
 	        return;
 	    }
 		
-		var ColeccionReglas = [];
+		ColeccionReglas = [];
 		
 		var divPlegables = $("[id^=plegable-regla-]");
 		

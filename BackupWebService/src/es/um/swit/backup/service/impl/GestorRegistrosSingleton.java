@@ -9,15 +9,24 @@ import es.um.swit.backup.utils.FileUtils;
 
 public class GestorRegistrosSingleton {
 	
+	/** Instancia de la clase */
 	private static final GestorRegistrosSingleton instance = new GestorRegistrosSingleton();
 	
+	/** Mapa de los registros existentes en el servidor */
 	private Map<String, Registro> catalogoRegistros = new HashMap<String, Registro>();
 	
+	/**
+	 * Constructor de la clase.
+	 */
 	private GestorRegistrosSingleton(){
 		// Se recuperan los registros que se hubieran guardado anteriormente
 		recuperarCatalogoRegistros();
 	}
 	
+	/**
+	 * Devuelve la instancia de la clase.
+	 * @return
+	 */
 	public static GestorRegistrosSingleton getInstance() {
         return instance;
 	}
@@ -80,25 +89,48 @@ public class GestorRegistrosSingleton {
 	
 	/**
 	 * Elimina todos los registros del catalogo.
+	 * @return true si todos los registros y sus ficheros han sido borrados,
+	 * false si al menos un fichero no se ha podido eliminar
 	 */
-	public void deleteAllRegistros() {
-		File directorio = new File(FileUtils.getMappingsFolder());
+	public boolean deleteAllRegistros() {
+		boolean todosBorrados = true;
 		
-		if(directorio.exists()) {
-			try {
+		try {
+			File directorio = new File(FileUtils.getMappingsFolder());
+			
+			if(directorio.exists()) {
 				// Lista de ficheros presentes en el directorio
 				File[] files = directorio.listFiles();
 	
 				// Se borra cada fichero del directorio
 				for (File file : files) {
-					file.delete();
+					// Se elimina el fichero
+					todosBorrados = file.delete() && todosBorrados;
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
-		
+			catalogoRegistros.clear();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 		
-		catalogoRegistros.clear();
+		return todosBorrados;
+	}
+
+	/**
+	 * Elimina el registro del catálogo y su fichero asociado.
+	 * @param idRegistro
+	 * @return true si se borran el registro y su fichero, false en caso contrario.
+	 */
+	public boolean deleteRegistro(String idRegistro) {
+		boolean resultado = false;
+		
+		Registro registro = catalogoRegistros.remove(idRegistro);
+		
+		if(registro != null) {
+			resultado = registro.deleteMappingsFile();
+		}
+		
+		return resultado;
 	}
 }

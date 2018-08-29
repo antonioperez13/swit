@@ -8,7 +8,10 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+
+import es.um.swit.backup.service.impl.GestorRegistrosServiceImpl;
 
 public class FileUtils {
 	
@@ -20,11 +23,15 @@ public class FileUtils {
 	 * @return
 	 */
 	public static String getMappingsFolder() {
+		HttpServletRequest request = UtilsWs.getRequest(GestorRegistrosServiceImpl.getWsContext());
+		File serverFolder = new File(request.getServletContext().getRealPath(File.separator)).getParentFile().getParentFile();
+		// Se establecen los separadores según el SO
 		String ruta = MAPPINGS_FOLDER;
 		while(ruta.contains("/")) {
 			ruta = ruta.replace("/", File.separator);
 		}
-		return ruta;
+		// Se compone la ruta final
+		return serverFolder.getAbsolutePath() + ruta;
 	}
 	
 	/**
@@ -99,7 +106,6 @@ public class FileUtils {
 	 * @return Bytes del fichero de mappings o null si no existe el fichero con dicho id.
 	 */
 	public static byte[] loadMappingsFile(String id) {
-		// TODO Implementar loadMappingsFile
 		byte[] mappingsFileBytes = null;
 		
 		String mappingsFolder = FileUtils.getMappingsFolder();

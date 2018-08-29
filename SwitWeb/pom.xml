@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>es.swit</groupId>
   <artifactId>SwitWeb</artifactId>
-  <version>0.7.0</version>
+  <version>1.0.0</version>
   <packaging>war</packaging>
   
   <properties>
@@ -23,7 +23,6 @@
     <fasterxml.jackson.version>2.9.5</fasterxml.jackson.version>
     <webjars-locator.version>0.34</webjars-locator.version>
     <bootstrap.version>3.3.7-1</bootstrap.version>
-    <!-- <bootstrap.version>4.1.2</bootstrap.version> -->
     <bootstrap-tour.version>0.12.0</bootstrap-tour.version>
   </properties>
 
@@ -191,19 +190,11 @@
 		    <version>1.14.1</version>
 		</dependency>
 		
-		
-		<!-- https://mvnrepository.com/artifact/org.webjars/webjars-locator-core -->
-		<!-- <dependency>
-		    <groupId>org.webjars</groupId>
-		    <artifactId>webjars-locator-core</artifactId>
-		    <version>0.35</version>
-		</dependency> -->
-		
-		
   </dependencies>
   
   <build>
     <sourceDirectory>src</sourceDirectory>
+    <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

@@ -37,6 +37,9 @@
 					uploadFile(event, tipoFichero, TipoFichero.TARGET);
 				}, false);
 	    
+	    $("#sourceFile").val("");
+	    $("#targetFile").val("");
+	    
 	    // Inicialmente no hay ficheros subidos ni subiéndose
 	    sourceFileUploaded = false;
 	    targetFileUploaded = false;
@@ -228,7 +231,7 @@
 				        <form style="margin-bottom: 1px" onsubmit="event.preventDefault();">
 				            <input type="file" id="sourceFile" class="filestyle" data-btnClass="btn-info" 
 				            		data-text="<spring:message code="cargar.ficheros.boton.seleccionar.archivo"/>" 
-				            		style="margin-bottom: 5px" onchange="autouploadSourceFile(event)"/>
+				            		style="margin-bottom: 5px" onchange="restartBar(TipoFichero.SOURCE);"/>
 				            <br/>
 				            <input id="uploadButtonSourceFile" type="button" class="btn btn-primary" value="<spring:message code="cargar.ficheros.boton.cargar.archivo"/>"
 				            	onclick="uploadSourceFileFadeIn()"/>
@@ -268,7 +271,7 @@
 				        <form style="margin-bottom: 1px" onsubmit="event.preventDefault();">
 				            <input type="file" id="targetFile" class="filestyle" data-btnClass="btn-info" 
 				            		data-text="<spring:message code="cargar.ficheros.boton.seleccionar.archivo"/>"
-				            		style="margin-bottom: 5px" onchange="autouploadTargetFile(event)"/>
+				            		style="margin-bottom: 5px" onchange="restartBar(TipoFichero.TARGET);"/>
 				            <br/>
 				            <input id="uploadButtonTargetFile" type="button" class="btn btn-primary" value="<spring:message code="cargar.ficheros.boton.cargar.archivo"/>"
 				            	onclick="uploadTargetFileFadeIn()" style="margin-top: 5px"/>

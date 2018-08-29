@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+/* ERROR */
+.hover_bkgr_fricc{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.hover_bkgr_fricc .helper{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_fricc > div {
+    /* background-color: #ffaeae; */
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    max-width: 30vw;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    /* padding: 15px 5%; */
+}
+.hover_bkgr_fricc > div > p {
+    margin: 0;
+    font-size: large;
+    text-align:left;
+}
+.hover_bkgr_fricc > div > hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #000000;
+    margin-top: 0;
+    padding: 0;
+}
+
+
+
+
+
+/* ADVERTENCIA  */
+.hover_bkgr_fricc_advert{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.hover_bkgr_fricc_advert .helper{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_fricc_advert .div{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+ .hover_bkgr_fricc_advert > div {
+   /*  background-color: #ffffcc; */
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    max-width: 30vw;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    /* padding: 15px 5%; */
+}
+.hover_bkgr_fricc_advert > div > p {
+    margin: 0;
+    font-size: large;
+    text-align:left;
+}
+.hover_bkgr_fricc_advert > div > hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #000000;
+    margin-top: 0;
+    padding: 0;
+}

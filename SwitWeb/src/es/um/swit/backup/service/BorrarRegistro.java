@@ -7,16 +7,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Clase Java para registro complex type.
+ * <p>Clase Java para borrarRegistro complex type.
  * 
  * <p>El siguiente fragmento de esquema especifica el contenido que se espera que haya en esta clase.
  * 
  * <pre>
- * &lt;complexType name="registro"&gt;
+ * &lt;complexType name="borrarRegistro"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="id" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
+ *         &lt;element name="idRegistro" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -26,35 +26,35 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "registro", propOrder = {
-    "id"
+@XmlType(name = "borrarRegistro", propOrder = {
+    "idRegistro"
 })
-public class Registro {
+public class BorrarRegistro {
 
-    protected String id;
+    protected String idRegistro;
 
     /**
-     * Obtiene el valor de la propiedad id.
+     * Obtiene el valor de la propiedad idRegistro.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getId() {
-        return id;
+    public String getIdRegistro() {
+        return idRegistro;
     }
 
     /**
-     * Define el valor de la propiedad id.
+     * Define el valor de la propiedad idRegistro.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setId(String value) {
-        this.id = value;
+    public void setIdRegistro(String value) {
+        this.idRegistro = value;
     }
 
 }

@@ -13,24 +13,14 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 3.2.6
  */
 
-@XmlRootElement(name = "reemplazarMappings", namespace = "http://service.backup.swit.um.es/")
+@XmlRootElement(name = "borrarRegistro", namespace = "http://service.backup.swit.um.es/")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "reemplazarMappings", namespace = "http://service.backup.swit.um.es/", propOrder = {"mappingsFile", "idRegistro"})
+@XmlType(name = "borrarRegistro", namespace = "http://service.backup.swit.um.es/")
 
-public class ReemplazarMappings {
+public class BorrarRegistro {
 
-    @XmlElement(name = "mappingsFile")
-    private byte[] mappingsFile;
     @XmlElement(name = "idRegistro")
     private java.lang.String idRegistro;
-
-    public byte[] getMappingsFile() {
-        return this.mappingsFile;
-    }
-
-    public void setMappingsFile(byte[] newMappingsFile)  {
-        this.mappingsFile = newMappingsFile;
-    }
 
     public java.lang.String getIdRegistro() {
         return this.idRegistro;

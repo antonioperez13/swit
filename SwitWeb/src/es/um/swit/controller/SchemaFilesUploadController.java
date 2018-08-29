@@ -38,13 +38,8 @@ public class SchemaFilesUploadController {
 	public static ModelAndView schemaFilesUploadView(ModelMap model) {
 		
 		ModelAndView view = new ModelAndView("schemaUpload/schemaFilesUpload");
- 
-		String message = "<br><div style='text-align:center;'>"
-				+ "<h1>Cargador de ficheros de SWIT</h1><h2>Aquí se cargarán los ficheros necesarios para el mapeo</h2></div><br><br>";
 		
-		model.addAttribute("message", message);
 		model.addAttribute("ficherosEsquemas", new FicherosEsquemasBean());
-		
 		
 		view.addAllObjects(model);
 		
@@ -93,7 +88,7 @@ public class SchemaFilesUploadController {
 	 */
 	private File saveUploadedFile(HttpServletRequest request, UploadedFile uploadedFile) {
 		MultipartFile multipartFile = uploadedFile.getMultipartFile();
-        String fileName = multipartFile.getOriginalFilename();
+        String fileName = System.currentTimeMillis() + multipartFile.getOriginalFilename();
         
         // Crea la carpeta de subidas en el servidor
         String realPathtoUploads =  request.getServletContext().getRealPath(FilesUtils.getTempRoute());

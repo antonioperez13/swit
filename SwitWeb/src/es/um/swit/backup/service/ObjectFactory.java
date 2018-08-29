@@ -24,6 +24,8 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _BorrarRegistro_QNAME = new QName("http://service.backup.swit.um.es/", "borrarRegistro");
+    private final static QName _BorrarRegistroResponse_QNAME = new QName("http://service.backup.swit.um.es/", "borrarRegistroResponse");
     private final static QName _BorrarTodosRegistros_QNAME = new QName("http://service.backup.swit.um.es/", "borrarTodosRegistros");
     private final static QName _BorrarTodosRegistrosResponse_QNAME = new QName("http://service.backup.swit.um.es/", "borrarTodosRegistrosResponse");
     private final static QName _RecuperarMappings_QNAME = new QName("http://service.backup.swit.um.es/", "recuperarMappings");
@@ -40,6 +42,22 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link BorrarRegistro }
+     * 
+     */
+    public BorrarRegistro createBorrarRegistro() {
+        return new BorrarRegistro();
+    }
+
+    /**
+     * Create an instance of {@link BorrarRegistroResponse }
+     * 
+     */
+    public BorrarRegistroResponse createBorrarRegistroResponse() {
+        return new BorrarRegistroResponse();
     }
 
     /**
@@ -144,6 +162,24 @@ public class ObjectFactory {
      */
     public Registro createRegistro() {
         return new Registro();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link BorrarRegistro }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service.backup.swit.um.es/", name = "borrarRegistro")
+    public JAXBElement<BorrarRegistro> createBorrarRegistro(BorrarRegistro value) {
+        return new JAXBElement<BorrarRegistro>(_BorrarRegistro_QNAME, BorrarRegistro.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link BorrarRegistroResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://service.backup.swit.um.es/", name = "borrarRegistroResponse")
+    public JAXBElement<BorrarRegistroResponse> createBorrarRegistroResponse(BorrarRegistroResponse value) {
+        return new JAXBElement<BorrarRegistroResponse>(_BorrarRegistroResponse_QNAME, BorrarRegistroResponse.class, null, value);
     }
 
     /**

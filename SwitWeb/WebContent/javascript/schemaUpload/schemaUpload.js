@@ -108,6 +108,7 @@ function restartBar(fileType){
 	var bar = document.getElementById(fileType + 'FileBar');
     bar.style.width = 0 + '%';
     bar.innerHTML = '';
+    document.getElementById(fileType + 'FileOutput').innerHTML = "";
 }
  
 

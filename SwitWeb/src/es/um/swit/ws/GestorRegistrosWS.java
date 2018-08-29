@@ -25,11 +25,13 @@ public class GestorRegistrosWS {
 	}
 	
 	public static GestorRegistros getWsInstance() {
-		URL wsdlURL = GestorRegistrosService.WSDL_LOCATION;
-		
-        GestorRegistrosService ss = new GestorRegistrosService(wsdlURL, SERVICE_NAME);
-        
-        GestorRegistros service = ss.getGestorRegistrosPort();
+		if(service == null) {
+			URL wsdlURL = GestorRegistrosService.WSDL_LOCATION;
+			
+	        GestorRegistrosService ss = new GestorRegistrosService(wsdlURL, SERVICE_NAME);
+	        
+	        service = ss.getGestorRegistrosPort();
+		}
         
 		return service;
 	}

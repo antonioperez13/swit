@@ -9,6 +9,10 @@
     <wsdl:part name="parameters" element="ns1:recuperarMappings">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="borrarRegistroResponse">
+    <wsdl:part name="parameters" element="ns1:borrarRegistroResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="borrarTodosRegistrosResponse">
     <wsdl:part name="parameters" element="ns1:borrarTodosRegistrosResponse">
     </wsdl:part>
@@ -31,6 +35,10 @@
   </wsdl:message>
   <wsdl:message name="registrarMappingsResponse">
     <wsdl:part name="parameters" element="ns1:registrarMappingsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="borrarRegistro">
+    <wsdl:part name="parameters" element="ns1:borrarRegistro">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="recuperarMappingsResponse">
@@ -58,6 +66,18 @@
       <wsdl:output name="recuperarTodosRegistrosResponse" message="ns1:recuperarTodosRegistrosResponse">
     </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="registrarMappings">
+      <wsdl:input name="registrarMappings" message="ns1:registrarMappings">
+    </wsdl:input>
+      <wsdl:output name="registrarMappingsResponse" message="ns1:registrarMappingsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="borrarRegistro">
+      <wsdl:input name="borrarRegistro" message="ns1:borrarRegistro">
+    </wsdl:input>
+      <wsdl:output name="borrarRegistroResponse" message="ns1:borrarRegistroResponse">
+    </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="reemplazarMappings">
       <wsdl:input name="reemplazarMappings" message="ns1:reemplazarMappings">
     </wsdl:input>
@@ -68,12 +88,6 @@
       <wsdl:input name="borrarTodosRegistros" message="ns1:borrarTodosRegistros">
     </wsdl:input>
       <wsdl:output name="borrarTodosRegistrosResponse" message="ns1:borrarTodosRegistrosResponse">
-    </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="registrarMappings">
-      <wsdl:input name="registrarMappings" message="ns1:registrarMappings">
-    </wsdl:input>
-      <wsdl:output name="registrarMappingsResponse" message="ns1:registrarMappingsResponse">
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
