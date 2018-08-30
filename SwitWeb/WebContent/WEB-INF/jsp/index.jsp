@@ -33,25 +33,13 @@
 		
 		<!-- Botones -->
 		<div class="container-fluid ">
-			<div class="row">
-				<div class="col-lg-2 text-center"></div>
-				<div class="col-lg-4 text-center">
-					<h4><spring:message code="inicio.boton.iniciar.mapeo"/></h4>
-					<form:form method="get" action="schemaUploadStart.html">
-						<input class="btn btn-primary" type="submit" value="<spring:message code="comunes.boton.ir.carga.ficheros"/>" />
-			        </form:form>
-		        </div>
-		        
-		        <div class="col-lg-4 text-center">
-			        <h4><spring:message code="inicio.boton.ir.informacion"/></h4>
-					<form:form method="get" action="initInformation.html">
-						<input class="btn btn-info" type="submit" value="<spring:message code="comunes.boton.ir.informacion"/>" />
-			        </form:form>
-		        </div>
-		        <div class="col-lg-2 text-center"></div>
-		       </div>
+			<div class="text-center">
+				<h4><spring:message code="inicio.boton.iniciar.mapeo"/></h4>
+				<form:form method="get" action="schemaUploadStart.html">
+					<input class="btn btn-primary" type="submit" value="<spring:message code="comunes.boton.ir.carga.ficheros"/>" />
+		        </form:form>
+	        </div>
 		</div>
-		
 	</div>
 	
 	<%-- Adorno --%>
