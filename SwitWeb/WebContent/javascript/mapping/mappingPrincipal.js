@@ -200,8 +200,6 @@ function retrieveBackupMappingsFile(){
  * @returns
  */
 function parseFileContentToReglas(fileContent){
-	// Elimina todas las reglas de la página
-	eliminarTodasReglasPagina();
 	
 	var reglas = JSON.parse(fileContent);
 	

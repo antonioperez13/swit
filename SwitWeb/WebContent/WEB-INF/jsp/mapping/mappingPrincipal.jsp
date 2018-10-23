@@ -29,7 +29,6 @@
 	<!-- Funciones para mapping -->
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Elemento.js"></script>
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Regla.js"></script>
-	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/representacionReglaCreada.js"></script>
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/mappingPrincipal.js"></script>
 
 	
