@@ -23,7 +23,7 @@
 	}
 	
 	/**
-	 * Elimina todas las reglas creadas.
+	 * Elimina todas las reglas creadas, tanto en el cliente como en el servidor.
 	 * @returns
 	 */
 	function eliminarTodasReglas(){
@@ -46,6 +46,19 @@
 		
 		// Borra todas las reglas del servidor
 		borrarReglasServidor();
+	}
+	
+	/**
+	 * Elimina todas las reglas del cliente.
+	 * @returns
+	 */
+	function eliminarTodasReglasCliente(){
+		ColeccionReglas = [];
+		
+		var divPlegables = $("[id^=plegable-regla-]");
+		
+		// Elimina todas las reglas de la página
+		$(divPlegables).remove();
 	}
 	
 	/**
@@ -163,10 +176,13 @@
 		
 		// Según el tipo de regla se añaden los elementos adecuados
 		if(regla.tipo == TipoRegla.CLASE){
+			$('#boton-plegar-regla-' + regla.id).addClass("btn-success");
 			representarReglaClase(regla, contenedorDatosOrigen, contenedorDatosDestino);
 		} else if(regla.tipo == TipoRegla.PROPIEDAD){
+			$('#boton-plegar-regla-' + regla.id).addClass("btn-violet");
 			representarReglaPropiedad(regla, contenedorDatosOrigen, contenedorDatosDestino);
 		} else if(regla.tipo == TipoRegla.RELACION){
+			$('#boton-plegar-regla-' + regla.id).addClass("btn-warning");
 			representarReglaRelacion(regla, contenedorDatosOrigen, contenedorDatosDestino);
 		}
 	}
@@ -267,7 +283,7 @@
      			{"attribute": "data-target", "value": "targetDatosRegla"},
 				{"attribute": "content", "value": "botonPlegarContenido"}
 			]'
-				class="list-group-button-title btn btn-info collapsed"
+				class="list-group-button-title btn collapsed"
 				data-toggle="collapse"
 				title="<spring:message code='comunes.boton.mostrarRegla.title'/>"></button>
 		</div>

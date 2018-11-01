@@ -175,13 +175,20 @@ body {
 .btn-violet {
 	color: white;
 	background-color: blueviolet;
-	border-color: #5300a0;
+	border-color: blueviolet;
 }
 
 .btn-violet:hover {
 	color: white;
 	background-color: #7024b7;
 }
+
+.btn-violet:focus {
+	color: white;
+	background-color: #7024b7;
+	border-style:1px solid #7024b7;
+}
+
 
 .dd-20 {
 	min-height: 20px;

@@ -230,6 +230,7 @@ function loadMappingsFile() {
         contentType : false,
         type : 'POST',
         success : function(data) {
+        	eliminarTodasReglasCliente();
         	parseFileContentToReglas(data.result);
             cargaFicherosMappings.goTo(1);
         },

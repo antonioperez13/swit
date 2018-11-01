@@ -30,6 +30,7 @@
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Elemento.js"></script>
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Regla.js"></script>
 	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/mappingPrincipal.js"></script>
+	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Filtro_reglas_creadas.js"></script>
 
 	
 	<!-- INI - Pasos creaciones guiadas -->
@@ -511,22 +512,111 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-2" style="text-align: center;">
+				<div class="col-lg-1">
+				</div>
+				
+				
+				<%-- Filtros --%>
+				<div class="col-lg-11">
+					<h3>Filtros</h3>
+					<hr>
+					<div class="row" style="border-style: groove; border-width: 0px 0px 1px 1px; border-radius: 12px; width:98%;">
+						<div class="col-lg-1" style="width: 0%;">
+						</div>
+						
+						<%-- Filtrado por elementos --%>
+						<div class="col-lg-6">
+							<h3>Filtrado por elementos</h3>
+							<hr>
+							<div class="row well-green" style="width: 100%;">
+								<div class="col-lg-5">
+									<label>Elementos del esquema origen</label>
+								</div>
+								<div class="col-lg-7">
+									<input id="idRepresentacionReglasEsquemaOrigen" 
+										type="text" style="width: 95%;"
+										placeholder="<spring:message code="mapeo.representacionRegla.filtro.placeholder"/>"/>	
+								</div>
+							</div>
+							
+							<div class="row well-lavender" style="width: 100%;">
+								<div class="col-lg-5">
+									<label>Elementos del esquema destino</label>
+								</div>
+								<div class="col-lg-7">
+									<input id="idRepresentacionReglasEsquemaDestino" 
+										type="text" style="width: 95%;"
+										placeholder="<spring:message code="mapeo.representacionRegla.filtro.placeholder"/>"/>	
+								</div>
+							</div>
+						</div>
+						
+						<%-- Filtrado por tipo de regla --%>
+						<div class="col-lg-3">
+							<h3>Filtrado por tipo de regla</h3>
+							<hr>
+							<div style="padding-left: 20px;">
+								<div class="checkbox">
+							      <label class="btn btn-success"><input id="checkboxFiltroReglaClase" type="checkbox" value="" checked>Reglas de clase</label>
+							    </div>
+							    <div class="checkbox">
+							      <label class="btn btn-violet"><input id="checkboxFiltroReglaPropiedad" type="checkbox" value="" checked>Reglas de propiedad</label>
+							    </div>
+							    <div class="checkbox">
+							      <label class="btn btn-warning"><input id="checkboxFiltroReglaRelacion" type="checkbox" value="" checked>Reglas de relación</label>
+							    </div>
+							</div>
+						</div>
+						
+						<%-- Botones para aplicar/limpiar filtros --%>
+						<div class="col-lg-2" style="text-align: center; border-style: solid; border-width: 0px 0px 0px 1px;">
+							<div class="row">
+								<br>
+								<br>
+							</div>
+							<div class="row">
+								<input id="botonAplicarFiltrosReglasCreadas" 
+									class="btn btn-info" type="button" 
+									value="<spring:message code="mapeo.representacionRegla.filtro.aplicar"/>"
+									onclick="filtrarReglasCreadas($('#idRepresentacionReglasEsquemaOrigen').val().trim(), $('#idRepresentacionReglasEsquemaDestino').val().trim());"/>
+								<input id="botonLimpiarFiltrosReglasCreadas" 
+									class="btn btn-warning" type="button" 
+									value="<spring:message code="mapeo.representacionRegla.filtro.limpiar"/>"
+									onclick="limpiarFiltroReglasCreadas();"/>
+								<br>
+								<br>
+								<br>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-lg-1" style="text-align: left;">
+					<%-- Botones contraer/expandir reglas --%>
+					<h3 style="text-align: center;">Utilidades</h3>
+					<hr>
 					<div class="btn-group-vertical">
-					  <button type="button" class="btn btn-primary" onclick="contraerTodasReglas()">
-					  	<spring:message code="comunes.boton.contraer.todas"/>
-					  </button>
-					  <button type="button" class="btn btn-primary" onclick="expandirTodasReglas()">
-					  	<spring:message code="comunes.boton.expandir.todas"/>
-					  </button>
+						<button type="button" class="btn btn-primary"
+							onclick="contraerTodasReglas()">
+							<spring:message code="comunes.boton.contraer.todas" />
+						</button>
+						<button type="button" class="btn btn-primary"
+							onclick="expandirTodasReglas()">
+							<spring:message code="comunes.boton.expandir.todas" />
+						</button>
 					</div>
 				</div>
 				
-				<div id="representacionReglasDiv" class="col-lg-10">
+				<%-- Bloque de reglas creadas --%>
+				<h3>Reglas</h3>
+				<hr>
+				<div id="representacionReglasDiv" class="col-lg-11">
 					<%@include file="representacionMapeos.jsp" %>
 				</div>
-			</div>
-		</div>
+				</div>
+		</div> <%-- ------------------------- FIN Reglas creadas ------------------------- --%>
 	</div>
 	<%-- ------------------------- FIN GRID ------------------------- --%>
 	
