@@ -17,8 +17,10 @@ public class Elemento implements Serializable{
 	private String route;
 	/** Tipo del elemento (si aplica al esquema de datos) */
 	private String type;
+	/** URI del elemento (si aplica al esquema de datos) */
+	private String uri;
 	
-	public Elemento(String name, int id, String route, String type) {
+	public Elemento(String name, int id, String route, String type, String uri) {
 		this.name = name;
 		this.id = id;
 		this.route = route;
@@ -26,7 +28,7 @@ public class Elemento implements Serializable{
 	}
 	
 	public Elemento(String name, int id, String route) {
-		this(name, id, route, null);
+		this(name, id, route, null, null);
 	}
 	
 	public Elemento() {};
@@ -85,6 +87,20 @@ public class Elemento implements Serializable{
 	 */
 	public void setType(String type) {
 		this.type = type;
+	}
+	
+	/**
+	 * @return the uri
+	 */
+	public String getUri() {
+		return uri;
+	}
+
+	/**
+	 * @param uri the uri to set
+	 */
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
 	
 	/* (non-Javadoc)

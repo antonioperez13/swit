@@ -361,6 +361,9 @@ public class NodeOwl extends Node{
 		// Identificador del elemento
 		builder.append("id-elemento=\"").append(this.getId()).append("\" ");
 		
+		// URI del elemento
+		builder.append("uri-elemento=\"").append(this.getRepresentativeName()).append("\" ");
+		
 		// Ruta al elemento en el árbol
 		String route = routeUpHere + this.getName() + "/";
 		builder.append("ruta-elemento=\"").append(route).append("\" ");

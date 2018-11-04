@@ -316,24 +316,6 @@ function ocultarBoton(idBoton) {
 }
 
 /**
- * 
- * @param idBotonCrear
- * @param idBotonFinalizar
- * @returns
- */
-function deshabilitarBotonCrearFinalizar(idBotonCrear, idBotonFinalizar){
-	$('#'+idBotonCrear).prop("disabled", true);
-	//$('#'+idBotonFinalizar).prop("disabled", true);
-}
-
-function habilitarBotonCrearFinalizar(idBotonCrear, idBotonFinalizar){
-	$('#'+idBotonCrear).prop("disabled", false);
-	//$('#'+idBotonFinalizar).prop("disabled", false);
-}
-
-
-
-/**
  * Muestra los elementos seleccionados, tanto de origen como de destino
  * @returns
  */

@@ -119,7 +119,8 @@
 	 * @returns
 	 */
 	function addBotonesContenedorNuevaRegla(regla, contenedorNuevaRegla){
-		var tituloResumenRegla = getTituloResumenReglaCreada(regla);
+		//var tituloResumenRegla = getTituloResumenReglaCreada(regla);
+		var tituloResumenRegla = regla.etiqueta;
 		var dataBotones = {
 	        botonesRegla: 'botones-regla-' + regla.id,
 	        botonPlegarRegla: 'boton-plegar-regla-' + regla.id,
@@ -266,6 +267,7 @@
 			nombreTipoElemento: nombreTipoElementoRegla,
 			nombreElemento: elemento.name,
 			rutaElemento: "<spring:message code='mapeo.representacionRegla.ruta'/>" + elemento.route,
+			uriElemento: "<spring:message code='mapeo.representacionRegla.uri'/>" + escapeHtml(elemento.uri),
 			tipoElementoOwl: "<spring:message code='mapeo.representacionRegla.tipoOwl'/>" + elemento.type
 	    };
 		
@@ -311,6 +313,7 @@
     	<p class="representacionRegla-titulo" data-content="nombreTipoElemento"></p>
     	<p class="representacionRegla-elem" data-content="nombreElemento"></p>
     	<p class="representacionRegla-dato" data-content="rutaElemento"></p>
+		<p class="representacionRegla-dato" data-content="uriElemento"></p>
 		<p class="representacionRegla-dato" data-content="tipoElementoOwl"></p> 
     </div>
 </script>

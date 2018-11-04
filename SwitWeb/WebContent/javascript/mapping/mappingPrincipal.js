@@ -314,6 +314,8 @@ function mappingClassRule(){
 		console.log("mappingClassRule - ERROR: Regla de clase incorrecta");
 		$('#mensaje').html("Error: Regla de clase incorrecta");
 	} else {
+		regla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaClase").val();
+		
 		$.ajax({
 			type : "POST",
 			contentType : "application/json",
@@ -362,8 +364,7 @@ function mappingPropertyRule(){
 		console.log("mappingPropertyRule - ERROR: Regla de propiedad incorrecta");
 		$('#mensaje').html("Error: Regla de clase incorrecta");
 	} else {
-		console.log(comprobarTipoRegla(regla));
-		ColeccionReglas.push(regla);
+		regla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaPropiedad").val();
 		
 		$.ajax({
 			type : "POST",
@@ -413,8 +414,7 @@ function mappingRelationRule(){
 		console.log("mappingRelationRule - ERROR: Regla de relación incorrecta");
 		$('#mensaje').html("Error: Regla de clase incorrecta");
 	} else {
-		console.log(comprobarTipoRegla(regla));
-		ColeccionReglas.push(regla);
+		regla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaRelacion").val();
 		
 		$.ajax({
 			type : "POST",
@@ -507,8 +507,9 @@ function createSelectedTargetElement(){
 	var id = $(selectedElement).attr("id-elemento");
 	var route = $(selectedElement).attr("ruta-elemento");
 	var tipo = $(selectedElement).attr("tipo-elemento");
+	var uri = $(selectedElement).attr("uri-elemento");
 	
-	return new Elemento(name, id, route, tipo);
+	return new Elemento(name, id, route, tipo, uri);
 }
 
 function selectDomainClassTarget() {
@@ -668,3 +669,13 @@ function obtenerIdElementoSource(){
 function obtenerRutaElementoSource(){
 	return $($($('#sourceSchema').jstree(true).get_selected(true)[0]).attr("li_attr")).attr("ruta-elemento");
 }
+
+
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }

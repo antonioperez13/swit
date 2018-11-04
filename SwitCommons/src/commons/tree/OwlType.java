@@ -6,10 +6,10 @@ package commons.tree;
  *
  */
 public enum OwlType {
-	CLASS("C"), 
-	INDIVIDUAL("I"), 
-	DATATYPE("D"), 
-	PROPERTY("O");
+	CLASS("Class"), 
+	INDIVIDUAL("Individual"), 
+	DATATYPE("Datatype"), 
+	PROPERTY("Property");
 	
 	private String code;
 

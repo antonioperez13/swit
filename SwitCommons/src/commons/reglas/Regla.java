@@ -39,6 +39,8 @@ public class Regla implements Serializable{
 	
 	private Elemento propertyTarget;
 	
+	private String etiqueta;
+	
 	/**
 	 * Constructor vacío de la clase.
 	 * Todos los atributos quedan vacíos.
@@ -161,6 +163,20 @@ public class Regla implements Serializable{
 		this.propertyTarget = propertyTarget;
 	}
 	
+	/**
+	 * @return the etiqueta
+	 */
+	public String getEtiqueta() {
+		return etiqueta;
+	}
+
+	/**
+	 * @param etiqueta the etiqueta to set
+	 */
+	public void setEtiqueta(String etiqueta) {
+		this.etiqueta = etiqueta;
+	}
+	
 	
 	/************************************************************
 	 *  Funciones para añadir los elementos del esquema origen
@@ -173,8 +189,8 @@ public class Regla implements Serializable{
 	 * @param route
 	 * @param type
 	 */
-	public void addDomainNodeSource(String name, int id, String route, String type) {
-		this.domainNodeSource = new Elemento(name, id, route, type);
+	public void addDomainNodeSource(String name, int id, String route, String type, String uri) {
+		this.domainNodeSource = new Elemento(name, id, route, type, uri);
 	}
 	
 	/**
@@ -184,8 +200,8 @@ public class Regla implements Serializable{
 	 * @param route
 	 * @param type
 	 */
-	public void addRangeNodeSource(String name, int id, String route, String type) {
-		this.rangeNodeSource = new Elemento(name, id, route, type);
+	public void addRangeNodeSource(String name, int id, String route, String type, String uri) {
+		this.rangeNodeSource = new Elemento(name, id, route, type, uri);
 	}
 	
 	/**
@@ -195,8 +211,8 @@ public class Regla implements Serializable{
 	 * @param route
 	 * @param type
 	 */
-	public void addPropertyValueSource(String name, int id, String route, String type) {
-		this.propertyValueSource = new Elemento(name, id, route, type);
+	public void addPropertyValueSource(String name, int id, String route, String type, String uri) {
+		this.propertyValueSource = new Elemento(name, id, route, type, uri);
 	}
 	
 	/************************************************************
@@ -210,8 +226,8 @@ public class Regla implements Serializable{
 	 * @param route
 	 * @param type
 	 */
-	public void addDomainClassTarget(String name, int id, String route, String type) {
-		this.domainClassTarget = new Elemento(name, id, route, type);
+	public void addDomainClassTarget(String name, int id, String route, String type, String uri) {
+		this.domainClassTarget = new Elemento(name, id, route, type, uri);
 	}
 	
 	/**
@@ -221,8 +237,8 @@ public class Regla implements Serializable{
 	 * @param route
 	 * @param type
 	 */
-	public void addRangeClassTarget(String name, int id, String route, String type) {
-		this.rangeClassTarget = new Elemento(name, id, route, type);
+	public void addRangeClassTarget(String name, int id, String route, String type, String uri) {
+		this.rangeClassTarget = new Elemento(name, id, route, type, uri);
 	}
 	
 	/**
@@ -232,8 +248,8 @@ public class Regla implements Serializable{
 	 * @param route
 	 * @param type
 	 */
-	public void addPropertyTarget(String name, int id, String route, String type) {
-		this.propertyTarget = new Elemento(name, id, route, type);
+	public void addPropertyTarget(String name, int id, String route, String type, String uri) {
+		this.propertyTarget = new Elemento(name, id, route, type, uri);
 	}
 	
 	
@@ -253,6 +269,8 @@ public class Regla implements Serializable{
 		StringBuilder regla = new StringBuilder();
 		
 		regla.append("Id = " + this.id + "\n");
+		
+		regla.append("Etiqueta = " + this.etiqueta + "\n");
 		
 		switch(this.tipo) {
 		case CLASE:
@@ -395,4 +413,5 @@ public class Regla implements Serializable{
 			return false;
 		return true;
 	}
+	
 }

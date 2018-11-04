@@ -74,7 +74,7 @@ public class ProcessOwl {
         // Recuperamos el nodo raíz y a partir de él obtenemos el resto de clases e individuales de la ontología
         Node<OWLClass> topNode = reasoner.getTopClassNode();
         NodeOwl structure = new NodeOwl(extractElementString(topNode.getRepresentativeElement().toString()),
-        		topNode.getRepresentativeElement().toString(), OwlType.CLASS);
+        		deleteUriComparatorsBrackets(topNode.getRepresentativeElement().toString()), OwlType.CLASS);
         // En este paso comenzamos procesando clases e individuales desde la raíz
         extractClassesAndIndividuals(topNode, structure, 0, reasoner);
         
@@ -89,7 +89,7 @@ public class ProcessOwl {
 		List<NodeOwl> datatypes = new ArrayList<>();
         for(OWLDataProperty i : ontology.getDataPropertiesInSignature()) {
         	// Cada nuevo elemento se añade como un nodo hijo de la raíz
-        	NodeOwl dataTypeNode = new NodeOwl(extractElementString(i.toString()), i.toString(), OwlType.DATATYPE, structure);
+        	NodeOwl dataTypeNode = new NodeOwl(extractElementString(i.toString()), deleteUriComparatorsBrackets(i.toString()), OwlType.DATATYPE, structure);
         	datatypes.add(dataTypeNode);
         }
         // Ordenamos por nombre los elementos que se acaban de encontrar y se añaden como hijos de la raíz
@@ -104,7 +104,7 @@ public class ProcessOwl {
         List<NodeOwl> properties = new ArrayList<>();
         for(OWLObjectProperty i : ontology.getObjectPropertiesInSignature()) {
         	// Cada nuevo elemento se añade como un nodo hijo de la raíz
-        	NodeOwl propertyNode = new NodeOwl(extractElementString(i.toString()), i.toString(), OwlType.PROPERTY, structure);
+        	NodeOwl propertyNode = new NodeOwl(extractElementString(i.toString()), deleteUriComparatorsBrackets(i.toString()), OwlType.PROPERTY, structure);
         	properties.add(propertyNode);
         }
         // Ordenamos por nombre los elementos que se acaban de encontrar y se añaden como hijos de la raíz
@@ -115,8 +115,7 @@ public class ProcessOwl {
         structure.setName("Root");
 		return structure;
 	}
-	
-	
+
 	/**
 	 * Extrae las clases e individuales del nodo padre dado como parámetro. 
 	 * @param parent Nodo padre en el objeto que contiene la ontología y que se está extrayendo
@@ -133,7 +132,7 @@ public class ProcessOwl {
         
         // Se añade la clase hija al padre
         NodeOwl subNodoClass = new NodeOwl(extractElementString(parent.getRepresentativeElement().toString()),
-        		parent.getRepresentativeElement().toString(), OwlType.CLASS);
+        		deleteUriComparatorsBrackets(parent.getRepresentativeElement().toString()), OwlType.CLASS);
         nodoPadre.addChild(subNodoClass);
         
         //System.out.println();
@@ -147,7 +146,7 @@ public class ProcessOwl {
         for(Node<OWLNamedIndividual> child : reasoner.getInstances(parent.getRepresentativeElement(), true)){
         	// Se añaden los individuales al nodo padre
         	NodeOwl subNodoIndividual = new NodeOwl(extractElementString(child.getRepresentativeElement().toString()),
-        			child.getRepresentativeElement().toString(), OwlType.INDIVIDUAL);
+        			deleteUriComparatorsBrackets(child.getRepresentativeElement().toString()), OwlType.INDIVIDUAL);
         	individuals.add(subNodoIndividual);
 
         	//System.out.println();
@@ -177,4 +176,13 @@ public class ProcessOwl {
         return extract;
     }
     
+    /**
+     * Elimina los signos "<" y ">" del principio y el final de una URI extraída
+     * de una ontología.
+     * @param uri
+     * @return
+     */
+    private static String deleteUriComparatorsBrackets(String uri) {
+		return uri.replace("<", "").replace(">", "");
+	}
 }

@@ -16,6 +16,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -309,11 +311,21 @@ public class MappingController {
 		try {
 			ObjectOutputStream o = new ObjectOutputStream(response.getOutputStream());
 			
+			logger.debug("Fichero XML formato SWIT:\n" + reglas.mappingXmlFile());
+			
+			logger.debug("Fichero XML para guardar el progreso del trabajo:\n" + reglas.toXmlFileSave());
+			
 			// Write objects to file
 			o.writeObject(reglas);
 			
 			o.close();		
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    

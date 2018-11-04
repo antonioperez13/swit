@@ -6,12 +6,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>es.swit</groupId>
   <artifactId>SwitWeb</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
   <packaging>war</packaging>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <swit-commons.version>1.0.0</swit-commons.version>
+    <swit-commons.version>1.1.0</swit-commons.version>
     <SwitMappingsBackupClient.version>0.0.1</SwitMappingsBackupClient.version>
     <org.springframework.version>5.0.4.RELEASE</org.springframework.version>
     <javax.servlet.version>1.2</javax.servlet.version>
