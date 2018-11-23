@@ -75,9 +75,13 @@ var creacionGuiadaReglaClase = new Tour({
 	  title: "<spring:message code="mapeo.creacionGuiada.texto.elegir.domainClass.titulo" />",
 	  content: "<spring:message code="mapeo.creacionGuiada.texto.elegir.domainClass.desc" /><br><spring:message code="mapeo.creacionGuiada.texto.elegir.add.elemento.desc" /> ",
 	  onShown: function (creacionGuiadaReglaClase) {
+		  deshabilitarElementosEsquemaDestinoExceptoClass();
 		  buttonAddClickSelectDomainClass('botonAddElementoReglaClase', "botonSiguienteReglaClase", creacionGuiadaReglaClase);
 	  	  comprobarElementoSeleccionadoDomainClass("botonSiguienteReglaClase");
 	  	  mostrarElementosSeleccionados();
+	  },
+	  onHide: function(creacionGuiadaReglaClase){
+		  habilitarTodosElementosEsquemaDestino();
 	  }
 	},
 	{

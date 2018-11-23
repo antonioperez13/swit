@@ -1,5 +1,6 @@
 var ColeccionReglas = [];
 var nuevaRegla = new Regla();
+var targetSchemaTreeData;
 
 // polyfill para usar asign en IE
 if (typeof Object.assign != 'function') {
@@ -679,3 +680,57 @@ function escapeHtml(unsafe) {
          .replace(/"/g, "&quot;")
          .replace(/'/g, "&#039;");
  }
+
+
+/**
+ * Deshabilita los elementos del árbol del esquema destino que tengan la clase indicada.
+ * @param tipoElemento Tipo 
+ */
+function deshabilitarElementosEsquemaDestinoPorTipoElemento(tipoElemento){
+	$("#targetSchema").jstree(true).deselect_node($("#targetSchema").jstree(true).get_selected());
+	$.each(targetSchemaTreeData, function (i, val) {
+	    if($($(val)[0].li_attr).attr('tipo-elemento') === tipoElemento){
+			$("#targetSchema").jstree(true).disable_node(val);
+	    }
+	});
+}
+
+/**
+ * Habilita los elementos del árbol del esquema destino que tengan la clase indicada.
+ * @param tipoElemento Tipo 
+ */
+function habilitarElementosEsquemaDestinoPorTipoElemento(tipoElemento){
+	$.each(targetSchemaTreeData, function (i, val) {
+	    if($($(val)[0].li_attr).attr('tipo-elemento') === tipoElemento){
+			$("#targetSchema").jstree(true).enable_node(val);
+	    }
+	});
+}
+
+/**
+ * Habilita todos los elementos del árbol del esquema destino.
+ */
+function habilitarTodosElementosEsquemaDestino(){
+	$.each(targetSchemaTreeData, function (i, val) {
+		$("#targetSchema").jstree(true).enable_node(val);
+	});
+}
+
+
+function deshabilitarElementosEsquemaDestinoExceptoClass(){
+	$("#targetSchema").jstree(true).deselect_node($("#targetSchema").jstree(true).get_selected());
+	$.each(targetSchemaTreeData, function (i, val) {
+	    if($($(val)[0].li_attr).attr('tipo-elemento') !== TipoElementoOwl.CLASS){
+			$("#targetSchema").jstree(true).disable_node(val);
+	    }
+	});
+}
+
+function deshabilitarElementosEsquemaDestinoExceptoProperty(){
+	$("#targetSchema").jstree(true).deselect_node($("#targetSchema").jstree(true).get_selected());
+	$.each(targetSchemaTreeData, function (i, val) {
+	    if($($(val)[0].li_attr).attr('tipo-elemento') !== TipoElementoOwl.PROPERTY){
+			$("#targetSchema").jstree(true).disable_node(val);
+	    }
+	});
+}

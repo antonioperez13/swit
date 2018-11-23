@@ -248,8 +248,7 @@
 	function addElementoEsquemaOrigen(elemento, nombreTipoElementoRegla, contenedorDatosOrigen){
 		var dataElementoOrigen = {
 			nombreTipoElemento: nombreTipoElementoRegla,
-			nombreElemento: elemento.name,
-			rutaElemento: "<spring:message code='mapeo.representacionRegla.ruta'/>" + elemento.route
+			nombreElemento: elemento.name
 	    };
 		
 		$(contenedorDatosOrigen).loadTemplate($("#plantilla-elemento-generico"), dataElementoOrigen, { append: true });
@@ -266,9 +265,7 @@
 		var dataElementoDestino = {
 			nombreTipoElemento: nombreTipoElementoRegla,
 			nombreElemento: elemento.name,
-			rutaElemento: "<spring:message code='mapeo.representacionRegla.ruta'/>" + elemento.route,
-			uriElemento: "<spring:message code='mapeo.representacionRegla.uri'/>" + escapeHtml(elemento.uri),
-			tipoElementoOwl: "<spring:message code='mapeo.representacionRegla.tipoOwl'/>" + elemento.type
+			uriElemento: "<spring:message code='mapeo.representacionRegla.uri'/>" + escapeHtml(elemento.uri)
 	    };
 		
 		$(contenedorDatosDestino).loadTemplate($("#plantilla-elemento-owl"), dataElementoDestino, { append: true });
@@ -303,7 +300,6 @@
 	<div class='well-green'>
     	<p class="representacionRegla-titulo" data-content="nombreTipoElemento"></p>
     	<p class="representacionRegla-elem" data-content="nombreElemento"></p>
-    	<p class="representacionRegla-dato" data-content="rutaElemento"></p>
     </div>
 </script>
 
@@ -312,9 +308,7 @@
 	<div class='well-lavender'>
     	<p class="representacionRegla-titulo" data-content="nombreTipoElemento"></p>
     	<p class="representacionRegla-elem" data-content="nombreElemento"></p>
-    	<p class="representacionRegla-dato" data-content="rutaElemento"></p>
 		<p class="representacionRegla-dato" data-content="uriElemento"></p>
-		<p class="representacionRegla-dato" data-content="tipoElementoOwl"></p> 
     </div>
 </script>
 

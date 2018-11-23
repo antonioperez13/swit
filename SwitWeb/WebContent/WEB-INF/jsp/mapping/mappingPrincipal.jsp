@@ -313,6 +313,8 @@
 		    $('.hover_bkgr_fricc_advert').click(function(){
 		        $('.hover_bkgr_fricc_advert').hide();
 		    });
+		    
+		    targetSchemaTreeData = $('#targetSchema').jstree(true).get_json('#', {flat:true});
 		}
 	</script>
 </head>

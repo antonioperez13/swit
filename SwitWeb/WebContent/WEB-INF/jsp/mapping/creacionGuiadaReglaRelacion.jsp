@@ -96,9 +96,13 @@ var creacionGuiadaReglaRelacion = new Tour({
 	  title: "<spring:message code="mapeo.creacionGuiada.texto.elegir.domainClass.titulo" />",
 	  content: "<spring:message code="mapeo.creacionGuiada.texto.elegir.domainClass.desc" /><br><spring:message code="mapeo.creacionGuiada.texto.elegir.add.elemento.desc" /> ",
 	  onShown: function (creacionGuiadaReglaClase) {
+		  deshabilitarElementosEsquemaDestinoExceptoClass();
 		  buttonAddClickSelectDomainClass('botonAddElementoReglaRelacion', "botonSiguienteReglaRelacion", creacionGuiadaReglaRelacion);
 	  	  comprobarElementoSeleccionadoDomainClass("botonSiguienteReglaRelacion");
 	  	  mostrarElementosSeleccionados();
+	  },
+	  onHide: function(creacionGuiadaReglaClase){
+		  habilitarTodosElementosEsquemaDestino();
 	  }
 	},
 	{
@@ -107,9 +111,13 @@ var creacionGuiadaReglaRelacion = new Tour({
 	  title: "<spring:message code="mapeo.creacionGuiada.texto.elegir.rangeClassTarget.titulo" />",
 	  content: "<spring:message code="mapeo.creacionGuiada.texto.elegir.rangeClassTarget.desc" /><br><spring:message code="mapeo.creacionGuiada.texto.elegir.add.elemento.desc" /> ",
 	  onShown: function (creacionGuiadaReglaPropiedad) {
+		  deshabilitarElementosEsquemaDestinoExceptoClass();
 		  buttonAddClickSelectRangeClassTarget('botonAddElementoReglaRelacion', "botonSiguienteReglaRelacion", creacionGuiadaReglaRelacion);
 	  	  comprobarElementoSeleccionadoRangeClassTarget("botonSiguienteReglaRelacion");
 	  	  mostrarElementosSeleccionados();
+	  },
+	  onHide: function(creacionGuiadaReglaClase){
+		  habilitarTodosElementosEsquemaDestino();
 	  }
 	},
 	{
@@ -118,9 +126,13 @@ var creacionGuiadaReglaRelacion = new Tour({
 	  title: "<spring:message code="mapeo.creacionGuiada.texto.elegir.propertyTarget.titulo" />",
 	  content: "<spring:message code="mapeo.creacionGuiada.texto.elegir.propertyTarget.desc" /><br><spring:message code="mapeo.creacionGuiada.texto.elegir.add.elemento.desc" /> ",
 	  onShown: function (creacionGuiadaReglaPropiedad) {
+		  deshabilitarElementosEsquemaDestinoExceptoProperty();
 		  buttonAddClickSelectPropertyTarget('botonAddElementoReglaRelacion', "botonSiguienteReglaRelacion", creacionGuiadaReglaRelacion);
 	  	  comprobarElementoSeleccionadoPropertyTarget("botonSiguienteReglaRelacion");
 	  	  mostrarElementosSeleccionados();
+	  },
+	  onHide: function(creacionGuiadaReglaClase){
+		  habilitarTodosElementosEsquemaDestino();
 	  }
 	},
 	{

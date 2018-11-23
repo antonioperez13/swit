@@ -21,6 +21,7 @@ import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
 import commons.tree.NodeComparator;
 import commons.tree.NodeOwl;
 import commons.tree.OwlType;
+import commons.utils.SwitCommonsUtils;
 
 /**
  * Clase preparada para parsear desde un fichero OWL una ontología a un árbol de nodos
@@ -73,8 +74,8 @@ public class ProcessOwl {
         //****************************/
         // Recuperamos el nodo raíz y a partir de él obtenemos el resto de clases e individuales de la ontología
         Node<OWLClass> topNode = reasoner.getTopClassNode();
-        NodeOwl structure = new NodeOwl(extractElementString(topNode.getRepresentativeElement().toString()),
-        		deleteUriComparatorsBrackets(topNode.getRepresentativeElement().toString()), OwlType.CLASS);
+        NodeOwl structure = new NodeOwl(SwitCommonsUtils.extractElementString(topNode.getRepresentativeElement().toString()),
+        		SwitCommonsUtils.deleteUriComparatorsBrackets(topNode.getRepresentativeElement().toString()), OwlType.CLASS);
         // En este paso comenzamos procesando clases e individuales desde la raíz
         extractClassesAndIndividuals(topNode, structure, 0, reasoner);
         
@@ -89,7 +90,7 @@ public class ProcessOwl {
 		List<NodeOwl> datatypes = new ArrayList<>();
         for(OWLDataProperty i : ontology.getDataPropertiesInSignature()) {
         	// Cada nuevo elemento se añade como un nodo hijo de la raíz
-        	NodeOwl dataTypeNode = new NodeOwl(extractElementString(i.toString()), deleteUriComparatorsBrackets(i.toString()), OwlType.DATATYPE, structure);
+        	NodeOwl dataTypeNode = new NodeOwl(SwitCommonsUtils.extractElementString(i.toString()), SwitCommonsUtils.deleteUriComparatorsBrackets(i.toString()), OwlType.DATATYPE, structure);
         	datatypes.add(dataTypeNode);
         }
         // Ordenamos por nombre los elementos que se acaban de encontrar y se añaden como hijos de la raíz
@@ -104,7 +105,7 @@ public class ProcessOwl {
         List<NodeOwl> properties = new ArrayList<>();
         for(OWLObjectProperty i : ontology.getObjectPropertiesInSignature()) {
         	// Cada nuevo elemento se añade como un nodo hijo de la raíz
-        	NodeOwl propertyNode = new NodeOwl(extractElementString(i.toString()), deleteUriComparatorsBrackets(i.toString()), OwlType.PROPERTY, structure);
+        	NodeOwl propertyNode = new NodeOwl(SwitCommonsUtils.extractElementString(i.toString()), SwitCommonsUtils.deleteUriComparatorsBrackets(i.toString()), OwlType.PROPERTY, structure);
         	properties.add(propertyNode);
         }
         // Ordenamos por nombre los elementos que se acaban de encontrar y se añaden como hijos de la raíz
@@ -131,8 +132,8 @@ public class ProcessOwl {
         }
         
         // Se añade la clase hija al padre
-        NodeOwl subNodoClass = new NodeOwl(extractElementString(parent.getRepresentativeElement().toString()),
-        		deleteUriComparatorsBrackets(parent.getRepresentativeElement().toString()), OwlType.CLASS);
+        NodeOwl subNodoClass = new NodeOwl(SwitCommonsUtils.extractElementString(parent.getRepresentativeElement().toString()),
+        		SwitCommonsUtils.deleteUriComparatorsBrackets(parent.getRepresentativeElement().toString()), OwlType.CLASS);
         nodoPadre.addChild(subNodoClass);
         
         //System.out.println();
@@ -145,8 +146,8 @@ public class ProcessOwl {
         List<NodeOwl> individuals = new ArrayList<>();
         for(Node<OWLNamedIndividual> child : reasoner.getInstances(parent.getRepresentativeElement(), true)){
         	// Se añaden los individuales al nodo padre
-        	NodeOwl subNodoIndividual = new NodeOwl(extractElementString(child.getRepresentativeElement().toString()),
-        			deleteUriComparatorsBrackets(child.getRepresentativeElement().toString()), OwlType.INDIVIDUAL);
+        	NodeOwl subNodoIndividual = new NodeOwl(SwitCommonsUtils.extractElementString(child.getRepresentativeElement().toString()),
+        			SwitCommonsUtils.deleteUriComparatorsBrackets(child.getRepresentativeElement().toString()), OwlType.INDIVIDUAL);
         	individuals.add(subNodoIndividual);
 
         	//System.out.println();
@@ -155,34 +156,5 @@ public class ProcessOwl {
         Collections.sort(individuals, NodeComparator.compareByName());
         subNodoClass.addChildren(individuals);
     }
-	
-	/**
-	 * Divide la cadena dada por el caracter "#" y se queda con la última subcadena, que
-	 * salvo rara excepción coincide con el nombre corto que identifica al elemento 
-	 * @param element
-	 * @return El último elemento de la cadena si ésta se ha podido dividir por "#", 
-	 * la cadena sin procesar en caso contrario
-	 */
-    private static String extractElementString(String element) {
-    	String extract;
-    	
-    	String[] nodo = element.split("#");
-        if(nodo.length > 1) {
-        	extract = nodo[1].substring(0, nodo[1].length()-1);
-        } else {
-        	extract = element;
-        }
-        
-        return extract;
-    }
-    
-    /**
-     * Elimina los signos "<" y ">" del principio y el final de una URI extraída
-     * de una ontología.
-     * @param uri
-     * @return
-     */
-    private static String deleteUriComparatorsBrackets(String uri) {
-		return uri.replace("<", "").replace(">", "");
-	}
+
 }

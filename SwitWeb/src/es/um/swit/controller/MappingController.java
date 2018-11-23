@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,6 +22,7 @@ import javax.xml.transform.TransformerException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
@@ -36,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.xml.sax.SAXException;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,6 +46,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import commons.reglas.CatalogoReglas;
 import commons.reglas.Regla;
 import commons.tree.Node;
+import commons.utils.XmlFileUtils;
 import es.um.swit.backup.service.GestorRegistros;
 import es.um.swit.backup.service.RespuestaGestorRegistros;
 import es.um.swit.backup.service.RespuestaRecuperarRegistro;
@@ -306,27 +310,19 @@ public class MappingController {
 		
 		
 		response.setContentType("text/plain");
-	 	response.setHeader("Content-Disposition", "attachment;filename=" + "mappings.txt");
+	 	response.setHeader("Content-Disposition", "attachment;filename=" + "mappings.xml");
 		
 		try {
-			ObjectOutputStream o = new ObjectOutputStream(response.getOutputStream());
+			PrintWriter w = new PrintWriter(response.getOutputStream());
 			
-			logger.debug("Fichero XML formato SWIT:\n" + reglas.mappingXmlFile());
+			// Se crea el fichero XML y se escribe en el response
+			w.write(XmlFileUtils.mappingXmlFile(reglas));
 			
-			logger.debug("Fichero XML para guardar el progreso del trabajo:\n" + reglas.toXmlFileSave());
-			
-			// Write objects to file
-			o.writeObject(reglas);
-			
-			o.close();		
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug("downloadMappingsFile - Fichero XML creado");
+
+			w.close();	
+		} catch (IOException | ParserConfigurationException | TransformerException e) {
+			logger.error("downloadMappingsFile - " + e);
 		}
 	    
 	    logger.debug("downloadMappingsFile" + ConstantesTexto.END);
@@ -347,7 +343,7 @@ public class MappingController {
 		
 		try {
 			// Pasamos las reglas a un fichero en forma de bytes
-			byte[] mappings = mappingsToBytes(reglas);
+			byte[] mappings = XmlFileUtils.mappingXmlFile(reglas).getBytes("UTF-8");
 			
 			// Llamada al WS de respaldo
 			GestorRegistros wsInstance = GestorRegistrosWS.getWsInstance();
@@ -363,7 +359,7 @@ public class MappingController {
 				result.setResult("");
 			}
 			
-		} catch (IOException e) {
+		} catch (IOException | ParserConfigurationException | TransformerException e) {
 			e.printStackTrace();
 			
 			result.setCode("405");
@@ -396,7 +392,7 @@ public class MappingController {
 		
 		try {
 			// Pasamos las reglas a un fichero en forma de bytes
-			byte[] mappings = mappingsToBytes(reglas);
+			byte[] mappings = XmlFileUtils.mappingXmlFile(reglas).getBytes("UTF-8");
 			
 			// Llamada al WS de respaldo
 			GestorRegistros wsInstance = GestorRegistrosWS.getWsInstance();
@@ -419,7 +415,7 @@ public class MappingController {
 			
 			
 			
-		} catch (IOException e) {
+		} catch (IOException | ParserConfigurationException | TransformerException e) {
 			e.printStackTrace();
 			
 			result.setCode("405");
@@ -507,28 +503,37 @@ public class MappingController {
 				recuperarReglasFichero(request, reglas, result, fi);
 				
 				fi.close();
+				
+				// Se elimina el fichero temporal
+				mappingsFile.delete();
+				
+				result.setCode("206");
+				result.setMsg(messageSource.getMessage("descripcion.respuesta.206", null, null));
+				//	El atributo result se establece arriba
 			} catch (IOException | ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// Error al cargar el fichero
+				result.setCode("406");
+				result.setMsg(messageSource.getMessage("descripcion.respuesta.406", null, null));
+				result.setResult("");
+				
+				logger.error("loadMappingsFile - Error al cargar el fichero");
+				
+				logger.debug("loadMappingsFile" + ConstantesTexto.ERROR_END);
+				
+				return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.NOT_ACCEPTABLE);
 			}
-			
-			// Se elimina el fichero temporal
-			mappingsFile.delete();
-			
-			result.setCode("206");
-			result.setMsg(messageSource.getMessage("descripcion.respuesta.206", null, null));
-			//	El atributo result se establece arriba
 		} else {
+			// Error al cargar el fichero
 			result.setCode("406");
 			result.setMsg(messageSource.getMessage("descripcion.respuesta.406", null, null));
 			result.setResult("");
+			
+			logger.error("loadMappingsFile - Error al cargar el fichero");
 			
 			logger.debug("loadMappingsFile" + ConstantesTexto.ERROR_END);
 			
 			return new ResponseEntity<AjaxResponseBody>(result, httpHeaders, HttpStatus.NOT_ACCEPTABLE);
 		}
-		
-		
 	    
 	    logger.debug("loadMappingsFile" + ConstantesTexto.END);
 	    
@@ -609,21 +614,24 @@ public class MappingController {
 	 */
 	private void recuperarReglasFichero(HttpServletRequest request, CatalogoReglas reglas, AjaxResponseBody result,
 			InputStream contenidoFichero) throws IOException, ClassNotFoundException, JsonProcessingException {
-		ObjectInputStream oi = new ObjectInputStream(contenidoFichero);
-
-		// Read objects
-		CatalogoReglas reglasCargadas = (CatalogoReglas) oi.readObject();
+		//ObjectInputStream oi = new ObjectInputStream(contenidoFichero);
 		
-		// Se comprueban las reglas cargadas desde el fichero subido y se añaden
-		cargarReglasFichero(reglas, reglasCargadas, request);
+		CatalogoReglas reglasCargadas = new CatalogoReglas();
+		try {
+			reglasCargadas = XmlFileUtils.loadXmlFile(contenidoFichero);
+			
+			// Se comprueban las reglas cargadas desde el fichero subido y se añaden
+			cargarReglasFichero(reglas, reglasCargadas, request);
+		
+		} catch (ParserConfigurationException | SAXException | JDOMException e) {
+			logger.error(e);
+		}
 		
 		ObjectMapper mapper = new ObjectMapper();
 		String reglasJson = mapper.writeValueAsString(reglas.getAllReglas());
 		
 		// Se pasan las reglas cargadas a la vista
 		result.setResult(reglasJson);
-		
-		oi.close();
 	}
 	
 	
@@ -673,7 +681,7 @@ public class MappingController {
 		comprobarReglasDuplicadas(reglasExistentes, reglasCargadas);
 		
 		// Se eliminan las reglas que no puedan existir por los esquemas de datos usados
-		comprobarElementosReglas(reglasCargadas, request);
+		// comprobarElementosReglas(reglasCargadas, request);
 		
 		// Se añaden todas las reglas válidas
 		reglasExistentes.addAllReglasRestartIds(reglasCargadas);

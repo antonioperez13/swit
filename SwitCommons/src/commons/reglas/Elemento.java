@@ -25,10 +25,19 @@ public class Elemento implements Serializable{
 		this.id = id;
 		this.route = route;
 		this.type = type;
+		this.uri = uri;
+	}
+	
+	public Elemento(String name, String type, String uri) {
+		this(name, -1, null, type, uri);
 	}
 	
 	public Elemento(String name, int id, String route) {
 		this(name, id, route, null, null);
+	}
+	
+	public Elemento(String name) {
+		this(name, -1, null, null, null);
 	}
 	
 	public Elemento() {};

@@ -93,9 +93,13 @@ var creacionGuiadaReglaPropiedad = new Tour({
 	  title: "<spring:message code="mapeo.creacionGuiada.texto.elegir.domainClass.titulo" />",
 	  content: "<spring:message code="mapeo.creacionGuiada.texto.elegir.domainClass.desc" /><br><spring:message code="mapeo.creacionGuiada.texto.elegir.add.elemento.desc" /> ",
 	  onShown: function (creacionGuiadaReglaPropiedad) {
+		  deshabilitarElementosEsquemaDestinoExceptoClass();
 		  buttonAddClickSelectDomainClass('botonAddElementoReglaPropiedad', "botonSiguienteReglaPropiedad", creacionGuiadaReglaPropiedad);
 	  	  comprobarElementoSeleccionadoDomainClass("botonSiguienteReglaPropiedad");
 	  	  mostrarElementosSeleccionados();
+	  },
+	  onHide: function(creacionGuiadaReglaClase){
+		  habilitarTodosElementosEsquemaDestino();
 	  }
 	},
 	{
@@ -104,9 +108,13 @@ var creacionGuiadaReglaPropiedad = new Tour({
 	  title: "<spring:message code="mapeo.creacionGuiada.texto.elegir.propertyTarget.titulo" />",
 	  content: "<spring:message code="mapeo.creacionGuiada.texto.elegir.propertyTarget.desc" /><br><spring:message code="mapeo.creacionGuiada.texto.elegir.add.elemento.desc" /> ",
 	  onShown: function (creacionGuiadaReglaPropiedad) {
+		  deshabilitarElementosEsquemaDestinoExceptoProperty();
 		  buttonAddClickSelectPropertyTarget('botonAddElementoReglaPropiedad', "botonSiguienteReglaPropiedad", creacionGuiadaReglaPropiedad);
 	  	  comprobarElementoSeleccionadoPropertyTarget("botonSiguienteReglaPropiedad");
 	  	  mostrarElementosSeleccionados();
+	  },
+	  onHide: function(creacionGuiadaReglaClase){
+		  habilitarTodosElementosEsquemaDestino();
 	  }
 	},
 	{
