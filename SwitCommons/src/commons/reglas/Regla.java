@@ -41,6 +41,8 @@ public class Regla implements Serializable{
 	
 	private String etiqueta;
 	
+	private String condiciones;
+	
 	/**
 	 * Constructor vacío de la clase.
 	 * Todos los atributos quedan vacíos.
@@ -175,6 +177,20 @@ public class Regla implements Serializable{
 	 */
 	public void setEtiqueta(String etiqueta) {
 		this.etiqueta = etiqueta;
+	}
+	
+	/**
+	 * @return the condiciones
+	 */
+	public String getCondiciones() {
+		return condiciones;
+	}
+
+	/**
+	 * @param condiciones the condiciones to set
+	 */
+	public void setCondiciones(String condiciones) {
+		this.condiciones = condiciones;
 	}
 	
 	

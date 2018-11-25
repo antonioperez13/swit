@@ -324,4 +324,77 @@ function mostrarElementosSeleccionados(){
 	mostrarElementosDer();
 }
 
+/**
+ * Muestra el bloque de creación de condiciones
+ * @returns
+ */
+function mostrarBloqueCondiciones() {
+	$("#divCreacionGuiadaReglaPropiedadCondiciones").show();
+	$("#divBloqueCondicionesBotones").show();
+	// Se cargan las condiciones ya que el elemento que las contiene se elimina al cambiar de paso en la creación guiada
+	document.getElementById("selectCondiciones").innerHTML = nuevaRegla.condiciones;
+}
+
+/**
+ * Oculta el bloque de creación de condiciones
+ * @returns
+ */
+function ocultarBloqueCondiciones() {
+	$("#divCreacionGuiadaReglaPropiedadCondiciones").hide();
+	// Se guardan las condiciones ya que el elemento que las contiene se elimina al cambiar de paso en la creación guiada
+	nuevaRegla.condiciones = document.getElementById("selectCondiciones").innerHTML;
+}
+
+
+/**##############################################################
+###	Funcionalidades para condiciones de Regla de propiedad
+##############################################################**/
+
+/**
+ * Añade una nueva condición tomando el elemento seleccionado del esquema origen y el valor
+ * que el usuario haya escrito en el cuadro de texto habilitado para ello.
+ * @returns
+ */
+function addCondicion() {
+	// Elemento select del HTML
+	var select = document.getElementById("selectCondiciones");
+	
+	// Nueva condición que se está definiendo
+	var condicion = document.createElement("option");
+	
+	// Se recupera el elemento seleccionado del esquema origen
+	var selectedElement = getSelectedSourceElement();
+	var name = $('#sourceSchema').jstree(true).get_selected(true)[0].text;
+	var route = $(selectedElement).attr("ruta-elemento");
+	
+	// Valor que el usuario le asigna a la condición
+	var valor = document.getElementById("idInputCondicionCreacionGuiadaReglaPropiedad").value;
+	
+	// Se asignan los valores a atributos de la opción
+	condicion.setAttribute("nombre", name);
+	condicion.setAttribute("ruta", route);
+	condicion.setAttribute("valor", valor);
+	
+	// Se representa la condición en forma de texto para que el usuario la pueda identificar
+	condicion.text = name + "=" + valor;
+	
+	// Se añade a la página
+	select.add(condicion);
+	
+	// Se respaldan las condiciones ya que el plugin borra el contenido HTML del paso si la página
+	// se mueve
+	nuevaRegla.condiciones = document.getElementById("selectCondiciones").innerHTML;
+}
+
+/**
+ * Elimina la condición seleccionada.
+ * @returns
+ */
+function removeCondicion() {
+	var select = document.getElementById("selectCondiciones");
+	select.remove(select.selectedIndex)
+}
+
+
+
 </script>

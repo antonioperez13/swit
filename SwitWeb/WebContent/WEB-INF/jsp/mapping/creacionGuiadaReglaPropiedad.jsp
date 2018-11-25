@@ -48,11 +48,31 @@ var creacionGuiadaReglaPropiedad = new Tour({
 		    		</div>\ <%-- column --%>
 		    	</div>\ <%-- row --%>
 		    </div>\ <%-- container --%>
-		    <label id='labelInputEtiquetaCreacionGuiadaReglaPropiedad' style='width: 100%; display: none;'><spring:message code='mapeo.creacionGuiada.texto.etiqueta.titulo'/>\
+		</div>\
+		<%-- Condiciones --%>
+		<div id='divCreacionGuiadaReglaPropiedadCondiciones' style='display: none;' class='bloque-condiciones well-green'>\
+			<h4 style='margin: 0px' class='creacionGuiada-titulo'><spring:message code='mapeo.creacionGuiada.texto.propertyValueSource.condiciones.titulo' /></h4>\
+			<div id='divBloqueCondicionesBotones'>\
+				<hr style='margin: 5px'>\
+				<label id='label' style='width: 80%'><spring:message code='mapeo.creacionGuiada.texto.propertyValueSource.condiciones.input.etiqueta' />\
+			    	<input id='idInputCondicionCreacionGuiadaReglaPropiedad' onkeyup='' type='text' placeholder='<spring:message code='mapeo.creacionGuiada.texto.propertyValueSource.condiciones.input.placeholder' />' style='width: 100%'>\
+			    </label>\
+			    <button id='botonAddCondicion' class='btn btn-success pad3' onclick='addCondicion()'><spring:message code='comunes.boton.add' /></button>\
+			    <button class='btn btn-danger pad3'\
+					title='<spring:message code='comunes.boton.borrarRegla.title'/>' onclick='removeCondicion()'>\
+					<i class='material-icons list-group-button-delete-icon'>delete_sweep</i>\
+				</button>\
+			</div>\
+		    <select name='condiciones' id='selectCondiciones' class='width100' style='overflow-x: auto;' size='5'>\
+			</select>\
+		</div>\
+		<%-- Etiqueta de la regla --%>
+		<div id='labelInputEtiquetaCreacionGuiadaReglaPropiedad' style='padding-left: 14px; padding-right: 14px; width: 100%; display: none;'>\
+			<label style='width: 100%;'><spring:message code='mapeo.creacionGuiada.texto.etiqueta.titulo'/>\
 		    	<input id='idInputEtiquetaCreacionGuiadaReglaPropiedad' onkeyup='habilitarBotonCrearReglaPropiedad();' type='text' placeholder='Etiqueta' style='width: 100%;'>\
 		    	<label>- La etiqueta no debe quedar vacía</label>\
 		    </label>\
-		</div>\
+	    </div>\
 	    <p id='errorEleccionCreacionGuiada' class='well-warning'></p>\
 	    <div class='popover-navigation'>\
 	    	<button id='botonAddElementoReglaPropiedad' style='margin-bottom: 5px; width:100%;' class='btn btn-success'><spring:message code='comunes.boton.add' /></button>\
@@ -88,6 +108,19 @@ var creacionGuiadaReglaPropiedad = new Tour({
 	  }
 	},
 	{
+	  element: "#sourceSchemaDiv",
+	  title: "<spring:message code="mapeo.creacionGuiada.texto.elegir.condiciones.titulo" />",
+	  content: "<spring:message code="mapeo.creacionGuiada.texto.elegir.condiciones.desc" />",
+	  onShown: function (creacionGuiadaReglaPropiedad) {
+		  ocultarBoton('botonAddElementoReglaPropiedad');
+		  mostrarBloqueCondiciones();
+		  mostrarElementosSeleccionados();
+	  },
+	  onHide: function(creacionGuiadaReglaPropiedad){
+		  ocultarBloqueCondiciones();
+	  }
+	},
+	{
 	  placement: "left",
 	  element: "#targetSchemaDiv",
 	  title: "<spring:message code="mapeo.creacionGuiada.texto.elegir.domainClass.titulo" />",
@@ -98,7 +131,7 @@ var creacionGuiadaReglaPropiedad = new Tour({
 	  	  comprobarElementoSeleccionadoDomainClass("botonSiguienteReglaPropiedad");
 	  	  mostrarElementosSeleccionados();
 	  },
-	  onHide: function(creacionGuiadaReglaClase){
+	  onHide: function(creacionGuiadaReglaPropiedad){
 		  habilitarTodosElementosEsquemaDestino();
 	  }
 	},
@@ -113,7 +146,7 @@ var creacionGuiadaReglaPropiedad = new Tour({
 	  	  comprobarElementoSeleccionadoPropertyTarget("botonSiguienteReglaPropiedad");
 	  	  mostrarElementosSeleccionados();
 	  },
-	  onHide: function(creacionGuiadaReglaClase){
+	  onHide: function(creacionGuiadaReglaPropiedad){
 		  habilitarTodosElementosEsquemaDestino();
 	  }
 	},
@@ -124,6 +157,8 @@ var creacionGuiadaReglaPropiedad = new Tour({
 	  content: "<spring:message code="mapeo.creacionGuiada.texto.crear.regla.info" /><br><spring:message code="mapeo.creacionGuiada.texto.crear.regla.desc" /> ",
 	  onShown: function (creacionGuiadaReglaPropiedad) {
 		  $("#labelInputEtiquetaCreacionGuiadaReglaPropiedad").show();
+		  mostrarBloqueCondiciones();
+		  $("#divBloqueCondicionesBotones").hide();
 		  mostrarElementosSeleccionados();
 		  ocultarBoton('botonAddElementoReglaPropiedad');
 	  }

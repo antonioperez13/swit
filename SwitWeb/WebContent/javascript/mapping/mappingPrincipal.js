@@ -204,6 +204,8 @@ function parseFileContentToReglas(fileContent){
 	
 	var reglas = JSON.parse(fileContent);
 	
+	limpiarFiltroReglasCreadas();
+	
 	reglas.forEach(function(regla) {
 		var nuevaRegla = Object.assign({}, regla);
 		
@@ -334,6 +336,7 @@ function mappingClassRule(){
 					regla.id = data.result;
 					console.log(comprobarTipoRegla(regla));
 					ColeccionReglas.push(regla);
+					limpiarFiltroReglasCreadas();
 					representarRegla(regla);
 				} else if(data.code == "202") {
 					console.log("Regla repetida");
@@ -365,7 +368,27 @@ function mappingPropertyRule(){
 		console.log("mappingPropertyRule - ERROR: Regla de propiedad incorrecta");
 		$('#mensaje').html("Error: Regla de clase incorrecta");
 	} else {
+		// Etiqueta de la regla
 		regla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaPropiedad").val();
+		
+		// Condiciones
+		var selectOptions= document.getElementById("selectCondiciones");
+		var condiciones = "";
+		// Si hay una o más condiciones
+		if(selectOptions.options.length >= 1){
+			condiciones = "[" + selectOptions.options[0].getAttribute("nombre") + "=\"" + selectOptions.options[0].getAttribute("valor");
+
+			// Se añade la primera y si quedan más se añaden separándolas con 'and'
+			if(selectOptions.options.length > 1){
+				for(i=1; i<selectOptions.options.length;i++){
+					condiciones += " and " + selectOptions.options[i].getAttribute("nombre") + "=\"" + selectOptions.options[i].getAttribute("valor");
+				}
+			}
+			condiciones += "]";
+			console.log("Condiciones de la regla creada: " + condiciones);
+		}
+		regla.condiciones = condiciones;
+		
 		
 		$.ajax({
 			type : "POST",
@@ -384,6 +407,7 @@ function mappingPropertyRule(){
 					regla.id = data.result;
 					console.log(comprobarTipoRegla(regla));
 					ColeccionReglas.push(regla);
+					limpiarFiltroReglasCreadas();
 					representarRegla(regla);
 				} else if(data.code == "202") {
 					console.log("Regla repetida");
@@ -434,6 +458,7 @@ function mappingRelationRule(){
 					regla.id = data.result;
 					console.log(comprobarTipoRegla(regla));
 					ColeccionReglas.push(regla);
+					limpiarFiltroReglasCreadas();
 					representarRegla(regla);
 				} else if(data.code == "202") {
 					console.log("Regla repetida");
@@ -599,6 +624,7 @@ function mostrarElementosDer(){
  */
 function borrarRegla() {
 	nuevaRegla = new Regla();
+	document.getElementById("selectCondiciones").innerHTML = "";
 }
 
 /**

@@ -4,7 +4,7 @@ var TipoRegla = Object.freeze({"CLASE":"CLASE", "PROPIEDAD":"PROPIEDAD", "RELACI
 //var TipoElementoOwl = Object.freeze({"CLASS":"C", "INDIVIDUAL":"I", "DATATYPE":"D" , "PROPERTY":"O"});
 
 
-function Regla(id, tipo, domainNodeSource, domainClassTarget, rangeNodeSource, rangeClassTarget, propertyValueSource, propertyTarget, etiqueta){
+function Regla(id, tipo, domainNodeSource, domainClassTarget, rangeNodeSource, rangeClassTarget, propertyValueSource, propertyTarget, etiqueta, condiciones){
 	this.tipo = tipo;
 	
 	this.id = id;
@@ -18,6 +18,8 @@ function Regla(id, tipo, domainNodeSource, domainClassTarget, rangeNodeSource, r
 	this.propertyTarget = propertyTarget;
 	
 	this.etiqueta = etiqueta;
+	
+	this.condiciones = condiciones;
 }
 
 function comprobarTipoRegla(regla){
