@@ -33,9 +33,6 @@ public class FicherosEsquemasBean {
 	/** Tipo de fichero del esquema de destino */
 	private TipoFichero targetFileType;
 	
-	/** Tipo de fichero de salida del mapeo */
-	private String outputFileType;
-	
 	/** *******************
 	 * MÉTODOS
 	 ***********************/
@@ -152,17 +149,4 @@ public class FicherosEsquemasBean {
 		this.targetFileType = targetFileType;
 	}
 	
-	/**
-	 * @return the outputFileType
-	 */
-	public String getOutputFileType() {
-		return outputFileType;
-	}
-
-	/**
-	 * @param outputFileType the outputTypeFile to set
-	 */
-	public void setOutputFileType(String outputFileType) {
-		this.outputFileType = outputFileType;
-	}
 }

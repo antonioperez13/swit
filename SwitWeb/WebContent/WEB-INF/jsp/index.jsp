@@ -10,10 +10,13 @@
 
 <!-- CSS -->
 <link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" >
-<%-- <link href="${pageContext.request.contextPath}/css/nms_font.css" rel="stylesheet" > --%>
 
 </head>
 <body>
+<!-- INI - Cabecera -->
+<jsp:include page="/WEB-INF/jsp/commons/header.jsp"/>
+<!-- FIN - Cabecera -->
+
 	<div class="container mw-75">
 		
 		<br><br>
@@ -40,6 +43,18 @@
 		        </form:form>
 	        </div>
 		</div>
+		
+		<div class="container-fluid ">
+			<div class="text-center">
+				<h4>Configurador de ejecución</h4>
+				<form:form method="post" action="execConfiguration.html">
+					<input class="btn btn-primary" type="submit" value="<spring:message code="comunes.boton.ir.carga.ficheros"/>" />
+		        </form:form>
+	        </div>
+		</div>
+		
+		
+		
 	</div>
 	
 	<%-- Adorno --%>
@@ -49,6 +64,8 @@
 		<hr class="hr-10">
 	</div>
 
-
+<!-- INI - Pie de página -->
+	<jsp:include page="/WEB-INF/jsp/commons/footer.jsp"/>
+	<!-- FIN - Pie de página -->
 </body>
 </html>

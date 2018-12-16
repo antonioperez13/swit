@@ -1,0 +1,138 @@
+{
+	"columns": [
+		{
+			"fields": [
+				{
+					"name": "<spring:message code='configurador.titulo.ficheroMappings' />",
+					"command": "-m",
+					"required": true
+				},
+				{
+					"name": "<spring:message code='configurador.titulo.ficheroOntologia' />",
+					"command": "-o",
+					"required": true
+				},
+				{
+					"name": "<spring:message code='configurador.titulo.ficherosXml' />",
+					"command": "-f",
+					"required": true
+				}
+			]
+		},
+		{
+			"fields": [
+				{
+					"name": "<spring:message code='configurador.titulo.tipoEjecucion' />",
+					"command": "",
+					"firstCommand": true,
+					"options": [
+						{
+							"name": "<spring:message code='configurador.titulo.tipoEjecucion.secuencial' />",
+							"command": "./swit"
+						},
+						{
+							"name": "<spring:message code='configurador.titulo.tipoEjecucion.paralela' />",
+							"command": "./parallel-swit.sh",
+							"parallel": true,
+							"fields": [
+								{
+									"name": "<spring:message code='configurador.titulo.numeroTrabajos' />",
+									"command": "-j",
+									"required": true
+								},
+								{
+									"name": "<spring:message code='configurador.titulo.numeroHilos' />",
+									"command": "-t",
+									"required": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "<spring:message code='configurador.titulo.ficheroIdentidades' />",
+					"command": "-i"
+				},
+				{
+					"name": "<spring:message code='configurador.titulo.comprimirZip' />",
+					"command": "",
+					"options": [
+						{
+							"name": "<spring:message code='configurador.titulo.opciones.no' />",
+							"command": ""
+						},
+						{
+							"name": "<spring:message code='configurador.titulo.opciones.si' />",
+							"command": "-z"
+						}
+					]
+				},
+				{
+					"name": "<spring:message code='configurador.titulo.individualesDiferentes' />",
+					"command": "",
+					"options": [
+						{
+							"name": "<spring:message code='configurador.titulo.opciones.no' />",
+							"command": ""
+						},
+						{
+							"name": "<spring:message code='configurador.titulo.opciones.si' />",
+							"command": "--complete"
+						}
+					]
+				}
+			]
+		},
+		{
+			"fields": [
+				{
+					"name": "<spring:message code='configurador.titulo.formatoSalida' />",
+					"command": "--format",
+					"options": [
+						{
+							"name": "<spring:message code='configurador.titulo.formatoSalida.rdf' />",
+							"command": "rdf",
+							"fields": []
+						},
+						{
+							"name": "<spring:message code='configurador.titulo.formatoSalida.owl' />",
+							"command": "owl",
+							"fields": []
+						},
+						{
+							"name": "<spring:message code='configurador.titulo.formatoSalida.ttl' />",
+							"command": "ttl",
+							"fields": []
+						},
+						{
+							"name": "<spring:message code='configurador.titulo.formatoSalida.virtuoso' />",
+							"command": "virtuoso",
+							"fields": [
+								{
+									"name": "<spring:message code='configurador.titulo.virtuoso.host' />",
+									"command": "--host"
+								},
+								{
+									"name": "<spring:message code='configurador.titulo.virtuosos.puerto' />",
+									"command": "--port"
+								},
+								{
+									"name": "<spring:message code='configurador.titulo.virtuoso.grafo' />",
+									"command": "--graph"
+								},
+								{
+									"name": "<spring:message code='configurador.titulo.virtuoso.usuarioBBDD' />",
+									"command": "--name"
+								},
+								{
+									"name": "<spring:message code='configurador.titulo.virtuoso.contrasena' />",
+									"command": "--password"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -248,6 +248,7 @@
 	function addElementoEsquemaOrigen(elemento, nombreTipoElementoRegla, contenedorDatosOrigen){
 		var dataElementoOrigen = {
 			nombreTipoElemento: nombreTipoElementoRegla,
+			rutaElemento: "<spring:message code='mapeo.representacionRegla.ruta'/>" + elemento.route,
 			nombreElemento: elemento.name
 	    };
 		
@@ -300,6 +301,7 @@
 	<div class='well-green'>
     	<p class="representacionRegla-titulo" data-content="nombreTipoElemento"></p>
     	<p class="representacionRegla-elem" data-content="nombreElemento"></p>
+		<p class="representacionRegla-dato" data-content="rutaElemento"></p>
     </div>
 </script>
 

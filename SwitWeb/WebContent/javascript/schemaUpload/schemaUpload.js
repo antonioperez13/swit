@@ -62,7 +62,7 @@ function onUploadComplete(tipoFichero, fileType) {
     
     var output = [];
     
-    output.push("Fichero " + tipoFichero.toUpperCase() + " subido correctamente");
+    output.push($("#ficheroSubidoCorrectamente").text());
     
     document.getElementById(fileType + 'FileOutput').innerHTML = output.join('');
     

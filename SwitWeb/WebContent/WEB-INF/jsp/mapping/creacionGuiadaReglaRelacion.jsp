@@ -18,6 +18,7 @@ function habilitarBotonCrearReglaRelacion(){
 var creacionGuiadaReglaRelacion = new Tour({
 	smartPlacement: true,
 	backdrop: true,
+	keyboard: false,
 	backdropContainer: 'body',
 	template: "<div class='popover tour' style='min-width:30%'>\
 	    <div class='arrow'></div>\
@@ -52,8 +53,8 @@ var creacionGuiadaReglaRelacion = new Tour({
 		    	</div>\ <%-- row --%>
 		    </div>\ <%-- container --%>
 		    <label id='labelInputEtiquetaCreacionGuiadaReglaRelacion' style='width: 100%; display: none;'><spring:message code='mapeo.creacionGuiada.texto.etiqueta.titulo'/>\
-		    	<input id='idInputEtiquetaCreacionGuiadaReglaRelacion' onkeyup='habilitarBotonCrearReglaRelacion();' type='text' placeholder='Etiqueta' style='width: 100%;'>\
-		    	<label>- La etiqueta no debe quedar vacía</label>\
+		    	<input id='idInputEtiquetaCreacionGuiadaReglaRelacion' onkeyup='habilitarBotonCrearReglaRelacion();' type='text' placeholder='<spring:message code='mapeo.creacionGuiada.texto.crear.regla.etiqueta.placeholder'/>' style='width: 100%;'>\
+		    	<label><spring:message code='mapeo.creacionGuiada.texto.crear.regla.etiqueta'/></label>\
 		    </label>\
 		</div>\
 	    <p id='errorEleccionCreacionGuiada' class='well-warning'></p>\

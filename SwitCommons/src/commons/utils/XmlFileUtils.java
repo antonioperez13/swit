@@ -38,7 +38,7 @@ public class XmlFileUtils {
 	
 	public static final String XML_TAG_TYPE = "type";
 	
-	public static final String XML_TAG_COMMENTARY = "commentary";
+	public static final String XML_TAG_LABEL = "label";
 	
 	public static final String XML_TAG_SOURCE = "source";
 	
@@ -89,9 +89,7 @@ public class XmlFileUtils {
 			reglaXml.appendChild(tipoRegla);
 			
 			// Se añade la etiqueta que le puso el usuario
-			Element etiqueta = document.createElement(XML_TAG_COMMENTARY);
-			etiqueta.appendChild(document.createTextNode(regla.getEtiqueta()));
-			reglaXml.appendChild(etiqueta);
+			reglaXml.setAttribute(XML_TAG_LABEL, regla.getEtiqueta());
 
 	        // Según el tipo de regla se añaden los elementos restantes
 	        if(regla.getTipo() == TipoRegla.CLASE) {
@@ -157,7 +155,18 @@ public class XmlFileUtils {
         Element target = document.createElement(XML_TAG_TARGET);
         Element archTarget = document.createElement(XML_TAG_ARCH);
         Element archTargetValuepath = document.createElement(XML_TAG_VALUEPATH);
-        archTargetValuepath.appendChild(document.createTextNode(regla.getPropertyValueSource().getName()));
+        String valuepath;
+        // Según si la regla contiene o no condiciones, se escoge un nombre u otro para el valuepath
+        if(regla.getCondiciones().isEmpty()) {
+        	valuepath = regla.getPropertyValueSource().getName();
+        } else {
+        	valuepath = regla.getPropertyValueSource().getRoute().replace(regla.getDomainNodeSource().getRoute(), "");
+        	// Si el último caracter es un separador de ruta lo eliminamos
+        	if(valuepath.endsWith("/")) {
+        		valuepath = valuepath.substring(0, valuepath.length() - 1);
+        	}
+        }
+        archTargetValuepath.appendChild(document.createTextNode(valuepath));
         archTarget.appendChild(archTargetValuepath);
         target.appendChild(archTarget);
         elementoPadre.appendChild(target);
@@ -248,8 +257,9 @@ public class XmlFileUtils {
 			Regla regla = new Regla();
 			
 			// Etiqueta que el usuario puso a la regla
-			if(node.getChild(XML_TAG_COMMENTARY) != null) {
-				regla.setEtiqueta(node.getChild(XML_TAG_COMMENTARY).getText());
+			if(node.getAttributeValue(XML_TAG_LABEL) != null) {
+				//regla.setEtiqueta(node.getChild(XML_TAG_COMMENTARY).getText());
+				regla.setEtiqueta(node.getAttributeValue(XML_TAG_LABEL));
 			}
 
 			// Según el tipo de regla que sea
@@ -306,7 +316,7 @@ public class XmlFileUtils {
 		
 		// Property value source
 		String targetNodepath = targetNode.getChild(XML_TAG_ARCH).getChild(XML_TAG_VALUEPATH).getText();
-		regla.setPropertyValueSource(new Elemento(targetNodepath, -1, ""));
+		regla.setPropertyValueSource(new Elemento(targetNodepath, -1, targetNodepath));
 		
 	}
 	
@@ -328,7 +338,7 @@ public class XmlFileUtils {
 		
 		// Range node source
 		String targetNodepath = targetNode.getChild(XML_TAG_ARCH).getChild(XML_TAG_NODEPATH).getText();
-		regla.setRangeNodeSource(new Elemento(targetNodepath, -1, ""));
+		regla.setRangeNodeSource(new Elemento(targetNodepath, -1, "../"+targetNodepath+"/"));
 		
 		// Range class target
 		String targetUri = targetNode.getChild(XML_TAG_CLASS).getChild(XML_TAG_ID).getText();

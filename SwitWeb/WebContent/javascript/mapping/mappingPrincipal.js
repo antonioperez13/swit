@@ -317,7 +317,7 @@ function mappingClassRule(){
 		console.log("mappingClassRule - ERROR: Regla de clase incorrecta");
 		$('#mensaje').html("Error: Regla de clase incorrecta");
 	} else {
-		regla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaClase").val();
+		
 		
 		$.ajax({
 			type : "POST",
@@ -368,28 +368,6 @@ function mappingPropertyRule(){
 		console.log("mappingPropertyRule - ERROR: Regla de propiedad incorrecta");
 		$('#mensaje').html("Error: Regla de clase incorrecta");
 	} else {
-		// Etiqueta de la regla
-		regla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaPropiedad").val();
-		
-		// Condiciones
-		var selectOptions= document.getElementById("selectCondiciones");
-		var condiciones = "";
-		// Si hay una o más condiciones
-		if(selectOptions.options.length >= 1){
-			condiciones = "[" + selectOptions.options[0].getAttribute("nombre") + "=\"" + selectOptions.options[0].getAttribute("valor");
-
-			// Se añade la primera y si quedan más se añaden separándolas con 'and'
-			if(selectOptions.options.length > 1){
-				for(i=1; i<selectOptions.options.length;i++){
-					condiciones += " and " + selectOptions.options[i].getAttribute("nombre") + "=\"" + selectOptions.options[i].getAttribute("valor");
-				}
-			}
-			condiciones += "]";
-			console.log("Condiciones de la regla creada: " + condiciones);
-		}
-		regla.condiciones = condiciones;
-		
-		
 		$.ajax({
 			type : "POST",
 			contentType : "application/json",
@@ -439,8 +417,6 @@ function mappingRelationRule(){
 		console.log("mappingRelationRule - ERROR: Regla de relación incorrecta");
 		$('#mensaje').html("Error: Regla de clase incorrecta");
 	} else {
-		regla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaRelacion").val();
-		
 		$.ajax({
 			type : "POST",
 			contentType : "application/json",
@@ -500,9 +476,14 @@ function copyIdSesionToClipboard(){
 
 
 /** FUNCIONES DEL SOURCE */
+/**
+ * Crea el elemento de una regla con los datos del elemento seleccionado en el esquema origen.
+ * @returns
+ */
 function createSelectedSourceElement(){
 	var selectedElement = getSelectedSourceElement();
-	var name = $('#sourceSchema').jstree(true).get_selected(true)[0].text;
+	//var name = $('#sourceSchema').jstree(true).get_selected(true)[0].text;
+	var name =  $(selectedElement).attr("nombre-elemento");
 	var id = $(selectedElement).attr("id-elemento");
 	var route = $(selectedElement).attr("ruta-elemento");
 	var tipo = $(selectedElement).attr("tipo-elemento");
@@ -510,16 +491,28 @@ function createSelectedSourceElement(){
 	return new Elemento(name, id, route, tipo);
 }
 
+/**
+ * Crea el elemento domain node source y muestra el nombre en los espacios habilitados en la creación guiada
+ * @returns
+ */
 function selectDomainNodeSource() {
 	nuevaRegla.domainNodeSource = createSelectedSourceElement();
 	mostrarElementosIzq();
 }
 
+/**
+ * Crea el elemento range node source y muestra el nombre en los espacios habilitados en la creación guiada
+ * @returns
+ */
 function selectRangeNodeSource() {
 	nuevaRegla.rangeNodeSource = createSelectedSourceElement();
 	mostrarElementosIzq();
 }
 
+/**
+ * Crea el elemento property source y muestra el nombre en los espacios habilitados en la creación guiada
+ * @returns
+ */
 function selectPropertySource() {
 	nuevaRegla.propertyValueSource = createSelectedSourceElement();
 	mostrarElementosIzq();
@@ -527,6 +520,10 @@ function selectPropertySource() {
 
 
 /** FUNCIONES DEL TARGET */
+/**
+ * Crea el elemento de una regla con los datos del elemento seleccionado en el esquema destino.
+ * @returns
+ */
 function createSelectedTargetElement(){
 	var selectedElement = getSelectedTargetElement();
 	var name = $('#targetSchema').jstree(true).get_selected(true)[0].text;
@@ -538,6 +535,10 @@ function createSelectedTargetElement(){
 	return new Elemento(name, id, route, tipo, uri);
 }
 
+/**
+ * Crea el elemento domain class target y muestra el nombre en los espacios habilitados en la creación guiada
+ * @returns
+ */
 function selectDomainClassTarget() {
 	nuevaRegla.domainClassTarget = createSelectedTargetElement();
 	//nuevaRegla.domainClassTarget = $('#targetSchema').jstree(true).get_text($('#targetSchema').jstree(true).get_selected(true)[0]);
@@ -550,11 +551,19 @@ function selectDomainClassTarget() {
 	mostrarElementosDer();
 }
 
+/**
+ * Crea el elemento range class target y muestra el nombre en los espacios habilitados en la creación guiada
+ * @returns
+ */
 function selectRangeClassTarget() {
 	nuevaRegla.rangeClassTarget = createSelectedTargetElement();
 	mostrarElementosDer();
 }
 
+/**
+ * Crea el elemento property target y muestra el nombre en los espacios habilitados en la creación guiada
+ * @returns
+ */
 function selectPropertyTarget() {
 	nuevaRegla.propertyTarget = createSelectedTargetElement();
 	mostrarElementosDer();
@@ -563,28 +572,28 @@ function selectPropertyTarget() {
 
 
 /** COMPROBACIONES PARA LOS ELEMENTOS DEL TARGET SELECCIONADOS */
-
+/**
+ * Comprueba 
+ * @param nuevoDomainClassTarget
+ * @returns
+ */
 function comprobarSeleccionDomainClassTarget(nuevoDomainClassTarget){
 
 	if(nuevoDomainClassTarget.type == TipoElementoOwl.DATATYPE ||
 			nuevoDomainClassTarget.type == TipoElementoOwl.PROPERTY){
-		mostrarErrorSeleccionarClaseOwl();
+		mostrarErrorEnCreacionGuiada($('#owlErrorSeleccionarClase').text(), 3000);
 		return false;
 	}
 	
 	return true;
 }
 
-function comprobarSeleccionRangeClassTarget(nuevoDomainClassTarget){
-	
-	return true;
-}
-
-
-function mostrarErrorSeleccionarClaseOwl(){
-	mostrarErrorEnCreacionGuiada($('#owlErrorSeleccionarClase').text(), 3000);
-}
-
+/**
+ * Muestra un error en la creación guiada de reglas.
+ * @param textoError
+ * @param duracion
+ * @returns
+ */
 function mostrarErrorEnCreacionGuiada(textoError, duracion) {
 	$("[id='errorEleccionCreacionGuiada']").text(textoError);
 	$("[id='errorEleccionCreacionGuiada']").fadeIn(500);
@@ -593,7 +602,10 @@ function mostrarErrorEnCreacionGuiada(textoError, duracion) {
 	},duracion);
 }
 
-
+/**
+ * Muestra los nombres de los elementos del esquema origen añadidos a una regla
+ * @returns
+ */
 function mostrarElementosIzq(){
 	if(nuevaRegla.domainNodeSource != null){
 		$("[id='creacionGuiadaDomainNode']").text(nuevaRegla.domainNodeSource.name);
@@ -606,6 +618,10 @@ function mostrarElementosIzq(){
 	}
 }
 
+/**
+ * Muestra los nombres de los elementos del esquema destino añadidos a una regla
+ * @returns
+ */
 function mostrarElementosDer(){
 	if(nuevaRegla.domainClassTarget != null){
 		$("[id='creacionGuiadaDomainClass']").text(nuevaRegla.domainClassTarget.name);
@@ -668,36 +684,76 @@ function borrarReglaPorId(reglaId){
 	return null;
 }
 
+/**
+ * Recupera el elemento del esquema origen seleccionado.
+ * @returns
+ */
 function getSelectedSourceElement(){
 	return $($('#sourceSchema').jstree(true).get_selected(true)[0]).attr("li_attr");
 }
 
+/**
+ * Recupera el elemento del esquema destino seleccionado.
+ * @returns
+ */
 function getSelectedTargetElement(){
 	return $($('#targetSchema').jstree(true).get_selected(true)[0]).attr("li_attr");
 }
 
-
+/**
+ * Recupera el tipo del elemento del esquema destino seleccionado.
+ * @returns
+ */
 function obtenerTipoElementoOwl(){
 	return $($($('#targetSchema').jstree(true).get_selected(true)[0]).attr("li_attr")).attr("tipo-elemento");
 }
 
+/**
+ * Recupera el identificador del elemento del esquema destino seleccionado.
+ * @returns
+ */
 function obtenerIdElementoOwl(){
 	return $($($('#targetSchema').jstree(true).get_selected(true)[0]).attr("li_attr")).attr("id-elemento");
 }
 
+/**
+ * Recupera la ruta del elemento del esquema destino seleccionado.
+ * @returns
+ */
 function obtenerRutaElementoOwl(){
 	return $($($('#targetSchema').jstree(true).get_selected(true)[0]).attr("li_attr")).attr("ruta-elemento");
 }
 
+/**
+ * Recupera el identificador del elemento del esquema origen seleccionado.
+ * @returns
+ */
 function obtenerIdElementoSource(){
 	return $($($('#sourceSchema').jstree(true).get_selected(true)[0]).attr("li_attr")).attr("id-elemento");
 }
 
+/**
+ * Recupera la ruta del elemento del esquema origen seleccionado.
+ * @returns
+ */
 function obtenerRutaElementoSource(){
 	return $($($('#sourceSchema').jstree(true).get_selected(true)[0]).attr("li_attr")).attr("ruta-elemento");
 }
 
+/**
+ * Recupera el padre del elemento seleccionado en el esquema origen.
+ * @returns
+ */
+function getParentFromSelectedSourceElement(){
+	return document.getElementById($($('#sourceSchema').jstree(true).get_selected(true)[0])[0].parent);
+}
 
+/**
+ * Dada una cadena, reemplaza los caracteres que se tratan de forma especial en HTML para
+ * que se muestren correctamente y devuelve la cadena con los cambios.
+ * @param unsafe
+ * @returns
+ */
 function escapeHtml(unsafe) {
     return unsafe
          .replace(/&/g, "&amp;")
@@ -742,7 +798,10 @@ function habilitarTodosElementosEsquemaDestino(){
 	});
 }
 
-
+/**
+ * Deshabilita todos los elementos del esquema destino salvo los que son de tipo CLASS
+ * @returns
+ */
 function deshabilitarElementosEsquemaDestinoExceptoClass(){
 	$("#targetSchema").jstree(true).deselect_node($("#targetSchema").jstree(true).get_selected());
 	$.each(targetSchemaTreeData, function (i, val) {
@@ -752,6 +811,23 @@ function deshabilitarElementosEsquemaDestinoExceptoClass(){
 	});
 }
 
+/**
+ * Deshabilita todos los elementos del esquema destino salvo los que son de tipo DATATYPE
+ * @returns
+ */
+function deshabilitarElementosEsquemaDestinoExceptoDatatype(){
+	$("#targetSchema").jstree(true).deselect_node($("#targetSchema").jstree(true).get_selected());
+	$.each(targetSchemaTreeData, function (i, val) {
+	    if($($(val)[0].li_attr).attr('tipo-elemento') !== TipoElementoOwl.DATATYPE){
+			$("#targetSchema").jstree(true).disable_node(val);
+	    }
+	});
+}
+
+/**
+ * Deshabilita todos los elementos del esquema destino salvo los que son de tipo PROPERTY
+ * @returns
+ */
 function deshabilitarElementosEsquemaDestinoExceptoProperty(){
 	$("#targetSchema").jstree(true).deselect_node($("#targetSchema").jstree(true).get_selected());
 	$.each(targetSchemaTreeData, function (i, val) {

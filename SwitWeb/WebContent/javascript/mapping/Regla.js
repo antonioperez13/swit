@@ -75,6 +75,9 @@ function prepararReglaClase(regla){
 	newRegla.propertyValueSource = null;
 	newRegla.propertyTarget = null;
 	
+	// Etiqueta de la regla
+	newRegla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaClase").val();
+	
 	return newRegla;
 }
 
@@ -100,6 +103,42 @@ function prepararReglaPropiedad(regla){
 	newRegla.rangeNodeSource = null;
 	newRegla.rangeClassTarget = null;
 	
+	// Etiqueta de la regla
+	newRegla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaPropiedad").val();
+	
+	// Condiciones
+	var selectOptions= document.getElementById("selectCondiciones");
+	var condiciones = "";
+	// Si hay una o más condiciones
+	if(selectOptions.options.length >= 1){
+		// Recuperamos el nombre del elemento padre
+		var nombrePadre = selectOptions.options[0].getAttribute("nombrePadre");
+		// Buscamos su última ocurrencia en la ruta del elemento
+		var lastIndexOfParentName = newRegla.propertyValueSource.route.lastIndexOf(nombrePadre);
+		
+		// Comenzamos la composicion de las condiciones
+		condiciones = "[" + selectOptions.options[0].getAttribute("nombre") + "=\"" + selectOptions.options[0].getAttribute("valor");
+
+		// Se añade la primera y si quedan más se añaden separándolas con 'and'
+		if(selectOptions.options.length > 1){
+			for(i=1; i<selectOptions.options.length;i++){
+				condiciones += " and " + selectOptions.options[i].getAttribute("nombre") + "=\"" + selectOptions.options[i].getAttribute("valor");
+			}
+		}
+		condiciones += "]";
+		
+		// Separamos la ruta por el nombre del elemento padre
+		var rutaAux1 = newRegla.propertyValueSource.route.substring(0,lastIndexOfParentName);
+		var rutaAux2 = newRegla.propertyValueSource.route.substring(lastIndexOfParentName);
+		// Añadimos las condiciones tras el nombre del padre en la ruta
+		rutaAux2 = rutaAux2.replace(nombrePadre, nombrePadre+condiciones);
+		// Sustituimos la ruta con las modificaciones
+		newRegla.propertyValueSource.route = rutaAux1 + rutaAux2;
+		
+		console.log("Condiciones de la regla creada: " + newRegla.propertyValueSource.route);
+	}
+	newRegla.condiciones = condiciones;
+	
 	return newRegla;
 }
 
@@ -123,6 +162,9 @@ function prepararReglaRelacion(regla){
 	
 	// Eliminamos los atributos innecesarios para la regla
 	newRegla.propertyValueSource = null;
+	
+	// Etiqueta de la regla
+	newRegla.etiqueta = $("#idInputEtiquetaCreacionGuiadaReglaRelacion").val();
 	
 	return newRegla;
 }

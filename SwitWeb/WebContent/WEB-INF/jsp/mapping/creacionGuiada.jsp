@@ -364,19 +364,23 @@ function addCondicion() {
 	
 	// Se recupera el elemento seleccionado del esquema origen
 	var selectedElement = getSelectedSourceElement();
-	var name = $('#sourceSchema').jstree(true).get_selected(true)[0].text;
+	var compoundName = $('#sourceSchema').jstree(true).get_selected(true)[0].text;
 	var route = $(selectedElement).attr("ruta-elemento");
+	var name = $(selectedElement).attr("nombre-elemento");
+	
 	
 	// Valor que el usuario le asigna a la condición
 	var valor = document.getElementById("idInputCondicionCreacionGuiadaReglaPropiedad").value;
 	
 	// Se asignan los valores a atributos de la opción
-	condicion.setAttribute("nombre", name);
+	condicion.setAttribute("nombreCompuesto", compoundName);
 	condicion.setAttribute("ruta", route);
 	condicion.setAttribute("valor", valor);
+	condicion.setAttribute("nombre", name);
+	condicion.setAttribute("nombrePadre", getParentFromSelectedSourceElement().getAttribute("nombre-elemento"));
 	
 	// Se representa la condición en forma de texto para que el usuario la pueda identificar
-	condicion.text = name + "=" + valor;
+	condicion.text = compoundName + "=" + valor;
 	
 	// Se añade a la página
 	select.add(condicion);

@@ -167,10 +167,12 @@ public class ProcessXsd {
 					}
 
 					String name = att.getValue();
-					if (att2 != null)
-						name = name + " : " + att2.getValue();
 					
-					NodeXsd subNode = new NodeXsd(name);
+					NodeXsd subNode = new NodeXsd(name);					
+					if (att2 != null) {
+						subNode.setValue(att2.getValue());
+					}
+					
 					node.addChild(subNode);
 					ProcessXsd.getSubConcepts(subNode, subElement, root, name, processedTypes);
 				} else if (subElement.getName().equals("attribute")) {

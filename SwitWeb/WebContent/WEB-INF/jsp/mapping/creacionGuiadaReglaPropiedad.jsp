@@ -18,6 +18,7 @@ function habilitarBotonCrearReglaPropiedad(){
 var creacionGuiadaReglaPropiedad = new Tour({
 	smartPlacement: true,
 	backdrop: true,
+	keyboard: false,
 	backdropContainer: 'body',
 	template: "<div class='popover tour' style='min-width:30%'>\
 	    <div class='arrow'></div>\
@@ -69,8 +70,8 @@ var creacionGuiadaReglaPropiedad = new Tour({
 		<%-- Etiqueta de la regla --%>
 		<div id='labelInputEtiquetaCreacionGuiadaReglaPropiedad' style='padding-left: 14px; padding-right: 14px; width: 100%; display: none;'>\
 			<label style='width: 100%;'><spring:message code='mapeo.creacionGuiada.texto.etiqueta.titulo'/>\
-		    	<input id='idInputEtiquetaCreacionGuiadaReglaPropiedad' onkeyup='habilitarBotonCrearReglaPropiedad();' type='text' placeholder='Etiqueta' style='width: 100%;'>\
-		    	<label>- La etiqueta no debe quedar vacía</label>\
+		    	<input id='idInputEtiquetaCreacionGuiadaReglaPropiedad' onkeyup='habilitarBotonCrearReglaPropiedad();' type='text' placeholder='<spring:message code='mapeo.creacionGuiada.texto.crear.regla.etiqueta.placeholder'/>' style='width: 100%;'>\
+		    	<label><spring:message code='mapeo.creacionGuiada.texto.crear.regla.etiqueta'/></label>\
 		    </label>\
 	    </div>\
 	    <p id='errorEleccionCreacionGuiada' class='well-warning'></p>\
@@ -141,7 +142,7 @@ var creacionGuiadaReglaPropiedad = new Tour({
 	  title: "<spring:message code="mapeo.creacionGuiada.texto.elegir.propertyTarget.titulo" />",
 	  content: "<spring:message code="mapeo.creacionGuiada.texto.elegir.propertyTarget.desc" /><br><spring:message code="mapeo.creacionGuiada.texto.elegir.add.elemento.desc" /> ",
 	  onShown: function (creacionGuiadaReglaPropiedad) {
-		  deshabilitarElementosEsquemaDestinoExceptoProperty();
+		  deshabilitarElementosEsquemaDestinoExceptoDatatype();
 		  buttonAddClickSelectPropertyTarget('botonAddElementoReglaPropiedad', "botonSiguienteReglaPropiedad", creacionGuiadaReglaPropiedad);
 	  	  comprobarElementoSeleccionadoPropertyTarget("botonSiguienteReglaPropiedad");
 	  	  mostrarElementosSeleccionados();

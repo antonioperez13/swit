@@ -14,6 +14,8 @@ public class NodeXsd extends Node{
     private NodeXsd parent;
     /** Variable usada para asignar el identificador a un nuevo nodo */
 	private static int nextId = 0;
+	
+	private String value;
     
     /**
      * Constructor de la clase.
@@ -21,9 +23,10 @@ public class NodeXsd extends Node{
      * @param name
      * @param parent
      */
-    public NodeXsd(String name, NodeXsd parent) {
+    public NodeXsd(String name, String value, NodeXsd parent) {
     	super(name, NodeXsd.nextId++);
     	this.parent = parent;
+    	this.value = value;
     	this.children = new ArrayList<>();
     }
     
@@ -32,8 +35,17 @@ public class NodeXsd extends Node{
      * Añade el nombre del nodo y el padre queda a null.
      * @param name
      */
+    public NodeXsd(String name, String value) {
+        this(name, value, null);
+    }
+    
+    /**
+     * Constructor de la clase.
+     * Añade el nombre del nodo y el padre queda a null.
+     * @param name
+     */
     public NodeXsd(String name) {
-        this(name, null);
+        this(name, null, null);
     }
     
     /**
@@ -127,6 +139,20 @@ public class NodeXsd extends Node{
     public void removeParent() {
     	this.parent = null;
     }
+    
+    /**
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}
     
     /**
      * Comprueba si existe un nodo hijo con el nombre dado.
@@ -314,10 +340,22 @@ public class NodeXsd extends Node{
 		String route = routeUpHere + this.getName() + "/";
 		builder.append("ruta-elemento=\"").append(route).append("\" ");
 		
+		// Nombre del elemento
+		builder.append("nombre-elemento=\"").append(this.getName()).append("\" ");
+		
+		if(this.getValue() != null && !this.getValue().equals("")) {
+			// Valor del elemento
+			builder.append("valor-elemento=\"").append(this.getValue()).append("\" ");
+		}
+		
 		builder.append(">");
 		// FIN - Declaracion de caracteristicas de jstree
 		
-		String entityName = StringEscapeUtils.escapeHtml4(this.getName());
+		String entityName = this.getName();
+		if(this.getValue() != null && !this.getValue().equals("")) {
+			entityName += " : " + this.getValue();
+		}
+		entityName = StringEscapeUtils.escapeHtml4(entityName);
 		
 		builder.append(entityName);
 		
@@ -379,4 +417,5 @@ public class NodeXsd extends Node{
 	public static void resetIdCount() {
 		NodeXsd.nextId = 0;
 	}
+	
 }

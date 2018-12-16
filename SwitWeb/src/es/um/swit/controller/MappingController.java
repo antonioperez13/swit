@@ -88,7 +88,7 @@ public class MappingController {
 	 * @return
 	 */
 	@RequestMapping(value = "/mappingPrincipal", method = RequestMethod.GET)
-    public ModelAndView displayUploadForm(HttpServletRequest request, ModelMap model, String outputFileType, 
+    public ModelAndView displayUploadForm(HttpServletRequest request, ModelMap model,  
     		@ModelAttribute("CatalogoReglas") CatalogoReglas reglas) {
 		logger.debug("displayUploadForm" + ConstantesTexto.START);
         ModelAndView view = new ModelAndView("mapping/mappingPrincipal");
@@ -98,9 +98,6 @@ public class MappingController {
         // Se reinician el catalogo de reglas y la asignacion de identificadores
         reglas.removeAllReglas();
         Regla.reiniciarAsignacionId();
-        
-        // Se establece el tipo de fichero de salida
-        feb.setOutputFileType(outputFileType);
         
         // Si los árboles son nulos es la primera vez, por tanto se parsean los ficheros y se añaden
         // los árboles a sesión para no tener que añadirlos en caso de refrescar la página
@@ -154,7 +151,7 @@ public class MappingController {
 			feb.setTargetTree(null);
 		}
 		
-    	return "redirect:/mappingPrincipal.html?outputFileType="+outputFileType;
+    	return "redirect:/mappingPrincipal.html";
     }
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////

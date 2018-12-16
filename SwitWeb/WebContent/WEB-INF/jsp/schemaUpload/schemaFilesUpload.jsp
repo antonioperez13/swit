@@ -21,7 +21,6 @@
 	window.onload = function() {
 		prepararTiposFicheroOrigen();
 		prepararTiposFicherosDestino();
-		prepararTiposFicherosSalida();
 		
 	    document.getElementById('uploadButtonSourceFile').addEventListener('click',
 	    		function(event){
@@ -66,15 +65,6 @@
 	 */
 	function prepararTiposFicherosDestino(){
 		cargarDatosSelect("targetSchemaType", '<spring:message code="data.cargar.ficheros.tipos.destino"/>');
-	}
-	
-	/**
-	 * Carga los tipos de ficheros admitidos como salida
-	 * @param selectId
-	 * @returns
-	 */
-	function prepararTiposFicherosSalida(){
-		cargarDatosSelect("outputFileType", '<spring:message code="data.cargar.ficheros.tipos.salida"/>');
 	}
 
 	/**
@@ -149,17 +139,10 @@
 		{
 		  onShow: function (ayudaInteractiva) {mostrarIrAMapeo()},
 		  onHidden: function (ayudaInteractiva) {ocultarIrAMapeo()},
-		  element: "#formularioTipoFicheroSalida",
-		  title: "<spring:message code="cargar.ficheros.texto.ayuda.titulo4" />",
-		  content: "<spring:message code="cargar.ficheros.texto.ayuda.desc4" />"
-		},
-		{
-		  onShow: function (ayudaInteractiva) {mostrarIrAMapeo()},
-		  onHidden: function (ayudaInteractiva) {ocultarIrAMapeo()},
 		  backdrop: false,
 		  element: "#idIniciarMapeo",
-		  title: "<spring:message code="cargar.ficheros.texto.ayuda.titulo5" />",
-		  content: "<spring:message code="cargar.ficheros.texto.ayuda.desc5" />"
+		  title: "<spring:message code="cargar.ficheros.texto.ayuda.titulo4" />",
+		  content: "<spring:message code="cargar.ficheros.texto.ayuda.desc4" />"
 		}
 	]});
 	
@@ -171,9 +154,11 @@
 </head>
 <body>
 
-<i id="botonIniciarAyuda" title="Muestra la ayuda interactiva" onclick="iniciarAyuda();" class="material-icons boton-ayuda-solo">help</i>
-
 <div id="main">
+	<!-- INI - Cabecera -->
+	<jsp:include page="/WEB-INF/jsp/commons/header-help.jsp"/>
+	<!-- FIN - Cabecera -->
+	
 	<br>
 	
 	<div id="titulo" style='text-align:center;'>
@@ -188,7 +173,7 @@
 	</div>
 
 	<!-- INI - Mensajes de error -->
-	<jsp:include page="/WEB-INF/jsp/schemaUpload/errorMessages.jsp"/>
+	<jsp:include page="/WEB-INF/jsp/schemaUpload/textMessages.jsp"/>
 	<!-- FIN - Mensajes de error -->
 	
 	<!-- Bloque de errores -->
@@ -304,29 +289,6 @@
 		<%-- INI - Zona Ir a mapeo --%>
 		<form:form method="post" action="mappingPrincipal.html" modelAttribute="ficherosEsquemas">
 			<div id="divIniciarMapeo" style='text-align: center; display: none;' >
-			
-				<div class="row">
-					<div class="col-lg-5 "></div>
-					
-					<%-- Selector de fichero de salida --%>
-					<div id="formularioTipoFicheroSalida" class="col-lg-2">
-						<p><spring:message code="cargar.ficheros.mensaje.seleccion.tipo.fichero.salida"/></p>
-						<!-- Select con los tipos de fichero de esquema de origen -->
-						<form:select class="form-control" id="outputFileType" path="outputFileType"/>
-					</div>
-					
-					<div class="col-lg-5 "></div>
-				</div>
-				
-				<div class="row">
-					<div class="col-lg-4 "></div>
-					
-					<div class="col-lg-4 ">
-						<hr class=" mx-5">
-					</div>
-						
-					<div class="col-lg-4 "></div>
-				</div>
 				
 				<div class="row">
 					<div class="col-lg-5 "></div>
@@ -343,7 +305,12 @@
 		<%-- FIN - Zona Ir a mapeo --%>
 		
 	</div> <%-- container --%>
+	
+	
 </div>
 
+<!-- INI - Pie de página -->
+<jsp:include page="/WEB-INF/jsp/commons/footer.jsp"/>
+<!-- FIN - Pie de página -->
 </body>
 </html>

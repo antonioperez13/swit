@@ -19,6 +19,7 @@ var creacionGuiadaReglaClase = new Tour({
 	smartPlacement: true,
 	backdrop: true,
 	backdropContainer: 'body',
+	keyboard: false,
 	template: "<div class='popover tour' style='min-width:30%'>\
 	    <div class='arrow'></div>\
 	    <h3 class='popover-title creacionGuiada-titulo'></h3>\
@@ -41,8 +42,8 @@ var creacionGuiadaReglaClase = new Tour({
 		    	</div>\ <%-- row --%>
 		    </div>\ <%-- container --%>
 		    <label id='labelInputEtiquetaCreacionGuiadaReglaClase' style='width: 100%; display: none;'><spring:message code='mapeo.creacionGuiada.texto.etiqueta.titulo'/>\
-		    	<input id='idInputEtiquetaCreacionGuiadaReglaClase' onkeyup='habilitarBotonCrearReglaClase();' type='text' placeholder='Etiqueta' style='width: 100%;'>\
-		    	<label>- La etiqueta no debe quedar vacía</label>\
+		    	<input id='idInputEtiquetaCreacionGuiadaReglaClase' onkeyup='habilitarBotonCrearReglaClase();' type='text' placeholder='<spring:message code='mapeo.creacionGuiada.texto.crear.regla.etiqueta.placeholder'/>' style='width: 100%;'>\
+		    	<label><spring:message code='mapeo.creacionGuiada.texto.crear.regla.etiqueta'/></label>\
 		    </label>\
 		</div>\
 	    <p id='errorEleccionCreacionGuiada' class='well-warning'></p>\

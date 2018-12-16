@@ -10,7 +10,6 @@
 	
 	<!-- CSS -->
 	<link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" >
-	<%-- <link href="${pageContext.request.contextPath}/css/nms_font.css" rel="stylesheet" > --%>
 	<link href="${pageContext.request.contextPath}/css/sidebar.css" rel="stylesheet" >
 	<link href="${pageContext.request.contextPath}/css/modal-error.css" rel="stylesheet" >
 	
@@ -20,7 +19,6 @@
 	<!-- JSTree -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.6/jstree.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.6/themes/default/style.min.css" />
-	<!-- <link rel="stylesheet" href="http://www.orangehilldev.com/jstree-bootstrap-theme/demo/assets/dist/themes/proton/style.css" /> -->
 	<link href="${pageContext.request.contextPath}/javascript/jstree/themes/proton/style.min.css" rel="stylesheet" >
 	
 	<!-- Jquery-template (plantillas html) -->
@@ -153,14 +151,17 @@
 		
 		// Funciones para las creaciones guiadas de reglas
 		function comenzarCreacionGuiadaReglaClase(){
+			ayudaInteractiva.end();
 			creacionGuiadaReglaClase.restart();
 		}
 		
 		function comenzarCreacionGuiadaReglaPropiedad(){
+			ayudaInteractiva.end();
 			creacionGuiadaReglaPropiedad.restart();
 		}
 		
 		function comenzarCreacionGuiadaReglaRelacion(){
+			ayudaInteractiva.end();
 			creacionGuiadaReglaRelacion.restart();
 		}
 		
@@ -299,6 +300,9 @@
 		
 		
 		window.onload = function(){
+			// Oculta el selector de idioma
+			document.getElementById("selectorIdiomas").style.display = "none";
+			
 			// Inicializacion de la creación guiada de una regla de clase
 			creacionGuiadaReglaClase.init();
 			
@@ -319,6 +323,9 @@
 	</script>
 </head>
 <body>
+	<!-- INI - Cabecera -->
+	<jsp:include page="/WEB-INF/jsp/commons/header-help.jsp"/>
+	<!-- FIN - Cabecera -->
 
 	<!-- INI - Mensajes de error -->
 	<jsp:include page="/WEB-INF/jsp/mapping/errorMessages.jsp"/>
@@ -348,7 +355,9 @@
 			<div id="menuLateral" class="col-lg-2 navbar-menu">
 				<div id="sidebarMenu" class="sidebar-menu">
 					<br>
-					<br>				  
+					<br>
+					<a href="execConfiguration.html" class="a-button"><spring:message code="mapeo.menuIzq.ir.configurador.ejecucion.texto"/></a>
+					<hr>
 					<a href="javascript:void(0)" id="botonCerrarMenuLateral" class="closebtn" onclick="closeNav()">&times;</a>
 					<!-- Cargar reglas desde equipo -->
 					<a class="a-button" onclick="cargaFicherosMappings.restart();"><spring:message code="mapeo.menuIzq.cargar.fichero.mappings.local.texto"/></a>
@@ -387,9 +396,6 @@
 		<div>
 			<i id="openSidebarButton" onclick="openNav()" class="material-icons navbar-button">menu</i>
 		</div>
-		<div>
-			<i id="botonIniciarAyuda" title="Muestra la ayuda interactiva" onclick="iniciarAyuda();" class="material-icons boton-ayuda">help</i>
-		</div>
 	</div>
 	
 <div id="main" class="wrapper-obscure">
@@ -409,13 +415,13 @@
 	<div id="botonesCreacionGuiadaReglas" class="row" style="text-align: center; margin-bottom: 10px;">
 		<div class="btn-group" role="group" >
 			<input class="btn no-click" type="button" value="<spring:message code="mapeo.botones.creacionGuiada.titulo"/>"/>
-			<input class="btn btn-success" type="button" value="Regla de clase"
+			<input class="btn btn-success" type="button" value="<spring:message code="mapeo.creacionGuiada.boton.crear.regla.clase"/>"
 				<%-- onclick="mappingClassRule()"/> --%>
 				onclick="comenzarCreacionGuiadaReglaClase()"/>
-			<input class="btn btn-violet" type="button" value="Regla de propiedad"
+			<input class="btn btn-violet" type="button" value="<spring:message code="mapeo.creacionGuiada.boton.crear.regla.propiedad"/>"
 				<%-- onclick="mappingPropertyRule()"/> --%>
 				onclick="comenzarCreacionGuiadaReglaPropiedad()"/>
-			<input class="btn btn-warning" type="button" value="Regla de relación" 
+			<input class="btn btn-warning" type="button" value="<spring:message code="mapeo.creacionGuiada.boton.crear.regla.relacion"/>" 
 				<%-- onclick="mappingRelationRule()"/> --%>
 				onclick="comenzarCreacionGuiadaReglaRelacion()"/>
 		</div>
@@ -507,9 +513,6 @@
 			<div class="row" style="margin-top: 20px;">
 				<div class="col-lg-12">
 					<h3 style="float: left; margin-top: 5px;"><spring:message code="mapeo.representacionRegla.titulo.bloque"/></h3>
-					<i onclick="scrollGoCreacionReglas()" id="goCreacionReglasButton" 
-						title="<spring:message code="comunes.boton.ir.arriba.title"/>"
-						class="material-icons">arrow_upward</i>
 					<hr class="width100">
 				</div>
 			</div>
@@ -520,7 +523,7 @@
 				
 				<%-- Filtros --%>
 				<div class="col-lg-11">
-					<h3>Filtros</h3>
+					<h3><spring:message code="mapeo.filtros.bloque.titulo"/></h3>
 					<hr>
 					<div class="row" style="border-style: groove; border-width: 0px 0px 1px 1px; border-radius: 12px; width:98%;">
 						<div class="col-lg-1" style="width: 0%;">
@@ -528,44 +531,44 @@
 						
 						<%-- Filtrado por elementos --%>
 						<div class="col-lg-6">
-							<h3>Filtrado por elementos</h3>
+							<h3><spring:message code="mapeo.filtros.filtro.elementos.titulo"/></h3>
 							<hr>
 							<div class="row well-green" style="width: 100%;">
 								<div class="col-lg-5">
-									<label>Elementos del esquema origen</label>
+									<label><spring:message code="mapeo.filtros.filtro.elementos.origen.titulo"/></label>
 								</div>
 								<div class="col-lg-7">
 									<input id="idRepresentacionReglasEsquemaOrigen" 
 										type="text" style="width: 95%;"
-										placeholder="<spring:message code="mapeo.representacionRegla.filtro.placeholder"/>"/>	
+										placeholder="<spring:message code="mapeo.filtros.filtro.elementos.placeholder"/>"/>	
 								</div>
 							</div>
 							
 							<div class="row well-lavender" style="width: 100%;">
 								<div class="col-lg-5">
-									<label>Elementos del esquema destino</label>
+									<label><spring:message code="mapeo.filtros.filtro.elementos.destino.titulo"/></label>
 								</div>
 								<div class="col-lg-7">
 									<input id="idRepresentacionReglasEsquemaDestino" 
 										type="text" style="width: 95%;"
-										placeholder="<spring:message code="mapeo.representacionRegla.filtro.placeholder"/>"/>	
+										placeholder="<spring:message code="mapeo.filtros.filtro.elementos.placeholder"/>"/>	
 								</div>
 							</div>
 						</div>
 						
 						<%-- Filtrado por tipo de regla --%>
 						<div class="col-lg-3">
-							<h3>Filtrado por tipo de regla</h3>
+							<h3><spring:message code="mapeo.filtros.filtro.tipo.regla.titulo"/></h3>
 							<hr>
 							<div style="padding-left: 20px;">
 								<div class="checkbox">
-							      <label class="btn btn-success"><input id="checkboxFiltroReglaClase" type="checkbox" value="" checked>Reglas de clase</label>
+							      <label class="btn btn-success"><input id="checkboxFiltroReglaClase" type="checkbox" value="" checked><spring:message code="mapeo.filtros.filtro.tipo.regla.clase"/></label>
 							    </div>
 							    <div class="checkbox">
-							      <label class="btn btn-violet"><input id="checkboxFiltroReglaPropiedad" type="checkbox" value="" checked>Reglas de propiedad</label>
+							      <label class="btn btn-violet"><input id="checkboxFiltroReglaPropiedad" type="checkbox" value="" checked><spring:message code="mapeo.filtros.filtro.tipo.regla.propiedad"/></label>
 							    </div>
 							    <div class="checkbox">
-							      <label class="btn btn-warning"><input id="checkboxFiltroReglaRelacion" type="checkbox" value="" checked>Reglas de relación</label>
+							      <label class="btn btn-warning"><input id="checkboxFiltroReglaRelacion" type="checkbox" value="" checked><spring:message code="mapeo.filtros.filtro.tipo.regla.relacion"/></label>
 							    </div>
 							</div>
 						</div>
@@ -579,11 +582,11 @@
 							<div class="row">
 								<input id="botonAplicarFiltrosReglasCreadas" 
 									class="btn btn-info" type="button" 
-									value="<spring:message code="mapeo.representacionRegla.filtro.aplicar"/>"
+									value="<spring:message code="mapeo.filtros.boton.aplicar"/>"
 									onclick="filtrarReglasCreadas($('#idRepresentacionReglasEsquemaOrigen').val().trim(), $('#idRepresentacionReglasEsquemaDestino').val().trim());"/>
 								<input id="botonLimpiarFiltrosReglasCreadas" 
 									class="btn btn-warning" type="button" 
-									value="<spring:message code="mapeo.representacionRegla.filtro.limpiar"/>"
+									value="<spring:message code="mapeo.filtros.boton.limpiar"/>"
 									onclick="limpiarFiltroReglasCreadas();"/>
 								<br>
 								<br>
@@ -597,7 +600,7 @@
 			<div class="row">
 				<div class="col-lg-1" style="text-align: left;">
 					<%-- Botones contraer/expandir reglas --%>
-					<h3 style="text-align: center;">Utilidades</h3>
+					<h3 style="text-align: center;"><spring:message code="mapeo.representacionRegla.utilidades.titulo"/></h3>
 					<hr>
 					<div class="btn-group-vertical">
 						<button type="button" class="btn btn-primary"
@@ -612,7 +615,7 @@
 				</div>
 				
 				<%-- Bloque de reglas creadas --%>
-				<h3>Reglas</h3>
+				<h3><spring:message code="mapeo.representacionRegla.subtitulo.bloque"/></h3>
 				<hr>
 				<div id="representacionReglasDiv" class="col-lg-11">
 					<%@include file="representacionMapeos.jsp" %>
@@ -621,8 +624,12 @@
 		</div> <%-- ------------------------- FIN Reglas creadas ------------------------- --%>
 	</div>
 	<%-- ------------------------- FIN GRID ------------------------- --%>
-	
+		
 </div>
+
+<!-- INI - Pie de página -->
+<jsp:include page="/WEB-INF/jsp/commons/footer.jsp"/>
+<!-- FIN - Pie de página -->
 
 </body>
 </html>
