@@ -19,7 +19,7 @@ import commons.tree.NodeOwl;
 import commons.tree.NodeXsd;
 import es.um.swit.beans.FicherosEsquemasBean;
 import es.um.swit.constantes.ConstantesErrores;
-import es.um.swit.constantes.FileUploadConstants;
+import es.um.swit.constantes.ConstantesFileUpload;
 import es.um.swit.enums.TipoFichero;
 
 public class FilesUtils {
@@ -29,7 +29,7 @@ public class FilesUtils {
 	 * @return
 	 */
 	public static String getTempRoute() {
-		return File.separator + FileUploadConstants.TEMP_FOLDER_NAME + File.separator;
+		return File.separator + ConstantesFileUpload.TEMP_FOLDER_NAME + File.separator;
 	}
 	
 	/**

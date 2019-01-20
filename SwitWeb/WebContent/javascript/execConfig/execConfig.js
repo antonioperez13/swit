@@ -2,6 +2,10 @@
 var idElementoFormulario = "formElement";
 var numElementoFormulario = 0;
 
+/**
+ * Inicia la preparación del formulario, recorriendo las columnas definidas en el JSON.
+ * @returns
+ */
 function prepararFormulario(){
 	var idColumna = "subcolumna";
 	
@@ -13,6 +17,13 @@ function prepararFormulario(){
 	
 }
 
+/**
+ * Crea los campos que se encuentren en el elemento JSON seleccionado dentro del elemento
+ * contenedor.
+ * @param elementoContenedor
+ * @param jsonCampos
+ * @returns
+ */
 function crearCampos(elementoContenedor, jsonCampos){
 	var numCampo;
 	for(numCampo = 0; numCampo < jsonCampos.length; numCampo++) {
@@ -20,6 +31,12 @@ function crearCampos(elementoContenedor, jsonCampos){
 	}
 }
 
+/**
+ * Crea el campo de texto que se le pasa en el elemento HTML indicado.
+ * @param jsonCampo
+ * @param elementoContenedor
+ * @returns
+ */
 function crearCampo(jsonCampo, elementoContenedor){
 	//console.log(jsonCampo.name + ": " + jsonCampo.command);
 	
@@ -59,8 +76,12 @@ function crearCampo(jsonCampo, elementoContenedor){
 	}
 }
 
-
-
+/**
+ * Crea un menú desplegable en el elemento HTML indicado.
+ * @param jsonCampo
+ * @param elementoContenedor
+ * @returns
+ */
 function crearCampoOpciones(jsonCampo, elementoContenedor) {
 	// Se crea un select
 	var select = document.createElement("select");
@@ -111,6 +132,11 @@ function crearCampoOpciones(jsonCampo, elementoContenedor) {
 	}
 }
 
+/**
+ * Crea un contendor en el elemento indicado.
+ * @param elementoPadre
+ * @returns
+ */
 function crearContenedor(elementoPadre){
 	var contenedorHijo = document.createElement('div');
 	contenedorHijo.id = idElementoFormulario + numElementoFormulario++;
@@ -120,6 +146,11 @@ function crearContenedor(elementoPadre){
 	return contenedorHijo;
 }
 
+/**
+ * Controla la visibilidad del elemento indicado según un atributo "condicionesContendor".
+ * @param selectElement
+ * @returns
+ */
 function cambiarDivVisible(selectElement){
 	var condicionesVisibilidadContenedor = selectElement.getAttribute("condicionesContenedor").split(";").filter(function(el) {return el.length != 0});
 	condicionesVisibilidadContenedor.forEach(function(element) {
@@ -132,7 +163,11 @@ function cambiarDivVisible(selectElement){
 	});
 }
 
-
+/**
+ * Construye el comando tomando todos los campos de texto y menus desplegables del formulario. 
+ * @param errorMsg
+ * @returns
+ */
 function construirComando(errorMsg){
 	var comando = "";
 	
@@ -176,7 +211,12 @@ function construirComando(errorMsg){
 }
 
 
-
+/**
+ * Comprueba si el valor pasado está vacío, en cuyo caso devuelve la cadena vacía.
+ * Si el valor no está vacío le concatena un espacio detrás.
+ * @param valor
+ * @returns
+ */
 function tratarCadenaComando(valor){
 	if(valor == ""){
 		return "";
@@ -185,6 +225,14 @@ function tratarCadenaComando(valor){
 	}
 }
 
+/**
+ * Comprueba si el comando y el valor pasados están vacíos, en cuyo caso devuelve la cadena vacía.
+ * En otro caso devuelve la concatenación de comando y valor separados por espacio o un separador específico si el comando empieza o no por "--" .
+ * @param comando
+ * @param valor
+ * @param separador
+ * @returns
+ */
 function tratarCadenaComandoValor(comando, valor, separador){
 	if(comando == "" && valor == ""){
 		return "";

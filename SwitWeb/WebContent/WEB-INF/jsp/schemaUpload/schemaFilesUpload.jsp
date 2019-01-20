@@ -12,13 +12,16 @@
 <%-- <link href="${pageContext.request.contextPath}/css/nms_font.css" rel="stylesheet" > --%>
 
 <!-- Bootstrap filestyle (input ficheros) -->
-<script language="javascript" src="${pageContext.request.contextPath}/javascript/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
+<script src="${pageContext.request.contextPath}/javascript/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
 
 <!-- Funciones para la carga de esquemas -->
-<script language="javascript" src="${pageContext.request.contextPath}/javascript/schemaUpload/schemaUpload.js"></script>
+<script src="${pageContext.request.contextPath}/javascript/schemaUpload/schemaUpload.js"></script>
 
 <script type="text/javascript">
 	window.onload = function() {
+		// Muestra el botón de ayuda
+		document.getElementById("headerAyudaBoton").style.display = "inline";
+		
 		prepararTiposFicheroOrigen();
 		prepararTiposFicherosDestino();
 		
@@ -156,7 +159,7 @@
 
 <div id="main">
 	<!-- INI - Cabecera -->
-	<jsp:include page="/WEB-INF/jsp/commons/header-help.jsp"/>
+	<jsp:include page="/WEB-INF/jsp/commons/header.jsp"/>
 	<!-- FIN - Cabecera -->
 	
 	<br>

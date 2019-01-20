@@ -14,7 +14,7 @@
 	<link href="${pageContext.request.contextPath}/css/modal-error.css" rel="stylesheet" >
 	
 	<!-- Bootstrap filestyle (input ficheros) -->
-	<script language="javascript" src="${pageContext.request.contextPath}/javascript/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
+	<script src="${pageContext.request.contextPath}/javascript/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
 	
 	<!-- JSTree -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.6/jstree.min.js"></script>
@@ -22,13 +22,13 @@
 	<link href="${pageContext.request.contextPath}/javascript/jstree/themes/proton/style.min.css" rel="stylesheet" >
 	
 	<!-- Jquery-template (plantillas html) -->
-	<script language="javascript" src="${pageContext.request.contextPath}/javascript/jquery-template/jquery.loadTemplate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/javascript/jquery-template/jquery.loadTemplate.min.js"></script>
 	
 	<!-- Funciones para mapping -->
-	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Elemento.js"></script>
-	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Regla.js"></script>
-	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/mappingPrincipal.js"></script>
-	<script language="javascript" src="${pageContext.request.contextPath}/javascript/mapping/Filtro_reglas_creadas.js"></script>
+	<script src="${pageContext.request.contextPath}/javascript/mapping/Elemento.js"></script>
+	<script src="${pageContext.request.contextPath}/javascript/mapping/Regla.js"></script>
+	<script src="${pageContext.request.contextPath}/javascript/mapping/mappingPrincipal.js"></script>
+	<script src="${pageContext.request.contextPath}/javascript/mapping/Filtro_reglas_creadas.js"></script>
 
 	
 	<!-- INI - Pasos creaciones guiadas -->
@@ -300,8 +300,8 @@
 		
 		
 		window.onload = function(){
-			// Oculta el selector de idioma
-			document.getElementById("selectorIdiomas").style.display = "none";
+			// Muestra el botón de ayuda
+			document.getElementById("headerAyudaBoton").style.display = "inline";
 			
 			// Inicializacion de la creación guiada de una regla de clase
 			creacionGuiadaReglaClase.init();
@@ -324,7 +324,7 @@
 </head>
 <body>
 	<!-- INI - Cabecera -->
-	<jsp:include page="/WEB-INF/jsp/commons/header-help.jsp"/>
+	<jsp:include page="/WEB-INF/jsp/commons/header.jsp"/>
 	<!-- FIN - Cabecera -->
 
 	<!-- INI - Mensajes de error -->

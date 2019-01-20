@@ -1,6 +1,6 @@
 package es.um.swit.constantes;
 
-public class FileUploadConstants {
+public class ConstantesFileUpload {
 	
 	public final static String XSD_EXTENSION = "xsd";
 	

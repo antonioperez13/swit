@@ -22,7 +22,7 @@ import es.um.swit.beans.FicherosEsquemasBean;
 import es.um.swit.beans.UploadedFile;
 import es.um.swit.constantes.ConstantesCadenas;
 import es.um.swit.constantes.ConstantesTexto;
-import es.um.swit.constantes.FileUploadConstants;
+import es.um.swit.constantes.ConstantesFileUpload;
 import es.um.swit.enums.TipoEsquema;
 import es.um.swit.enums.TipoFichero;
 import es.um.swit.utils.ControllerUtils;
@@ -34,6 +34,12 @@ public class SchemaFilesUploadController {
 	private static Logger logger = LogManager
 	        .getLogger(SchemaFilesUploadController.class);
 	
+	/**
+	 * Punto de entrada a la página de carga de esquemas de datos.
+	 * Prepara y devuelve la vista.
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("schemaFilesUpload")
 	public static ModelAndView schemaFilesUploadView(ModelMap model) {
 		
@@ -46,6 +52,14 @@ public class SchemaFilesUploadController {
 		return view;
 	}
 	
+	/**
+	 * Método encargado de tratar el fichero XSD que se carga
+	 * desde la vista.
+	 * @param request
+	 * @param uploadedFile
+	 * @param bindingResult
+	 * @param model
+	 */
 	@RequestMapping("/uploadXsd")
     public void saveXsdFile(HttpServletRequest request,
             @ModelAttribute UploadedFile uploadedFile,
@@ -58,11 +72,19 @@ public class SchemaFilesUploadController {
         
         // Obtenido el fichero se le da tratamiento a los datos
         prepararFichero(request, model, file,
-        		FileUploadConstants.XSD_EXTENSION, TipoFichero.XSD, TipoEsquema.ORIGEN);
+        		ConstantesFileUpload.XSD_EXTENSION, TipoFichero.XSD, TipoEsquema.ORIGEN);
         
         logger.debug("uploadXsd" + ConstantesTexto.END);
     }
 	
+	/**
+	 * Método encargado de tratar el fichero OWL que se carga
+	 * desde la vista.
+	 * @param request
+	 * @param uploadedFile
+	 * @param bindingResult
+	 * @param model
+	 */
 	@RequestMapping("/uploadOwl")
     public void saveOwlFile(HttpServletRequest request,
             @ModelAttribute UploadedFile uploadedFile,
@@ -75,7 +97,7 @@ public class SchemaFilesUploadController {
         
         // Obtenido el fichero se le da tratamiento a los datos
         prepararFichero(request, model, file,
-        		FileUploadConstants.OWL_EXTENSION, TipoFichero.OWL, TipoEsquema.DESTINO);
+        		ConstantesFileUpload.OWL_EXTENSION, TipoFichero.OWL, TipoEsquema.DESTINO);
         
         logger.debug("uploadOwl" + ConstantesTexto.END);
     }
@@ -177,16 +199,5 @@ public class SchemaFilesUploadController {
 			feb.setTargetFileName("");
 		}
 	}
-	
-	@RequestMapping(value = "/upload", method = RequestMethod.GET)
-    public ModelAndView displayUploadForm(HttpServletRequest request) {
-        ModelAndView view = new ModelAndView("uploadFile");
-        
-        ControllerUtils.removeFicherosEsquemasBeanFromSession(request);
-    	
-    	return view;
-    }
-	
-	
 	
 }

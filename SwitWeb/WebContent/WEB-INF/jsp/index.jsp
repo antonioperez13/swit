@@ -11,6 +11,13 @@
 <!-- CSS -->
 <link href="${pageContext.request.contextPath}/css/styles.css" rel="stylesheet" >
 
+	<script type="text/javascript">
+		window.onload = function(){
+			// Muestra el selector de idioma
+			document.getElementById("selectorIdiomas").style.display = "inline";
+		}
+	</script>
+
 </head>
 <body>
 <!-- INI - Cabecera -->
@@ -46,7 +53,7 @@
 		
 		<div class="container-fluid ">
 			<div class="text-center">
-				<h4>Configurador de ejecución</h4>
+				<h4><spring:message code="inicio.boton.iniciar.configurador"/></h4>
 				<form:form method="post" action="execConfiguration.html">
 					<input class="btn btn-primary" type="submit" value="<spring:message code="comunes.boton.ir.carga.ficheros"/>" />
 		        </form:form>

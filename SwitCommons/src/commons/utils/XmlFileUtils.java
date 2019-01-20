@@ -157,7 +157,7 @@ public class XmlFileUtils {
         Element archTargetValuepath = document.createElement(XML_TAG_VALUEPATH);
         String valuepath;
         // Según si la regla contiene o no condiciones, se escoge un nombre u otro para el valuepath
-        if(regla.getCondiciones().isEmpty()) {
+        if(regla.getCondiciones() == null || regla.getCondiciones().isEmpty()) {
         	valuepath = regla.getPropertyValueSource().getName();
         } else {
         	valuepath = regla.getPropertyValueSource().getRoute().replace(regla.getDomainNodeSource().getRoute(), "");
